@@ -1,0 +1,42 @@
+.ctnSistema{
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: -10px 10px #B8D4E4;
+    width: 50%;
+    margin: auto;
+    margin-top: 100px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+#InputDni{
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 8px;
+}
+#InputDni:focus {
+border: 3px solid #77e4de;
+}
+
+.btnHome{
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #B8D4E4;
+    color: black;
+    font-weight: bold;
+    border: 2px solid black;
+    border-radius: 8px;
+    width: 110px;
+}
+.btnHome:hover {
+    background-color: #8bc3e4;
+    cursor: pointer;
+}
+
+#turnoDniToPrint{
+    color: green;
+}

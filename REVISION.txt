@@ -1,0 +1,2 @@
+1. COMPONENTE HOME - Frontend
+    -Esta suscrito al evento 'sendAllDnis' que recibe todos los dnis del backend. ¿porque?

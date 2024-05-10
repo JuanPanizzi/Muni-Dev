@@ -1,0 +1,30 @@
+.ctnPantalla{
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: -10px 10px #B8D4E4;
+    width: 50%;
+    margin: auto;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.btn-reset-users{
+    margin-top: 10px;
+    padding: 10px;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    border: 2px solid black;
+    border-radius: 8px;
+    width: 210px;
+    display: block;
+    margin: auto;
+    text-align: center;
+}
+.btn-reset-users:hover{
+    cursor: pointer;
+    background-color: #B8D4E4;
+}
