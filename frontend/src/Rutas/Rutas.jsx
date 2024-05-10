@@ -8,7 +8,7 @@ export const Rutas = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='https://municipalidad-client.vercel.app' element={<Home />} />
 
         <Route path='/pantalla' element={<Pantalla />} />
         {/* <Route path='/print' element={<PrintButton />} /> */}
