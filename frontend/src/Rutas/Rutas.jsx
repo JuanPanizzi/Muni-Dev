@@ -5,6 +5,7 @@ import { Box } from '../componentes/Box'
 // import PrintButton from '../componentes/PrintButton'
 
 export const Rutas = () => {
+  
   return (
     <BrowserRouter>
       <Routes>
