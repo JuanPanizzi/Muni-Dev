@@ -1,6 +1,7 @@
 import  { useEffect, useState } from 'react'
 import '../styles/Pantalla.css'
 import io from 'socket.io-client'
+
 const socket = io('/');
 
 export const Pantalla2 = () => {
