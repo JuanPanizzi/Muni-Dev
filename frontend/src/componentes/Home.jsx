@@ -123,7 +123,7 @@ export const Home = () => {
 }
 
       {
-        turnoDniReceived !== null && <h1 id='turnoDniToPrint' style={{ color: 'blue', textAlign: "center"}} >TURNO: {turnoDniReceived.nroTurno} - DNI: {turnoDniReceived.dni}</h1>
+        turnoDniReceived !== null && <h1 id='turnoDniToPrint' style={{ color: 'transparent', textAlign: "center"}} >TURNO: {turnoDniReceived.nroTurno} - DNI: {turnoDniReceived.dni}</h1>
       }
 
       {/* <h4>Dni que se esta enviando: {dni}</h4> */}
