@@ -102,6 +102,7 @@ export const Home = () => {
   !showTramites ? 
       <div className='ctnSistema'>
 
+
         <h1 className='title'>SISTEMA DE TURNOS </h1>
 
         <form action="#" method="post" onSubmit={handleSubmit}>
