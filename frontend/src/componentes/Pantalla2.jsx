@@ -1,7 +1,7 @@
 import  { useEffect, useState } from 'react'
 import '../styles/Pantalla.css'
 import io from 'socket.io-client'
-const socket = io('/');
+const socket = io('https://backend-municipalidad.vercel.app/');
 
 export const Pantalla2 = () => {
 
