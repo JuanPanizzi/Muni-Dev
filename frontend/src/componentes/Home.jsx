@@ -5,7 +5,7 @@ import '../styles/Home.css'
 import printJS from 'print-js';
 
 
-const socket = io('/');
+const socket = io('https://municipalidad-server.vercel.app/');
 
 
 export const Home = () => {

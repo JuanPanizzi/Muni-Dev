@@ -7,7 +7,7 @@ import { MensajeNextUser } from 'src/interfaces/message';
 import { TurnoDni } from 'src/interfaces/turnoDni';
 
 
-@WebSocketGateway({ cors: 'https://municipalidad-client.vercel.app/'})
+@WebSocketGateway()
 export class QueueGateway implements OnModuleInit {
 
   @WebSocketServer()
@@ -21,7 +21,7 @@ export class QueueGateway implements OnModuleInit {
 
     this.server.on('connection', (socket: Socket) => {
       
-      // console.log(`socket conectado: ${socket.id}`)
+      console.log(`socket conectado: ${socket.id}`)
 
       //OJO QUE ACA ESTOY UNIENDO A TODOS LOS SOCKETS QUE SE CONECTAN A ESTA PANTALLA
       socket.on('joinPantallaRoom', () => {
