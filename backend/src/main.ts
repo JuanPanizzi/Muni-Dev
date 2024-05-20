@@ -10,6 +10,7 @@ async function bootstrap() {
   //   allowedHeaders: ['Content-Type', 'Authorization'], // Cabeceras permitidas
   // });
 
+  
   const corsOptions: CorsOptions = {
     origin: 'https://municipalidad-client.vercel.app/',
     methods: ['GET', 'POST'], // Métodos permitidos
