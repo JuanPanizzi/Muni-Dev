@@ -7,7 +7,7 @@ import { MensajeNextUser } from 'src/interfaces/message';
 import { TurnoDni } from 'src/interfaces/TurnoDni';
 
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: 'https://municipalidad-client.vercel.app/'})
 export class QueueGateway implements OnModuleInit {
 
   @WebSocketServer()
