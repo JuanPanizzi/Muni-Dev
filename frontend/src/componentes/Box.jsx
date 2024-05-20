@@ -4,7 +4,7 @@ import '../styles/Box.css'
 import io from 'socket.io-client'
 
 
-const socket = io('/');
+const socket = io('https://municipalidad-rawson-server.onrender.com');
 
 export const Box = () => {
 

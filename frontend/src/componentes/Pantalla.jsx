@@ -5,7 +5,7 @@ import { ToPrint } from './ToPrint';
 import print from 'print-js'  
 import printJS from 'print-js';
 
-const socket = io('https://backend-municipalidad.vercel.app/');
+const socket = io('https://municipalidad-rawson-server.onrender.com');
 
 export const Pantalla = () => {
 
