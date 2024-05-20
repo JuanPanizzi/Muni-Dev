@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-import { TurnoDni } from 'src/interfaces/turnoDni';
+import { TurnoDni } from 'src/interfaces/TurnoDni';
 
 @Injectable()
 export class QueueService {
