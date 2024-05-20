@@ -6,7 +6,7 @@ import { OnModuleInit } from '@nestjs/common';
 import { MensajeNextUser } from 'src/interfaces/message';
 import { TurnoDni } from 'src/interfaces/turnoDni';
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: 'https://municipalidad-client.vercel.app/'})
 export class QueueGateway implements OnModuleInit {
 
   @WebSocketServer()

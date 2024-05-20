@@ -49,6 +49,8 @@ export const Home = () => {
     //Aca se recibe lo que se manda para chequear que eso llegó
     socket.on('respuestaDni', (turnoDniResponse) => {
 
+      console.log('LLEGO EL TURNO DNI')
+
       const { dni: dniRecibido, nroTurno: nroTurnoRecibido } = turnoDniResponse;
 
       setTurnoDniReceived(turnoDniResponse)
