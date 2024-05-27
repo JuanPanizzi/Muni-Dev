@@ -8,6 +8,7 @@ async function bootstrap() {
   //   methods: ['GET', 'POST'], // Métodos permitidos
   //   allowedHeaders: ['Content-Type', 'Authorization'], // Cabeceras permitidas
   // });
+  
   await app.listen(3000);
 }
 bootstrap();

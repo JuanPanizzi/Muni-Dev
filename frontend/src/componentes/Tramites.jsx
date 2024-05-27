@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 import '../styles/Tramites.css'
 
-export const Tramites = ({handlePrintTurnoDni}) => {
+export const Tramites = ({handlePrintTurnoDni, handleShowTramites}) => {
 
 
-   const [showImprimirTurno, setshowImprimirTurno] = useState(false) 
+   const [showImprimirTurno, setshowImprimirTurno] = useState(false); 
+   const [imprimiendo, setImprimiendo] = useState(false); 
+
+  const enviarImpresion = () => {
+    // handlePrintTurnoDni()
+    setImprimiendo(true)
+  }
 
 
 
@@ -23,10 +29,19 @@ export const Tramites = ({handlePrintTurnoDni}) => {
         </ol>
     </div>
     :
+    <>
+
     <div className='ctnImprimirTurno'>
         <h2>Imprima su número de turno</h2>
-        <button onClick={handlePrintTurnoDni} className='btnTramites'>Imprimir</button>
+        <button onClick={enviarImpresion} className='btnTramites'>Imprimir</button>
     </div>
+    {
+    imprimiendo && 
+    <div className='ctnImprimirTurno'>
+        <button onClick={()=> handleShowTramites(false)}  className='btnTramites'>VOLVER A INICIO</button>
+    </div>
+    }
+    </>
 }
     </>
   )

@@ -12,6 +12,7 @@ export const Pantalla = () => {
   const [turnoDni, setTurnoDni] = useState([])
   const [indiceDni, setIndiceDni] = useState(0);
   const [mesaDeEntradas, setMesaDeEntradas] = useState(null)
+  
   const [showWarn, setShowWarn] = useState(false)
   const [showUsers, setShowUsers] = useState(false)
   const indiceDniRef = useRef(indiceDni)
@@ -23,8 +24,8 @@ export const Pantalla = () => {
     //update indiceDni && mesaDeEntradas
     const { box } = data;
 
+    //Si en el array de usuarios no hay un usuario siguiente --> showWarn(true) --> Renderiza 'no hay mas usuarios'
     if (indiceDniRef.current == turnoDniRef.current.length - 1) {
-      console.log(`se retorna antes, este es el indiceDniRef: ${indiceDniRef.current} y este turnodniref.lenght: ${turnoDniRef.current.length}`)
       setShowWarn(true)
       return
     }
@@ -34,7 +35,6 @@ export const Pantalla = () => {
       setMesaDeEntradas(box)
       indiceDniRef.current++
     } else {
-      console.log(`entro en updateIndiceMesa, este es el indiceDni: ${indiceDniRef.current}`)
       setIndiceDni((prevIndice) => prevIndice + 1)
       if (indiceDniRef.current !== 1) {
         indiceDniRef.current++
@@ -59,28 +59,16 @@ export const Pantalla = () => {
     // Suscribirse al evento 'sendAllDnis' cuando el componente se monta
     socket.on('sendAllDnis', (arryUsers) => {
       //arryUsers = [{dni: '221', nroTurno: 3}, {dni: '211', nroTurno: 5}]
-      setTurnoDni(arryUsers)
+      setTurnoDni(arryUsers);
+
       if (!showUsers) {
         setShowUsers(true)
       }
-      console.log(`en sendAllDnis turnoDni: ${turnoDni}`)
-      console.log(turnoDni)
+      
     })
 
     socket.on('changeNextUser', updateIndiceAndMesa)
     //data = {mensaje: 'next user please', box} y viene de subscribe message 'nextUser' del queueGateway
-
-    // setIndiceDni(prevIndice => {
-
-    //   if(indiceDni == turnoDni.length-1){
-    //     return prevIndice
-    //   }else{
-    //     setMesaDeEntradas(box)
-    //     return prevIndice + 1;
-    //   }
-
-    // })
-
 
 
     // Retornar una función para limpiar la suscripción cuando el componente se desmonte
@@ -88,14 +76,13 @@ export const Pantalla = () => {
       socket.off('sendAllDnis');
       socket.off('changeNextUser')
       // socket.emit('leavePantallaRoom');
-
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   // Actualiza la referencia de indiceDniRef cada vez que indiceDni cambie
   useEffect(() => {
     indiceDniRef.current = indiceDni;
-    turnoDniRef.current = turnoDni
+    turnoDniRef.current = turnoDni;
   }, [indiceDni, turnoDni]);
 
 
@@ -122,8 +109,12 @@ export const Pantalla = () => {
         {
           turnoDni.length > 0 && mesaDeEntradas !== null && turnoDni[indiceDni].nroTurno &&
           <>
+
+          <div>
             <h1 id='turnoDnitoPrint'>TURNO: {turnoDni[indiceDni].nroTurno}  - DNI: {turnoDni[indiceDni].dni}</h1>
             <h2>Pasar por la mesa de entradas numero: {mesaDeEntradas}</h2>
+          </div>
+          
           </>
         }
         {/* INICIO REFERENCIAS */}

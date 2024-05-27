@@ -8,6 +8,8 @@ const socket = io('/');
 
 export const Box = () => {
 
+
+
   const { BoxId } = useParams(); 
 // console.log('abajo numero de box')
   // console.log(BoxId)
@@ -18,7 +20,6 @@ export const Box = () => {
   } 
 
 
-
   return (
 
     <>
@@ -26,6 +27,7 @@ export const Box = () => {
     <h1>Box {BoxId}</h1>
     {/* <h3>Proximo usuario:</h3> */}
     <button onClick={()=> nextUser()} className='btnBox'>Proximo Usuario</button>
+
     </div>
 
     </>

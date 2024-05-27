@@ -11,33 +11,29 @@ const socket = io('/');
 export const Home = () => {
 
 
+  //USE STATES
   const [showTramites, setShowTramites] = useState(false)
-
-  //preuba re-render
-  // let valorRef = useRef(0)
-  // valorRef.current++
-  // console.log(`render numero: ${valorRef}`)
-
   const [dni, setDni] = useState(null)
-
+  // Intentar obtener el número de turno del Local Storage al inicializar el estado
   const [numeroTurno, setNumeroTurno] = useState(() => {
-    // Intentar obtener el número de turno del Local Storage al inicializar el estado
     const storedNumeroTurno = localStorage.getItem('numeroTurno');
-    return storedNumeroTurno ? parseInt(storedNumeroTurno) : 1;
+    return storedNumeroTurno && storedNumeroTurno < 100 ? parseInt(storedNumeroTurno) : 1;
   });
 
-  const [turnoDniReceived, setTurnoDniReceived] = useState(null)
+  const [turnoDniReceived, setTurnoDniReceived] = useState(null);
 
+  //FIN USESTATES
 
-
+  const handleShowTramites = (boolean) => setShowTramites(boolean);
   const handleSubmit = (e) => {
 
     e.preventDefault();
     //cuando se hace un submit, en la funcion sendDni de abajo se envia el documento al websocket (con el numero de turno asociado) y se aumenta el state numeroTurno, y eso dispara el useEffect de abajo que lo que hace es guardar en el local storage el nuevo numero de turno
     sendDni(dni, numeroTurno)
     // console.log(`este es el dni que se le pasa a la funcion sendDni: ${dni}, y este es el nrode turno ${numeroTurno}`)
-    setShowTramites(true)
+    handleShowTramites(true)
   }
+
 
   const sendDni = (documento, nroTurno) => {
 
@@ -55,7 +51,10 @@ export const Home = () => {
       // handlePrintTurnoDni()
     })
 
-    setNumeroTurno((prevNumeroTurno) => prevNumeroTurno + 1); // Incrementar el número de turno para el siguiente usuario;
+    
+    setNumeroTurno((prevNumeroTurno) => {
+      return prevNumeroTurno > 98 ? 1 : prevNumeroTurno + 1;
+    }); // Incrementar el número de turno para el siguiente usuario;
 
   }
   const handlePrintTurnoDni = () => {
@@ -113,7 +112,7 @@ export const Home = () => {
   :
   <>
 
-  <Tramites handlePrintTurnoDni={handlePrintTurnoDni}/>
+  <Tramites handlePrintTurnoDni={handlePrintTurnoDni} handleShowTramites={handleShowTramites}/>
   {/* <button onClick={()=>setShowTramites(false)}>Reset show tramites</button> */}
 
 </>
