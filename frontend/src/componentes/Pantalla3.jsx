@@ -73,6 +73,8 @@ export const Pantalla3 = () => {
 
   }
 
+  console.log('render')
+
   //USEREF --> Se mantienen actualizados por el useEffect mas abajo
   const prevIndiceGlobalRef = useRef(indiceGlobal);
   const turnoDniRef = useRef(turnoDni)
@@ -82,15 +84,15 @@ export const Pantalla3 = () => {
 
     const { box } = data;
 
-    if(prevIndiceGlobalRef.current == turnoDniRef.current.length-1){
+    if (prevIndiceGlobalRef.current == turnoDniRef.current.length - 1) {
       console.log('BREAK')
       setShowWarn(true)
       return;
     }
-    
+
     switch (box) {
       case '1': {
-        
+
 
         setIndiceBox1((prevState) => ({
           ...prevState,

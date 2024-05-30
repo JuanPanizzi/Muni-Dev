@@ -8,7 +8,7 @@ const socket = io('/');
 
 export const Box = () => {
 
-
+  
 
   const { BoxId } = useParams(); 
 // console.log('abajo numero de box')
