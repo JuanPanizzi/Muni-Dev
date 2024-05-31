@@ -12,8 +12,8 @@ export const Home = () => {
 
 
   //USE STATES
-  const [showTramites, setShowTramites] = useState(false)
-  const [dni, setDni] = useState(null)
+  const [showTramites, setShowTramites] = useState(false);
+  const [dni, setDni] = useState(null);
   // Intentar obtener el número de turno del Local Storage al inicializar el estado
   const [numeroTurno, setNumeroTurno] = useState(() => {
     const storedNumeroTurno = localStorage.getItem('numeroTurno');
@@ -45,10 +45,9 @@ export const Home = () => {
     //Aca se recibe lo que se manda para chequear que eso llegó
     socket.on('respuestaDni', (turnoDniResponse) => {
 
-      const { dni: dniRecibido, nroTurno: nroTurnoRecibido } = turnoDniResponse;
-
+      // const { dni: dniRecibido, nroTurno: nroTurnoRecibido } = turnoDniResponse;
       setTurnoDniReceived(turnoDniResponse)
-      // handlePrintTurnoDni()
+
     })
 
     

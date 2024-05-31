@@ -21,14 +21,19 @@ export const Pantalla3 = () => {
   const [turnoDni, setTurnoDni] = useState([])
   const [mesaDeEntradas, setMesaDeEntradas] = useState(null)
 
-  const [indiceGlobal, setIndiceGlobal] = useState(-1);
+  // const [indiceGlobal, setIndiceGlobal] = useState(-1);
+  const [indiceGlobal, setIndiceGlobal] = useState(()=>{
 
+    const indiceStorage = localStorage.getItem('indiceGlobalStorage');
+    return indiceStorage ? parseInt(indiceStorage) : -1; 
+  });
+
+  
   const [indiceBox1, setIndiceBox1] = useState({ indice: null, nroBox: 1 });
   const [indiceBox2, setIndiceBox2] = useState({ indice: null, nroBox: 2 });
   const [indiceBox3, setIndiceBox3] = useState({ indice: null, nroBox: 3 });
   const [indiceBox4, setIndiceBox4] = useState({ indice: null, nroBox: 4 });
 
-  const [primerUser, setPrimerUser] = useState(false)
 
   const [showWarn, setShowWarn] = useState(false);
   const [showUsers, setShowUsers] = useState(false);
@@ -73,13 +78,6 @@ export const Pantalla3 = () => {
 
   }
 
-  console.log('render')
-
-  //USEREF --> Se mantienen actualizados por el useEffect mas abajo
-  const prevIndiceGlobalRef = useRef(indiceGlobal);
-  const turnoDniRef = useRef(turnoDni)
-
-
   const updateIndicesAndBoxes = (data) => {
 
     const { box } = data;
@@ -100,12 +98,11 @@ export const Pantalla3 = () => {
         }));
 
         setIndiceGlobal((prevIndice) => {
-          console.log('se aumentó el indice global')
           const newIndice = prevIndice + 1;
           prevIndiceGlobalRef.current = newIndice;
+          localStorage.setItem('indiceGlobalStorage', newIndice);
           return newIndice;
         });
-
         break;
       }
       case '2': {
@@ -118,6 +115,7 @@ export const Pantalla3 = () => {
         setIndiceGlobal((prevIndice) => {
           const newIndice = prevIndice + 1;
           prevIndiceGlobalRef.current = newIndice;
+          localStorage.setItem('indiceGlobalStorage', newIndice);
           return newIndice;
         });
 
@@ -133,6 +131,7 @@ export const Pantalla3 = () => {
         setIndiceGlobal((prevIndice) => {
           const newIndice = prevIndice + 1;
           prevIndiceGlobalRef.current = newIndice;
+          localStorage.setItem('indiceGlobalStorage', newIndice);
           return newIndice;
         });
         break;
@@ -146,6 +145,7 @@ export const Pantalla3 = () => {
         setIndiceGlobal((prevIndice) => {
           const newIndice = prevIndice + 1;
           prevIndiceGlobalRef.current = newIndice;
+          localStorage.setItem('indiceGlobalStorage', newIndice);
           return newIndice;
         });
         break;
@@ -160,7 +160,9 @@ export const Pantalla3 = () => {
 
   }
 
-
+  //USEREF --> Se mantienen actualizados por el useEffect mas abajo
+  const prevIndiceGlobalRef = useRef(indiceGlobal);
+  const turnoDniRef = useRef(turnoDni)
 
 
   useEffect(() => {
@@ -196,9 +198,11 @@ export const Pantalla3 = () => {
   // Actualiza la referencia de indiceDniRef cada vez que indiceDni cambie
 
   useEffect(() => {
-    prevIndiceGlobalRef.current = indiceGlobal;
+      prevIndiceGlobalRef.current = indiceGlobal;
     turnoDniRef.current = turnoDni;
   }, [indiceGlobal, turnoDni]);
+
+  
 
 
   const resetUsers = () => {
