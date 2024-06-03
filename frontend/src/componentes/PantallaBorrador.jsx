@@ -7,7 +7,7 @@ import printJS from 'print-js';
 
 const socket = io('/');
 
-export const Pantalla3 = () => {
+export const PantallaBorrador = () => {
 
   //turnoDni --> arryUsers = [{dni: '221', nroTurno: 3}, {dni: '211', nroTurno: 5}];
   //indiceDni
@@ -18,21 +18,20 @@ export const Pantalla3 = () => {
   //So, when a box component click 'proximo usuario' there's a updateIndiceAndMesa function which is activated. This function takes the data [{mensaje: 'next user please', box}] which come from the 'changeNextUser' event.
   //And what does this function do? --> set the 'indiceDni' and the 'mesaDeEntradas', wichare used to render the next user in the central screen.-
 
-  const [turnoDni, setTurnoDni] = useState(() => {
-    const storedUsers = localStorage.getItem('users');
-    return storedUsers ? JSON.parse(storedUsers) : []
-  })
+  const [turnoDni, setTurnoDni] = useState(()=>{
+    const turnoDniStorage = localStorage.getItem('turnoDniStorage');
+    return turnoDniStorage ? JSON.parse(turnoDniStorage) : []})
 
   // const [mesaDeEntradas, setMesaDeEntradas] = useState(null)
 
   // const [indiceGlobal, setIndiceGlobal] = useState(-1);
-  const [indiceGlobal, setIndiceGlobal] = useState(() => {
+  const [indiceGlobal, setIndiceGlobal] = useState(()=>{
     const indiceStorage = localStorage.getItem('indiceGlobalStorage');
     console.log(`indiceStorage es: ${indiceStorage}`)
-    return indiceStorage ? parseInt(indiceStorage) : -1;
+    return indiceStorage ? parseInt(indiceStorage) : -1; 
   });
 
-
+  
   const [indiceBox1, setIndiceBox1] = useState({ indice: null, nroBox: 1 });
   const [indiceBox2, setIndiceBox2] = useState({ indice: null, nroBox: 2 });
   const [indiceBox3, setIndiceBox3] = useState({ indice: null, nroBox: 3 });
@@ -42,7 +41,7 @@ export const Pantalla3 = () => {
   const [showWarn, setShowWarn] = useState(false);
   const [showUsers, setShowUsers] = useState(false);
 
-
+ 
   const updateIndiceAndMesa = (data) => {
     //data = {mensaje: 'next user please', box} y viene de subscribe message 'nextUser' del queueGateway
     //update indiceDni && mesaDeEntradas
@@ -83,9 +82,9 @@ export const Pantalla3 = () => {
   }
 
   //Esta funcion setea indiceGlobal e indices de los boxes
-  const handleIndices = (setIndiceBoxNumber) => {
+  const handleIndices = (setIndiceBoxNumber) =>{ 
 
-    setIndiceGlobal((prevIndice) => {
+    setIndiceGlobal((prevIndice)=>{ 
       const newIndice = prevIndice + 1;
       prevIndiceGlobalRef.current = newIndice;
       localStorage.setItem('indiceGlobalStorage', newIndice);
@@ -95,7 +94,7 @@ export const Pantalla3 = () => {
         indice: newIndice,
       }));
 
-      return newIndice;
+      return newIndice;          
     })
 
   }
@@ -114,7 +113,7 @@ export const Pantalla3 = () => {
     switch (box) {
       case '1': {
 
-        handleIndices(setIndiceBox1)
+       handleIndices(setIndiceBox1)
         break;
       }
       case '2': {
@@ -147,23 +146,29 @@ export const Pantalla3 = () => {
   const turnoDniRef = useRef(turnoDni)
 
 
+  // useEffect(() => {
+    
+  //   console.log('USEEFFECT: El indiceGlobal del localStorage vale:');
+  //   console.log(parseInt(localStorage.getItem('indiceGlobalStorage')));
+
+  //   console.log('USEEFFECT: El indiceGlobalRef.current vale:')
+  //   console.log(prevIndiceGlobalRef.current)
+
+  //   console.log('USEEFFECT: El indiceBox1 vale:')
+  //   console.log(indiceBox1)
+    
+  // }, [])
+  
+
   useEffect(() => {
 
     socket.emit('joinPantallaRoom');
 
-    socket.on('sendNewDni', (newUser) => {
-      // Recibe un dni nuevo que envia el Home al gateway y lo acumula en el array de usuarios en el localstorage
-      
-      //newUser = {dni: '221', nroTurno: 3}
+    // Suscribirse al evento 'sendAllDnis' cuando el componente se monta
+    socket.on('sendAllDnis', (arryUsers) => {
       //arryUsers = [{dni: '221', nroTurno: 3}, {dni: '211', nroTurno: 5}]
-      // localStorage.setItem('turnoDniStorage', JSON.stringify(arryUsers));
-
-      // Recuperar el array del localStorage, o inicializar un array vacío si no existe 
-      const arrayUsers = JSON.parse(localStorage.getItem('users')) || [];
-      arrayUsers.push(newUser);
-      localStorage.setItem('users',  JSON.stringify(arrayUsers));
-
-      setTurnoDni(arrayUsers);
+      localStorage.setItem('turnoDniStorage', JSON.stringify(arryUsers));
+      setTurnoDni(arryUsers);
       // setTurnoDni(prevUsers => [...prevUsers, ...arryUsers])
       if (!showUsers) {
         setShowUsers(true);
@@ -177,7 +182,7 @@ export const Pantalla3 = () => {
 
     // Retornar una función para limpiar la suscripción cuando el componente se desmonte
     return () => {
-      socket.off('sendNewDni');
+      socket.off('sendAllDnis');
       socket.off('changeNextUser')
       // socket.emit('leavePantallaRoom');
     };
@@ -186,13 +191,13 @@ export const Pantalla3 = () => {
   // Actualiza la referencia de indiceDniRef cada vez que indiceDni cambie
 
   useEffect(() => {
-    prevIndiceGlobalRef.current = indiceGlobal;
+      prevIndiceGlobalRef.current = indiceGlobal;
     turnoDniRef.current = turnoDni;
   }, [indiceGlobal, turnoDni]);
 
+  
 
 
-//ARREGLAR
   const resetUsers = () => {
     //esto llega al qeueGateway, se resetea el array de usuarios, y de ahi se envia a Pantalla.jsx de nuevo (pa enviar la lista de usuarios vacía)
     socket.emit('resetUsers', 'reset-lista-de-espera')
@@ -204,7 +209,9 @@ export const Pantalla3 = () => {
     silent: true,
   };
 
-
+  // const handleImprimir = () => {
+  //   printJS({printable:'miComponenteId', type:'html', configuracion });
+  // };
 
   return (
     <>
@@ -217,7 +224,18 @@ export const Pantalla3 = () => {
 
           <>
             <div>
+              {/* <h1 id='turnoDnitoPrint'>TURNO: {turnoDni[indiceBox1.indice].nroTurno}  - DNI: {turnoDni[indiceBox1.indice].dni}</h1> */}
+              {/* <h1 >TURNO: {turnoDni[indiceBox1.indice].nroTurno}  - DNI: </h1> */}
+              {/* <h2>Pasar por la mesa de entradas numero: {indiceBox1.nroBox}</h2> */}
 
+              {/* <ul>
+                <li>IndiceGlobal: {indiceGlobal}</li>
+                <li>IndiceGlobalStorage:{localStorage.getItem('indiceGlobalStorage')}</li>
+                <li>IndiceBox1: {indiceBox1.indice}</li>
+                <li>IndiceBox2: {indiceBox2.indice}</li>
+                <li>IndiceBox3: {indiceBox3.indice}</li>
+                <li>IndiceBox3: {indiceBox4.indice}</li>
+              </ul>  */}
 
 
             </div>
@@ -241,15 +259,52 @@ export const Pantalla3 = () => {
 
               }
 
+              
             </div>
 
+            {/* <p>Indice Global:{indiceGlobal}</p> */}
+            {/* <p>turnoDni.length - 1: {turnoDni.length - 1}</p> */}
 
           </>
         }
+        {/* {
+            indiceBox2 && 
+          <div>
+            <h1 >TURNO: {turnoDni[indiceBox2].nroTurno}  - DNI: {turnoDni[indiceBox2].dni}</h1>
+            <h2>BOX numero: {mesaDeEntradas}</h2>
+          </div>
+          }
+          {
+            indiceBox3 && 
+          <div>
+            <h1 >TURNO: {turnoDni[indiceBox3].nroTurno}  - DNI: {turnoDni[indiceBox3].dni}</h1>
+            <h2>BOX numero: {mesaDeEntradas}</h2>
+          </div>
+          } */}
 
+
+        {/* INICIO REFERENCIAS */}
+        {/* {
+          turnoDni.length > 0 ?
+            <> */}
+        {/* <h1>TURNO: {turnoDni[indiceDni].nroTurno}  - DNI: {turnoDni[indiceDni].dni}</h1> */}
+        {/* 
+              <h3>IndiceDni: {indiceDni}</h3>
+              <h3>indiceDniRef: {indiceDniRef.current}</h3>
+              <h3>TurnoDni.length: {turnoDni.length}</h3>
+              <h3>TurnoDniRef.length: {turnoDniRef.current.length}</h3>
+
+            </> */}
+        {/* :
+            <h3>TURNO:  - DNI: </h3>
+        } */}
+        {/* FIN REFERENCIAS */}
 
       </div>
-
+      {/* {
+        indiceGlobal && turnoDni.length >= 0 && <ul> <li>Indice Global: {indiceGlobal}</li>
+          <li>Turno dni.length -1: {turnoDni.length - 1}</li> </ul>
+      } */}
 
       <div className='listaEspera'>
         <h4>Lista de espera</h4>
@@ -268,16 +323,16 @@ export const Pantalla3 = () => {
 
       {showWarn && <h1>NO HAY MAS USUARIOS</h1>}
       <ul>
-        <li>IndiceGlobal: {indiceGlobal}</li>
-        <li>IndiceGlobalStorage:{localStorage.getItem('indiceGlobalStorage')}</li>
-        <li>IndiceGlobalRef.current: {prevIndiceGlobalRef.current}</li>
-        <li>TurnoDni.current.length: {turnoDniRef.current.length}</li>
-        <li>TurnoDni.current.length (- 1) : {turnoDniRef.current.length - 1}</li>
-        <li>IndiceBox1: {indiceBox1.indice}</li>
-        <li>IndiceBox2: {indiceBox2.indice}</li>
-        <li>IndiceBox3: {indiceBox3.indice}</li>
-        <li>IndiceBox4: {indiceBox4.indice}</li>
-      </ul>
+                <li>IndiceGlobal: {indiceGlobal}</li>
+                <li>IndiceGlobalStorage:{localStorage.getItem('indiceGlobalStorage')}</li>
+                <li>IndiceGlobalRef.current: {prevIndiceGlobalRef.current}</li>
+                <li>TurnoDni.current.length: {turnoDniRef.current.length}</li>
+                <li>TurnoDni.current.length (- 1) : {turnoDniRef.current.length - 1}</li>
+                <li>IndiceBox1: {indiceBox1.indice}</li>
+                <li>IndiceBox2: {indiceBox2.indice}</li>
+                <li>IndiceBox3: {indiceBox3.indice}</li>
+                <li>IndiceBox4: {indiceBox4.indice}</li>
+              </ul> 
 
     </>
   )

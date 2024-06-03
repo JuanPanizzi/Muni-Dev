@@ -16,7 +16,7 @@ export const Home = () => {
   const [dni, setDni] = useState(null);
   // Intentar obtener el número de turno del Local Storage al inicializar el estado
   const [numeroTurno, setNumeroTurno] = useState(() => {
-    const storedNumeroTurno = localStorage.getItem('numeroTurno');
+    const storedNumeroTurno = localStorage.getItem('proximoTurno');
     return storedNumeroTurno && storedNumeroTurno < 100 ? parseInt(storedNumeroTurno) : 1;
   });
 
@@ -80,7 +80,7 @@ export const Home = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('numeroTurno', numeroTurno.toString());
+    localStorage.setItem('proximoTurno', numeroTurno.toString());
     // console.log(`se actualizo el numeto de turno, y es este ahora: ${numeroTurno}`)
 
   }, [numeroTurno]);

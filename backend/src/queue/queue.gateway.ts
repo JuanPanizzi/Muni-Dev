@@ -50,15 +50,18 @@ export class QueueGateway implements OnModuleInit {
         const {dni, nroTurno} = turnoDni;
 
         //se agrega dni al array
-        this.queueService.addUser(turnoDni)
+        // this.queueService.addUser(turnoDni)
 
 
         // this.server.to().emit('mensajeSalienteParaHome', 'Este es el mensaje saliente')
-        const turnoDniResponse = turnoDni
+        const turnoDniResponse = turnoDni;
         client.emit('respuestaDni', turnoDniResponse);
 
         //2. Se envian todos los turnoDni a la pantalla central OJO QUE TAMBIEN SE MANDAN A HOME
-        this.server.to('pantallaRoom').emit('sendAllDnis', this.queueService.getUsers())
+        // this.server.to('pantallaRoom').emit('sendAllDnis', this.queueService.getUsers())
+
+        this.server.to('pantallaRoom').emit('sendNewDni', turnoDni)
+
         
       }
 
@@ -81,6 +84,7 @@ export class QueueGateway implements OnModuleInit {
 
       }
 
+      //ARREGLAR
       @SubscribeMessage('resetUsers')
       resetUser(
         @MessageBody() message: string,
