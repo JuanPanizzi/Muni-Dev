@@ -18,13 +18,16 @@ export const Pantalla3 = () => {
   //So, when a box component click 'proximo usuario' there's a updateIndiceAndMesa function which is activated. This function takes the data [{mensaje: 'next user please', box}] which come from the 'changeNextUser' event.
   //And what does this function do? --> set the 'indiceDni' and the 'mesaDeEntradas', wichare used to render the next user in the central screen.-
 
-  const [turnoDni, setTurnoDni] = useState([])
-  const [mesaDeEntradas, setMesaDeEntradas] = useState(null)
+  const [turnoDni, setTurnoDni] = useState(()=>{
+    const turnoDniStorage = localStorage.getItem('turnoDniStorage');
+    return turnoDniStorage ? JSON.parse(turnoDniStorage) : []})
+
+  // const [mesaDeEntradas, setMesaDeEntradas] = useState(null)
 
   // const [indiceGlobal, setIndiceGlobal] = useState(-1);
   const [indiceGlobal, setIndiceGlobal] = useState(()=>{
-
     const indiceStorage = localStorage.getItem('indiceGlobalStorage');
+    console.log(`indiceStorage es: ${indiceStorage}`)
     return indiceStorage ? parseInt(indiceStorage) : -1; 
   });
 
@@ -37,6 +40,13 @@ export const Pantalla3 = () => {
 
   const [showWarn, setShowWarn] = useState(false);
   const [showUsers, setShowUsers] = useState(false);
+
+  useEffect(() => {
+    
+   
+
+  }, [])
+  
 
 
   const updateIndiceAndMesa = (data) => {
@@ -78,6 +88,25 @@ export const Pantalla3 = () => {
 
   }
 
+  //Esta funcion setea indiceGlobal e indices de los boxes
+  const hadleIndiceStates = (setIndiceBoxNumber) =>{ 
+
+    setIndiceGlobal((prevIndice)=>{ 
+      const newIndice = prevIndice + 1;
+      prevIndiceGlobalRef.current = newIndice;
+      localStorage.setItem('indiceGlobalStorage', newIndice);
+
+      setIndiceBoxNumber((prevState) => ({
+        ...prevState,
+        indice: newIndice,
+      }));
+
+      return newIndice;          
+    })
+
+  }
+
+  //Esta funcion llama a handleIndiceStates
   const updateIndicesAndBoxes = (data) => {
 
     const { box } = data;
@@ -91,63 +120,22 @@ export const Pantalla3 = () => {
     switch (box) {
       case '1': {
 
-
-        setIndiceBox1((prevState) => ({
-          ...prevState,
-          indice: prevIndiceGlobalRef.current,
-        }));
-
-        setIndiceGlobal((prevIndice) => {
-          const newIndice = prevIndice + 1;
-          prevIndiceGlobalRef.current = newIndice;
-          localStorage.setItem('indiceGlobalStorage', newIndice);
-          return newIndice;
-        });
+       hadleIndiceStates(setIndiceBox1)
         break;
       }
       case '2': {
 
-        setIndiceBox2((prevState) => ({
-          ...prevState,
-          indice: prevIndiceGlobalRef.current,
-        }));
-
-        setIndiceGlobal((prevIndice) => {
-          const newIndice = prevIndice + 1;
-          prevIndiceGlobalRef.current = newIndice;
-          localStorage.setItem('indiceGlobalStorage', newIndice);
-          return newIndice;
-        });
-
+        hadleIndiceStates(setIndiceBox2)
         break;
       }
       case '3': {
 
-        setIndiceBox3((prevState) => ({
-          ...prevState,
-          indice: prevIndiceGlobalRef.current,
-        }));
-
-        setIndiceGlobal((prevIndice) => {
-          const newIndice = prevIndice + 1;
-          prevIndiceGlobalRef.current = newIndice;
-          localStorage.setItem('indiceGlobalStorage', newIndice);
-          return newIndice;
-        });
+        hadleIndiceStates(setIndiceBox3)
         break;
       }
       case '4': {
 
-        setIndiceBox4((prevState) => ({
-          ...prevState,
-          indice: prevIndiceGlobalRef.current,
-        }));
-        setIndiceGlobal((prevIndice) => {
-          const newIndice = prevIndice + 1;
-          prevIndiceGlobalRef.current = newIndice;
-          localStorage.setItem('indiceGlobalStorage', newIndice);
-          return newIndice;
-        });
+        hadleIndiceStates(setIndiceBox4)
         break;
       }
       default: {
@@ -165,6 +153,20 @@ export const Pantalla3 = () => {
   const turnoDniRef = useRef(turnoDni)
 
 
+  // useEffect(() => {
+    
+  //   console.log('USEEFFECT: El indiceGlobal del localStorage vale:');
+  //   console.log(parseInt(localStorage.getItem('indiceGlobalStorage')));
+
+  //   console.log('USEEFFECT: El indiceGlobalRef.current vale:')
+  //   console.log(prevIndiceGlobalRef.current)
+
+  //   console.log('USEEFFECT: El indiceBox1 vale:')
+  //   console.log(indiceBox1)
+    
+  // }, [])
+  
+
   useEffect(() => {
 
     socket.emit('joinPantallaRoom');
@@ -172,6 +174,7 @@ export const Pantalla3 = () => {
     // Suscribirse al evento 'sendAllDnis' cuando el componente se monta
     socket.on('sendAllDnis', (arryUsers) => {
       //arryUsers = [{dni: '221', nroTurno: 3}, {dni: '211', nroTurno: 5}]
+      localStorage.setItem('turnoDniStorage', JSON.stringify(arryUsers));
       setTurnoDni(arryUsers);
       // setTurnoDni(prevUsers => [...prevUsers, ...arryUsers])
       if (!showUsers) {
@@ -183,9 +186,6 @@ export const Pantalla3 = () => {
 
     // socket.on('changeNextUser', updateIndiceAndMesa)
     socket.on('changeNextUser', updateIndicesAndBoxes)
-
-    //data = {mensaje: 'next user please', box} y viene de subscribe message 'nextUser' del queueGateway
-
 
     // Retornar una función para limpiar la suscripción cuando el componente se desmonte
     return () => {
@@ -237,12 +237,12 @@ export const Pantalla3 = () => {
 
               {/* <ul>
                 <li>IndiceGlobal: {indiceGlobal}</li>
+                <li>IndiceGlobalStorage:{localStorage.getItem('indiceGlobalStorage')}</li>
                 <li>IndiceBox1: {indiceBox1.indice}</li>
                 <li>IndiceBox2: {indiceBox2.indice}</li>
                 <li>IndiceBox3: {indiceBox3.indice}</li>
                 <li>IndiceBox3: {indiceBox4.indice}</li>
-
-              </ul> */}
+              </ul>  */}
 
 
             </div>
@@ -266,6 +266,7 @@ export const Pantalla3 = () => {
 
               }
 
+              
             </div>
 
             {/* <p>Indice Global:{indiceGlobal}</p> */}
@@ -328,7 +329,17 @@ export const Pantalla3 = () => {
       <button className='btn-reset-users' onClick={() => resetUsers()}>Reiniciar lista de espera</button>
 
       {showWarn && <h1>NO HAY MAS USUARIOS</h1>}
-
+      <ul>
+                <li>IndiceGlobal: {indiceGlobal}</li>
+                <li>IndiceGlobalStorage:{localStorage.getItem('indiceGlobalStorage')}</li>
+                <li>IndiceGlobalRef.current: {prevIndiceGlobalRef.current}</li>
+                <li>TurnoDni.current.length: {turnoDniRef.current.length}</li>
+                <li>TurnoDni.current.length (- 1) : {turnoDniRef.current.length - 1}</li>
+                <li>IndiceBox1: {indiceBox1.indice}</li>
+                <li>IndiceBox2: {indiceBox2.indice}</li>
+                <li>IndiceBox3: {indiceBox3.indice}</li>
+                <li>IndiceBox4: {indiceBox4.indice}</li>
+              </ul> 
 
     </>
   )
