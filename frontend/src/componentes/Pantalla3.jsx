@@ -89,7 +89,7 @@ export const Pantalla3 = () => {
   }
 
   //Esta funcion setea indiceGlobal e indices de los boxes
-  const hadleIndice = (setIndiceBoxNumber) =>{ 
+  const hadleIndices = (setIndiceBoxNumber) =>{ 
 
     setIndiceGlobal((prevIndice)=>{ 
       const newIndice = prevIndice + 1;
