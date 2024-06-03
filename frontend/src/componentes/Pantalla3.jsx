@@ -41,14 +41,7 @@ export const Pantalla3 = () => {
   const [showWarn, setShowWarn] = useState(false);
   const [showUsers, setShowUsers] = useState(false);
 
-  useEffect(() => {
-    
-   
-
-  }, [])
-  
-
-
+ 
   const updateIndiceAndMesa = (data) => {
     //data = {mensaje: 'next user please', box} y viene de subscribe message 'nextUser' del queueGateway
     //update indiceDni && mesaDeEntradas
@@ -89,7 +82,7 @@ export const Pantalla3 = () => {
   }
 
   //Esta funcion setea indiceGlobal e indices de los boxes
-  const hadleIndices = (setIndiceBoxNumber) =>{ 
+  const handleIndices = (setIndiceBoxNumber) =>{ 
 
     setIndiceGlobal((prevIndice)=>{ 
       const newIndice = prevIndice + 1;
@@ -120,22 +113,22 @@ export const Pantalla3 = () => {
     switch (box) {
       case '1': {
 
-       hadleIndiceStates(setIndiceBox1)
+       handleIndices(setIndiceBox1)
         break;
       }
       case '2': {
 
-        hadleIndiceStates(setIndiceBox2)
+        handleIndices(setIndiceBox2)
         break;
       }
       case '3': {
 
-        hadleIndiceStates(setIndiceBox3)
+        handleIndices(setIndiceBox3)
         break;
       }
       case '4': {
 
-        hadleIndiceStates(setIndiceBox4)
+        handleIndices(setIndiceBox4)
         break;
       }
       default: {
