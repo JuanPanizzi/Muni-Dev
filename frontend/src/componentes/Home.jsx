@@ -3,6 +3,7 @@ import io from 'socket.io-client'
 import { Tramites } from './Tramites';
 import '../styles/Home.css'
 import printJS from 'print-js';
+import Teclado from './Teclado';
 
 
 const socket = io('/');
@@ -14,6 +15,7 @@ export const Home = () => {
   //USE STATES
   const [showTramites, setShowTramites] = useState(false);
   const [dni, setDni] = useState(null);
+
   // Intentar obtener el número de turno del Local Storage al inicializar el estado
   const [numeroTurno, setNumeroTurno] = useState(() => {
     const storedNumeroTurno = localStorage.getItem('proximoTurno');
@@ -96,6 +98,8 @@ export const Home = () => {
     <>
 {
   !showTramites ? 
+  <>
+
       <div className='ctnSistema'>
 
         <h1 className='title'>SISTEMA DE TURNOS </h1>
@@ -108,6 +112,9 @@ export const Home = () => {
    {/* <button onClick={()=>setShowTramites(false)}>Reset show tramites</button> */}
 
       </div>
+  <Teclado/>
+  
+  </>    
   :
   <>
 
