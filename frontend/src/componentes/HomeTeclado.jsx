@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 import { Tramites } from './Tramites';
-import '../styles/Home.css'
+// import '../styles/Home.css'
 import printJS from 'print-js';
 import Teclado from './Teclado';
+import { Navbar } from './Navbar';
 
 
 const socket = io('/');
@@ -104,16 +105,17 @@ export const HomeTeclado = () => {
   
     return (
         <>
+        <Navbar/>
             {
                 !showTramites ?
                     <>
 
-                        <div className='ctnSistema'>
+                        <div >
 
                             <h1 className='title'>SISTEMA DE TURNOS </h1>
 
                             <form action="#" method="post" onSubmit={handleSubmit}>
-                                <label htmlFor="InputDni" style={{ display: "block", fontWeight: "bold", fontSize: "1.2rem", marginTop: "50px" }}>Ingrese su DNI:</label>
+                                <label htmlFor="InputDni" >Ingrese su DNI:</label>
                                 <input
                                     type="Text"
                                     id="InputDni"
@@ -123,7 +125,7 @@ export const HomeTeclado = () => {
                                     required
                                     // onChange={(e) => handleChange(e)}
                                     />
-                                <button type="submit" className='btnHome' >Enviar</button>
+                                <button type="submit"  >Enviar</button>
                             </form>
                             {/* <button onClick={()=>setShowTramites(false)}>Reset show tramites</button> */}
 

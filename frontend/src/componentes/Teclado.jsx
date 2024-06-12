@@ -1,6 +1,6 @@
 // OnScreenKeyboard.js
 import React from 'react';
-import './Teclado.css';
+// import './Teclado.css';
 
 const keys = [
   ['1', '2', '3'],
