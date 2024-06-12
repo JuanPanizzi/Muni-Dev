@@ -110,18 +110,17 @@ export const HomeTeclado = () => {
                 !showTramites ?
                     <>
 
-                        <div >
+                        <div className='bg-sky-200  m-auto w-auto '>
 
-                            <h1 className='title'>SISTEMA DE TURNOS </h1>
-
-                            <form action="#" method="post" onSubmit={handleSubmit}>
-                                <label htmlFor="InputDni" >Ingrese su DNI:</label>
+                            <form action="#" method="post" onSubmit={handleSubmit} className='bg-red-200 lg:w-2/3 lg:m-auto lg:mt-20'>
+                                <label htmlFor="InputDocumento" className='text-center block bg-slate-200 text-4xl '>Ingrese su Documento:</label>
                                 <input
+                                    className='block w-2/3 m-auto'
                                     type="Text"
-                                    id="InputDni"
+                                    id="InputDocumento"
                                     name="dni"
                                     value={dniInputValue}
-                                    style={{ display: "block" }}
+                                    // style={{ display: "block" }}
                                     required
                                     // onChange={(e) => handleChange(e)}
                                     />
