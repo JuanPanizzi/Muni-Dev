@@ -75,7 +75,7 @@ export const HomeTeclado = () => {
         if (key === '←') {
           setDniInputValue(dniInputValue.slice(0, -1));
         } else if (key === '✓') {
-          alert(`DNI ingresado: ${dniInputValue}`);
+          return;
         } else {
           setDniInputValue(dniInputValue + key);
         }
@@ -110,12 +110,12 @@ export const HomeTeclado = () => {
                 !showTramites ?
                     <>
 
-                        <div className='bg-sky-200  m-auto w-auto '>
+                        <div className='  m-auto w-auto '>
 
-                            <form action="#" method="post" onSubmit={handleSubmit} className='bg-red-200 lg:w-2/3 lg:m-auto lg:mt-20'>
-                                <label htmlFor="InputDocumento" className='text-center block bg-slate-200 text-4xl '>Ingrese su Documento:</label>
+                            <form action="#" method="post" onSubmit={handleSubmit} className=' lg:w-2/3 lg:m-auto lg:mt-20'>
+                                <label htmlFor="InputDocumento" className='text-center block  text-4xl '>Ingrese su Documento:</label>
                                 <input
-                                    className='block w-2/3 m-auto'
+                                    className='block w-2/3 m-auto lg:text-5xl lg:rounded-lg lg:border-2  lg:border-celeste-1 focus:outline-none focus:border-celeste-2 focus:ring-1 focus:ring-celeste-2 text-center p-1 mt-2'
                                     type="Text"
                                     id="InputDocumento"
                                     name="dni"
@@ -124,12 +124,12 @@ export const HomeTeclado = () => {
                                     required
                                     // onChange={(e) => handleChange(e)}
                                     />
-                                <button type="submit"  >Enviar</button>
+                                {/* <button type="submit"  >Enviar</button> */}
+                        <Teclado onKeyPress={handleKeyPress} />
                             </form>
                             {/* <button onClick={()=>setShowTramites(false)}>Reset show tramites</button> */}
 
                         </div>
-                        <Teclado onKeyPress={handleKeyPress} />
 
                     </>
                     :
