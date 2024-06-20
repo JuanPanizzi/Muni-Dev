@@ -4,7 +4,8 @@ import { Tramites } from './Tramites';
 // import '../styles/Home.css'
 import printJS from 'print-js';
 import Teclado from './Teclado';
-import { Navbar } from './Navbar';
+// import { Navbar } from './Navbar';
+import { Navbar2 } from './Navbar2';
 
 
 const socket = io('/');
@@ -105,17 +106,17 @@ export const HomeTeclado = () => {
   
     return (
         <>
-        <Navbar/>
+        <Navbar2/>
             {
                 !showTramites ?
                     <>
 
                         <div className='  m-auto w-auto '>
 
-                            <form action="#" method="post" onSubmit={handleSubmit} className=' lg:w-2/3 lg:m-auto lg:mt-20'>
-                                <label htmlFor="InputDocumento" className='text-center block  text-4xl '>Ingrese su Documento:</label>
+                            <form action="#" method="post" onSubmit={handleSubmit} className=' lg:w-2/3 lg:m-auto lg:mt-16 bg-cv-verde-oscuro py-3 rounded-xl   '>
+                                <label htmlFor="InputDocumento" className='text-center block text-white text-4xl '>INGRESE SU DNI:</label>
                                 <input
-                                    className='block w-2/3 m-auto lg:text-5xl lg:rounded-lg lg:border-2  lg:border-celeste-1 focus:outline-none focus:border-celeste-2 focus:ring-1 focus:ring-celeste-2 text-center p-1 mt-2'
+                                    className='block w-2/3 m-auto lg:text-5xl lg:rounded-xl   text-center p-1 mt-2 bg-cv-celeste-claro'
                                     type="Text"
                                     id="InputDocumento"
                                     name="dni"
@@ -142,7 +143,7 @@ export const HomeTeclado = () => {
             }
 
             {
-                turnoDniReceived !== null && <h1 id='turnoDniToPrint' style={{ color: 'blue', textAlign: "center" }} >TURNO: {turnoDniReceived.nroTurno} - DNI: {turnoDniReceived.dni}</h1>
+                turnoDniReceived !== null && <h1 id='turnoDniToPrint' style={{ color: 'transparent', textAlign: "center" }} >TURNO: {turnoDniReceived.nroTurno} - DNI: {turnoDniReceived.dni}</h1>
             }
 
             {/* <h4>Dni que se esta enviando: {dni}</h4> */}

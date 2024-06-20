@@ -16,9 +16,13 @@ export default {
         'verde-oscuro': '#047465',
         'celeste-claro': '#90cbca',
         'rojo-claro': '#e46c6c',
-        'marron': '#b99d92'
+        'marron': '#b99d92',
+        'cv-celeste-claro': "#90CBCA",
+        'cv-celeste-oscuro': "#05AC9E",
+        'cv-verde-oscuro': '#047465'
 
       }
+      
     },
   },
   plugins: [],

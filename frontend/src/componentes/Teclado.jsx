@@ -20,7 +20,7 @@ const keys = [
             <button 
             key={key}
             type={key === '✓' ? 'submit' : 'button'}
-            className={`h-[60px] mb-2 rounded-lg text-2xl ${key === '✓' ? 'bg-green-400' : key === '←' ? 'bg-red-400' : 'bg-slate-300'}`}
+            className={`h-[60px] mb-2 rounded-xl text-2xl  ${key === '✓' ? 'bg-green-400' : key === '←' ? 'bg-red-400' : 'bg-cv-celeste-claro'}`}
             onClick={() => onKeyPress(key)}
             >
               {key}

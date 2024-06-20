@@ -6,6 +6,7 @@ import print from 'print-js'
 import printJS from 'print-js';
 import { Navbar } from './Navbar';
 import { Tabla } from './Tabla';
+import { Navbar2 } from './Navbar2';
 
 const socket = io('/');
 
@@ -210,59 +211,113 @@ export const Pantalla3 = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar2 />
       <>
         {/* turnoDni.length > 0 && mesaDeEntradas !== null && turnoDni[indiceDni].nroTurno && */}
         {
           turnoDni.length > 0 &&
 
           <>
-            <div className="overflow-x-auto rounded-lg border border-gray-200">
-              <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-                <thead className="ltr:text-left rtl:text-right ">
-                  <tr>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">TURNO</th>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">DNI</th>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">BOX</th>
+            <div className=" w-2/3 m-auto mt-12 ">
+              <table className="min-w-full bg-cv-celeste-oscuro text-sm  ">
+                <thead className="ltr:text-left rtl:text-right text-3xl ">
+                  <tr className='bg-cv-verde-oscuro '>
+                    <th className="whitespace-nowrap px-4 py-5 font-medium text-white rounded-l-lg">TURNO</th>
+                    <th className="whitespace-nowrap px-4 py-5 font-medium text-white ">DNI</th>
+                    <th className="whitespace-nowrap px-20 py-5 font-medium text-white "> </th>
+                    <th className="whitespace-nowrap px-4 py-5 font-medium text-white rounded-r-lg">BOX</th>
                   </tr>
                 </thead>
 
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="bg-cv-celeste-oscuro ">
 
-                  {
-                    indiceBox1.indice >= 0 && indiceBox1.indice != null &&
-
-                    <tr className=' text-center'>
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{turnoDni[indiceBox1.indice].nroTurno}</td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">{turnoDni[indiceBox1.indice].dni}</td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700"> {indiceBox1.nroBox} </td>
+                  {/*
+                  
+                  
+                  <tr className='text-center text-4xl'>
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{turnoDni[indiceBox4.indice].nroTurno}</td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">{turnoDni[indiceBox4.indice].dni}</td>
+                      <td className="whitespace-nowrap px-20 py-2 "></td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">{indiceBox4.nroBox}</td>
                     </tr>
+                  } */}
+                  {
+
+                    indiceBox1.indice >= 0 && indiceBox1.indice != null &&
+                    <>
+                      {/* TABLA VACÍA */}
+                      <tr className=' text-center text-4xl '>
+                        <td className="whitespace-nowrap px-4 py-3 font-medium "></td>
+                        <td className="whitespace-nowrap px-4 py-3 "></td>
+                        <td className="whitespace-nowrap px-20 py-3 "></td>
+                        <td className="whitespace-nowrap px-4 py-3 ">  </td>
+                      </tr>
+                      <tr className=' text-center text-4xl bg-cv-celeste-claro rounded-lg'>
+                        <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 rounded-l-lg">{turnoDni[indiceBox1.indice].nroTurno}</td>
+                        <td className="whitespace-nowrap px-4 py-4 ">{turnoDni[indiceBox1.indice].dni}</td>
+                        <td className="whitespace-nowrap px-20 py-4 "></td>
+                        <td className="whitespace-nowrap px-4 py-4  rounded-r-lg"> {indiceBox1.nroBox} </td>
+                      </tr>
+                    </>
+
                   }
                   {
                     indiceBox2.indice >= 0 && indiceBox2.indice != null &&
-
-                    <tr className='text-center'>
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900"> {turnoDni[indiceBox2.indice].nroTurno} </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">{turnoDni[indiceBox2.indice].dni}</td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">{indiceBox2.nroBox}</td>
-                    </tr>
+                    <>
+                      {/* TABLA VACÍA */}
+                      <tr className=' text-center text-4xl '>
+                        <td className="whitespace-nowrap px-4 py-3 font-medium text-gray-900"></td>
+                        <td className="whitespace-nowrap px-4 py-3 text-gray-700"></td>
+                        <td className="whitespace-nowrap px-20 py-3 "></td>
+                        <td className="whitespace-nowrap px-4 py-3 text-gray-700">  </td>
+                      </tr>
+                      <tr className=' text-center text-4xl bg-cv-celeste-claro rounded-lg'>
+                        <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 rounded-l-lg"> {turnoDni[indiceBox2.indice].nroTurno}</td>
+                        <td className="whitespace-nowrap px-4 py-4 ">{turnoDni[indiceBox2.indice].dni}</td>
+                        <td className="whitespace-nowrap px-20 py-4 "></td>
+                        <td className="whitespace-nowrap px-4 py-4  rounded-r-lg"> {indiceBox2.nroBox}</td>
+                      </tr>
+                    </>
                   }
                   {
                     indiceBox3.indice >= 0 && indiceBox3.indice != null &&
-                    <tr className='text-center'>
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{turnoDni[indiceBox3.indice].nroTurno}</td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">{turnoDni[indiceBox3.indice].dni}</td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">{indiceBox3.nroBox}</td>
-                    </tr>
+                    <>
+                      {/* TABLA VACÍA */}
+                      <tr className=' text-center text-4xl '>
+                        <td className="whitespace-nowrap px-4 py-3 font-medium text-gray-900"></td>
+                        <td className="whitespace-nowrap px-4 py-3 text-gray-700"></td>
+                        <td className="whitespace-nowrap px-20 py-3 "></td>
+                        <td className="whitespace-nowrap px-4 py-3 text-gray-700">  </td>
+                      </tr>
+                      <tr className=' text-center text-4xl bg-cv-celeste-claro rounded-lg'>
+                        <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 rounded-l-lg">{turnoDni[indiceBox3.indice].nroTurno}</td>
+                        <td className="whitespace-nowrap px-4 py-4 ">{turnoDni[indiceBox3.indice].dni}</td>
+                        <td className="whitespace-nowrap px-20 py-4 "></td>
+                        <td className="whitespace-nowrap px-4 py-4  rounded-r-lg"> {indiceBox3.nroBox} </td>
+                      </tr>
+                    </>
                   }
                   {
-                indiceBox4.indice >= 0 && indiceBox4.indice != null && 
-                  <tr className='text-center'>
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{turnoDni[indiceBox4.indice].nroTurno}</td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">{turnoDni[indiceBox4.indice].dni}</td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">{indiceBox4.nroBox}</td>
-                    </tr>
+                    indiceBox4.indice >= 0 && indiceBox4.indice != null &&
+                    <>
+                      {/* TABLA VACÍA */}
+                      <tr className=' text-center text-4xl '>
+                        <td className="whitespace-nowrap px-4 py-3 font-medium text-gray-900"></td>
+                        <td className="whitespace-nowrap px-4 py-3 text-gray-700"></td>
+                        <td className="whitespace-nowrap px-20 py-3 "></td>
+                        <td className="whitespace-nowrap px-4 py-3 text-gray-700">  </td>
+                      </tr>
+
+                      <tr className=' text-center text-4xl bg-cv-celeste-claro rounded-lg'>
+                        <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 rounded-l-lg">{turnoDni[indiceBox4.indice].nroTurno}</td>
+                        <td className="whitespace-nowrap px-4 py-4 ">{turnoDni[indiceBox4.indice].dni}</td>
+                        <td className="whitespace-nowrap px-20 py-4 "></td>
+                        <td className="whitespace-nowrap px-4 py-4  rounded-r-lg"> {indiceBox4.nroBox}</td>
+                      </tr>
+                    </>
                   }
+
+
                 </tbody>
               </table>
             </div>
@@ -296,7 +351,7 @@ export const Pantalla3 = () => {
       </>
 
       {/* LISTA DE ESPERA DE USUARIOS */}
-      <div className='listaEspera'>
+      {/* <div className='listaEspera'>
         <h4>Lista de espera</h4>
         {
           turnoDni.map(({ dni, nroTurno }, index) => {
@@ -308,10 +363,11 @@ export const Pantalla3 = () => {
           })
         }
       </div>
-      <button className='btn-reset-users' onClick={() => resetUsers()}>Reiniciar lista de espera</button>
+      <button className='btn-reset-users' onClick={() => resetUsers()}>Reiniciar lista de espera</button> */}
 
       {/*FIN LISTA DE ESPERA DE USUARIOS */}
-      {/* {showWarn && <h1>NO HAY MAS USUARIOS</h1>}
+      {/* {showWarn && <h1>NO HAY MAS USUARIOS</h1>} */}
+      {/* 
       <ul>
         <li>IndiceGlobal: {indiceGlobal}</li>
         <li>IndiceGlobalStorage:{localStorage.getItem('indiceGlobalStorage')}</li>
