@@ -6,7 +6,9 @@ import printJS from 'print-js';
 import Teclado from './Teclado';
 
 
-const socket = io('https://municipalidad-rawson-server.onrender.com');
+// const socket = io('https://municipalidad-rawson-server.onrender.com');
+const socket = io('/');
+
 
 
 export const Home = () => {

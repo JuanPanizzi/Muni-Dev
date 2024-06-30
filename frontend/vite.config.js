@@ -7,7 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/socket.io': {
-        target: 'https://municipalidad-server.vercel.app/',
+        // target: 'https://municipalidad-rawson-server.onrender.com',
+        target: 'http://localhost:3000',
         ws: true
       }
     }
