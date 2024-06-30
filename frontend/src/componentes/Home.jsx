@@ -6,7 +6,7 @@ import printJS from 'print-js';
 import Teclado from './Teclado';
 
 
-const socket = io('/');
+const socket = io('https://municipalidad-rawson-server.onrender.com');
 
 
 export const Home = () => {
@@ -46,6 +46,8 @@ export const Home = () => {
 
     //Aca se recibe lo que se manda para chequear que eso llegó
     socket.on('respuestaDni', (turnoDniResponse) => {
+
+      console.log('LLEGO EL TURNO DNI')
 
       // const { dni: dniRecibido, nroTurno: nroTurnoRecibido } = turnoDniResponse;
       setTurnoDniReceived(turnoDniResponse)
@@ -102,6 +104,7 @@ export const Home = () => {
 
       <div className='ctnSistema'>
 
+
         <h1 className='title'>SISTEMA DE TURNOS </h1>
 
         <form action="#" method="post" onSubmit={handleSubmit}>
@@ -125,7 +128,7 @@ export const Home = () => {
 }
 
       {
-        turnoDniReceived !== null && <h1 id='turnoDniToPrint' style={{ color: 'blue', textAlign: "center"}} >TURNO: {turnoDniReceived.nroTurno} - DNI: {turnoDniReceived.dni}</h1>
+        turnoDniReceived !== null && <h1 id='turnoDniToPrint' style={{ color: 'transparent', textAlign: "center"}} >TURNO: {turnoDniReceived.nroTurno} - DNI: {turnoDniReceived.dni}</h1>
       }
 
       {/* <h4>Dni que se esta enviando: {dni}</h4> */}

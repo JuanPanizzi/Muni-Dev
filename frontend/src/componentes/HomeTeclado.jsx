@@ -121,6 +121,7 @@ export const HomeTeclado = () => {
                                     id="InputDocumento"
                                     name="dni"
                                     value={dniInputValue}
+                                    readOnly
                                     // style={{ display: "block" }}
                                     required
                                     // onChange={(e) => handleChange(e)}
