@@ -5,7 +5,7 @@ import io from 'socket.io-client'
 import { Navbar2 } from './Navbar2';
 
 
-const socket = io('/');
+const socket = io('https://municipalidad-rawson-server.onrender.com');
 
 export const Box = () => {
 
