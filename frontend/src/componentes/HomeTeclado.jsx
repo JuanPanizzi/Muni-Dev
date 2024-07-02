@@ -6,6 +6,7 @@ import printJS from 'print-js';
 import Teclado from './Teclado';
 // import { Navbar } from './Navbar';
 import { Navbar2 } from './Navbar2';
+import { Warning } from './Warning';
 
 
 const socket = io('/');
@@ -15,17 +16,22 @@ export const HomeTeclado = () => {
 
 
     //USE STATES
-    const [showTramites, setShowTramites] = useState(false);
     const [dni, setDni] = useState(null);
+    const [printError, setPrintError] = useState(null); 
+    const [internetConnection, setInternetConnection] = useState(true)
+    const [serverConnection, setServerConnection] = useState(true)
+    const [showTramites, setShowTramites] = useState(false);
     const [dniInputValue, setDniInputValue] = useState('');
-    
+    const [Loading, setLoading] = useState(false)
+
+
     // Intentar obtener el número de turno del Local Storage al inicializar el estado
     const [numeroTurno, setNumeroTurno] = useState(() => {
         const storedNumeroTurno = localStorage.getItem('proximoTurno');
         return storedNumeroTurno && storedNumeroTurno < 100 ? parseInt(storedNumeroTurno) : 1;
     });
 
-    const [turnoDniReceived, setTurnoDniReceived] = useState(null);
+    const [actualUserTurnoDni, setActualUserTurnoDni] = useState(null);
 
     //FIN USESTATES
 
@@ -34,37 +40,83 @@ export const HomeTeclado = () => {
 
         e.preventDefault();
         //cuando se hace un submit, en la funcion sendDni de abajo se envia el documento al websocket (con el numero de turno asociado) y se aumenta el state numeroTurno, y eso dispara el useEffect de abajo que lo que hace es guardar en el local storage el nuevo numero de turno
+
+        if (!navigator.onLine){
+            setInternetConnection(false);
+            // handleShowTramites(false)
+            return;
+        } 
+
         sendDni(dniInputValue, numeroTurno)
         // console.log(`este es el dni que se le pasa a la funcion sendDni: ${dni}, y este es el nrode turno ${numeroTurno}`)
         setDniInputValue('')
-        handleShowTramites(true)
+            handleShowTramites(true)
     }
 
 
+
     const sendDni = (documento, nroTurno) => {
+        //Controlar si el mensaje llega al servidor
+        //Controlar 
+        
 
-        documento == null ?
-            alert('no se puede enviar un dni vacio') :
+        if (documento == null) return alert('no se puede enviar un dni vacío');
+        setLoading(true)
+        
+        const actualUserTurnoDni = { dni: documento, nroTurno };
 
-            socket.emit('sendDni', { dni: documento, nroTurno });
+        socket.timeout(4000).emit("sendDni", actualUserTurnoDni, (err, response) => {
 
-        //Aca se recibe lo que se manda para chequear que eso llegó
-        socket.on('respuestaDni', (turnoDniResponse) => {
+            if (err) {
+                setLoading(false)
+                handleShowTramites(false)
+                setServerConnection(false)
+                console.log('El mensaje no se recibió ')
+                // the other side did not acknowledge the event in the given delay
+            } else {
+                setActualUserTurnoDni(actualUserTurnoDni)
+                setTimeout(() => {
+                    setLoading(false)
+                }, 2000);
+            }
+        });
 
-            // const { dni: dniRecibido, nroTurno: nroTurnoRecibido } = turnoDniResponse;
-            setTurnoDniReceived(turnoDniResponse)
-
-        })
-
+        // documento == null ?
+        //     alert('no se puede enviar un dni vacio') :
+        //     socket.emit('sendDni', { dni: documento, nroTurno });
+        // //Aca se recibe lo que se manda para chequear que eso llegó
+        // socket.on('respuestaDni', (turnoDniResponse) => {
+        //         setActualUserTurnoDni(turnoDniResponse)
+        //     // const { dni: dniRecibido, nroTurno: nroTurnoRecibido } = turnoDniResponse;
+        // })
 
         setNumeroTurno((prevNumeroTurno) => {
             return prevNumeroTurno > 98 ? 1 : prevNumeroTurno + 1;
         }); // Incrementar el número de turno para el siguiente usuario;
 
     }
+    // const handlePrintTurnoDni = () => {
+    //     printJS({ printable: 'turnoDniToPrint', type: 'html', font_size: '90pt' });
+    // }
+
     const handlePrintTurnoDni = () => {
-        printJS({ printable: 'turnoDniToPrint', type: 'html', font_size: '90pt' });
-    }
+
+
+        try {
+            printJS({
+                printable: 'turnoDniToPrint',
+                type: 'html',
+                font_size: '90pt',
+                onError: (error) => {
+                    console.error('Print error:', error);
+                    setPrintError('No hay papel, consultar con personal de la institución.');
+                }
+            });
+        } catch (error) {
+            console.error('Print exception:', error);
+            setPrintError('No hay papel, consultar con personal de la institución.');
+        }
+    };
 
     // const handleChange = (e) => {
     //     setDni(e.target.value)
@@ -74,13 +126,13 @@ export const HomeTeclado = () => {
         //Esta funcion, llena el dniInputValue con cada numero que agrega el usuario, y ademas llena el "value del formulario, por lo que se ira mostrando en el input los numerso que se vayan cliqueando. (Lo que se hacia antes era con el handlechange del input se llenaba el state "dni" y ese state luego se enviaba al servidor. Ahora enviaremos el state "dniInputValue")
 
         if (key === '←') {
-          setDniInputValue(dniInputValue.slice(0, -1));
+            setDniInputValue(dniInputValue.slice(0, -1));
         } else if (key === '✓') {
-          return;
+            return;
         } else {
-          setDniInputValue(dniInputValue + key);
+            setDniInputValue(dniInputValue + key);
         }
-      };
+    };
     // REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR 
     // ¿PORQUE ESTOY SUSCRITO A ESTE sendAllDni?
     useEffect(() => {
@@ -103,10 +155,38 @@ export const HomeTeclado = () => {
     }, [numeroTurno]);
 
 
-  
+    if (!internetConnection && !Loading) {
+        return (
+            <>
+                <Warning warn={"NO HAY CONEXION"} />
+                <button onClick={() => setInternetConnection(true)}>Intente Nuevamente</button>
+            </>
+        )
+    }
+    if (!serverConnection) {
+        return (
+            <>
+                <Warning warn={"NO HAY CONEXION CON EL SERVIDOR INTENTE DE NUEVO..."} />
+                <button onClick={() => setServerConnection(true)}>Intente Nuevamente</button>
+            </>
+
+        )
+    }
+
+    if (Loading) {
+        return (
+            <Warning warn={"CARGANDO..."} />
+        )
+    }
+
+    
+
+
+
     return (
         <>
-        <Navbar2/>
+            <Navbar2 />
+            {printError && <div style={{ color: 'red' }}>{printError}</div>}
             {
                 !showTramites ?
                     <>
@@ -124,10 +204,10 @@ export const HomeTeclado = () => {
                                     readOnly
                                     // style={{ display: "block" }}
                                     required
-                                    // onChange={(e) => handleChange(e)}
-                                    />
+                                // onChange={(e) => handleChange(e)}
+                                />
                                 {/* <button type="submit"  >Enviar</button> */}
-                        <Teclado onKeyPress={handleKeyPress} />
+                                <Teclado onKeyPress={handleKeyPress} />
                             </form>
                             {/* <button onClick={()=>setShowTramites(false)}>Reset show tramites</button> */}
 
@@ -137,14 +217,15 @@ export const HomeTeclado = () => {
                     :
                     <>
 
-                        <Tramites handlePrintTurnoDni={handlePrintTurnoDni} handleShowTramites={handleShowTramites} />
+                        {/* <Tramites handlePrintTurnoDni={handlePrintTurnoDni} handleShowTramites={handleShowTramites} /> */}
+                        <button onClick={handlePrintTurnoDni}>IMPRIMIR </button>
                         {/* <button onClick={()=>setShowTramites(false)}>Reset show tramites</button> */}
 
                     </>
             }
 
             {
-                turnoDniReceived !== null && <h1 id='turnoDniToPrint' style={{ color: 'transparent', textAlign: "center" }} >TURNO: {turnoDniReceived.nroTurno} - DNI: {turnoDniReceived.dni}</h1>
+                actualUserTurnoDni !== null && <h1 id='turnoDniToPrint' style={{ color: 'blue', textAlign: "center" }} >TURNO: {actualUserTurnoDni.nroTurno} - DNI: {actualUserTurnoDni.dni}</h1>
             }
 
             {/* <h4>Dni que se esta enviando: {dni}</h4> */}

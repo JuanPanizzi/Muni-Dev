@@ -39,12 +39,13 @@ export class QueueGateway implements OnModuleInit {
     
   }
   
+    
   
       //1.Acá se reciben dnis desde la pantalla de usuarios, se guardan en un array, y luego se envian a pantalla central
       @SubscribeMessage('sendDni')
       handleDni(
         @MessageBody() turnoDni: TurnoDni,
-        @ConnectedSocket() client: Socket
+        @ConnectedSocket() client: Socket,
       ){
 
         const {dni, nroTurno} = turnoDni;
@@ -54,14 +55,26 @@ export class QueueGateway implements OnModuleInit {
 
 
         // this.server.to().emit('mensajeSalienteParaHome', 'Este es el mensaje saliente')
-        const turnoDniResponse = turnoDni;
-        client.emit('respuestaDni', turnoDniResponse);
+        // const turnoDniResponse = turnoDni;
+        // client.emit('respuestaDni', turnoDniResponse);
+
+          // client.emit('sendDni', "got it")
 
         //2. Se envian todos los turnoDni a la pantalla central OJO QUE TAMBIEN SE MANDAN A HOME
         // this.server.to('pantallaRoom').emit('sendAllDnis', this.queueService.getUsers())
 
-        this.server.to('pantallaRoom').emit('sendNewDni', turnoDni)
+   // Ejemplo de respuesta
 
+        if(turnoDni){
+          console.log('abajo turnoDni que llega desde Home')
+          console.log(turnoDni)
+          this.server.to('pantallaRoom').emit('sendNewDni', turnoDni)
+        }
+        const response = {
+          status: "success",
+          message: "'DNI recibido exitosamente'" 
+        }
+        return response
         
       }
 

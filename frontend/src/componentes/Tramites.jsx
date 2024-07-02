@@ -4,6 +4,7 @@ export const Tramites = ({handlePrintTurnoDni, handleShowTramites}) => {
 
 
    const [showImprimirTurno, setshowImprimirTurno] = useState(false); 
+
    const [imprimiendo, setImprimiendo] = useState(false); 
 
   const enviarImpresion = () => {
@@ -32,7 +33,11 @@ export const Tramites = ({handlePrintTurnoDni, handleShowTramites}) => {
 
     <div className='bg-cv-verde-oscuro w-2/3 m-auto rounded-xl mt-16 p-5 text-center'>
         <h2 className='text-white text-3xl mt-2 mb-10'>IMPRIMA SU NÚMERO DE TURNO</h2>
-        <button onClick={enviarImpresion} className='px-10 py-5 bg-cv-celeste-claro rounded-xl hover:bg-cv-celeste-oscuro '>IMPRIMIR</button>
+
+        {/* <button onClick={enviarImpresion} className='px-10 py-5 bg-cv-celeste-claro rounded-xl hover:bg-cv-celeste-oscuro '>IMPRIMIR</button> */}
+        <button onClick={handlePrintTurnoDni} className='px-10 py-5 bg-cv-celeste-claro rounded-xl hover:bg-cv-celeste-oscuro '>IMPRIMIR</button>
+
+
     </div>
     {
     imprimiendo && 
