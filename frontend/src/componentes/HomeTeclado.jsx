@@ -14,7 +14,6 @@ const socket = io('/');
 
 export const HomeTeclado = () => {
 
-
     //USE STATES
     const [dni, setDni] = useState(null);
     const [printError, setPrintError] = useState(null); 
