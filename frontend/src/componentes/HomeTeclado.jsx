@@ -46,6 +46,7 @@ export const HomeTeclado = () => {
             // handleShowTramites(false)
             return;
         } 
+        if (!dniInputValue) return alert('no se puede enviar un dni vacío');
 
         sendDni(dniInputValue, numeroTurno)
         // console.log(`este es el dni que se le pasa a la funcion sendDni: ${dni}, y este es el nrode turno ${numeroTurno}`)
@@ -60,7 +61,6 @@ export const HomeTeclado = () => {
         //Controlar 
         
 
-        if (documento == null) return alert('no se puede enviar un dni vacío');
         setLoading(true)
         
         const actualUserTurnoDni = { dni: documento, nroTurno };
@@ -218,7 +218,10 @@ export const HomeTeclado = () => {
                     <>
 
                         {/* <Tramites handlePrintTurnoDni={handlePrintTurnoDni} handleShowTramites={handleShowTramites} /> */}
-                        <button onClick={handlePrintTurnoDni}>IMPRIMIR </button>
+                        {/* <button onClick={handlePrintTurnoDni}>IMPRIMIR </button> */}
+                        <h1 >Bienvenido a la Municipalidad de Rawson</h1>
+                        <h2>Tome asiento y será llamado por la pantalla</h2>
+                        <button onClick={()=>setShowTramites(false)}>Volver</button>
                         {/* <button onClick={()=>setShowTramites(false)}>Reset show tramites</button> */}
 
                     </>
