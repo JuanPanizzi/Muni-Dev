@@ -8,7 +8,6 @@ import Teclado from './Teclado';
 import { Navbar2 } from './Navbar2';
 import { Warning } from './Warning';
 
-
 const socket = io('/');
 
 
