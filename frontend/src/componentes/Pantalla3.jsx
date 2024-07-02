@@ -103,7 +103,7 @@ export const Pantalla3 = () => {
 
   }
 
-  //Esta funcion llama a handleIndiceStates
+  //Esta funcion llama a handleIndices
   const updateIndicesAndBoxes = (data) => {
 
     const { box } = data;
@@ -155,7 +155,7 @@ export const Pantalla3 = () => {
     socket.emit('joinPantallaRoom');
 
     socket.on('sendNewDni', (newUser) => {
-      // Recibe un dni nuevo que envia el Home al gateway y lo acumula en el array de usuarios en el localstorage
+      // Recibe un dni nuevo que envia el HomeTeclado al gateway y lo acumula en el array de usuarios en el localstorage
 
       //newUser = {dni: '221', nroTurno: 3}
       //arryUsers = [{dni: '221', nroTurno: 3}, {dni: '211', nroTurno: 5}]

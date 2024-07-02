@@ -22,7 +22,6 @@ export const Box = () => {
   const handleClick = () => {
 
     const now = Date.now();
-    console.log(now)
 
     if (now - lastClick < 10000) {
       console.log(`Now: ${now} - LastClick: ${lastClick} = ${now - lastClick}`)

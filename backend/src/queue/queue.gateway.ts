@@ -41,7 +41,7 @@ export class QueueGateway implements OnModuleInit {
   
     
   
-      //1.Acá se reciben dnis desde la pantalla de usuarios, se guardan en un array, y luego se envian a pantalla central
+      //1.Acá se reciben dnis desde la pantalla de usuarios, se guardaBAN en un array, y luego se envian a pantalla central
       @SubscribeMessage('sendDni')
       handleDni(
         @MessageBody() turnoDni: TurnoDni,
