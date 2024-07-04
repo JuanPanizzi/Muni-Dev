@@ -27,7 +27,6 @@ export const HomeTeclado = () => {
         return storedNumeroTurno && storedNumeroTurno < 100 ? parseInt(storedNumeroTurno) : 1;
     });
 
-    const [actualUserTurnoDni, setActualUserTurnoDni] = useState(null);
 
     //FIN USESTATES
 
@@ -37,54 +36,34 @@ export const HomeTeclado = () => {
         e.preventDefault();
         //cuando se hace un submit, en la funcion sendDni de abajo se envia el documento al websocket (con el numero de turno asociado) y se aumenta el state numeroTurno, y eso dispara el useEffect de abajo que lo que hace es guardar en el local storage el nuevo numero de turno
 
-        if (!navigator.onLine){
+        if (!navigator.onLine) {
             setInternetConnection(false);
             // handleShowTramites(false)
             return;
-        } 
+        }
         if (!nameInputValue) return alert('no se puede enviar un dni vacío');
 
         sendDni(nameInputValue, numeroTurno)
         // console.log(`este es el dni que se le pasa a la funcion sendDni: ${dni}, y este es el nrode turno ${numeroTurno}`)
         setNameInputValue('')
-            handleShowTramites(true)
+        handleShowTramites(true)
     }
 
 
-
     const sendDni = (documento, nroTurno) => {
-        //Controlar si el mensaje llega al servidor
-        //Controlar 
-        
 
         setLoading(true)
-        
+
         const actualUserTurnoDni = { dni: documento, nroTurno };
 
-        socket.timeout(4000).emit("sendDni", actualUserTurnoDni, (err, response) => {
 
-            if (err) {
-                setLoading(false)
-                handleShowTramites(false)
-                setServerConnection(false)
-                console.log('El mensaje no se recibió ')
-                // the other side did not acknowledge the event in the given delay
-            } else {
-                setActualUserTurnoDni(actualUserTurnoDni)
-                setTimeout(() => {
-                    setLoading(false)
-                }, 2000);
-            }
-        });
+        socket.emit('sendDni', actualUserTurnoDni)
 
-        // documento == null ?
-        //     alert('no se puede enviar un dni vacio') :
-        //     socket.emit('sendDni', { dni: documento, nroTurno });
-        // //Aca se recibe lo que se manda para chequear que eso llegó
-        // socket.on('respuestaDni', (turnoDniResponse) => {
-        //         setActualUserTurnoDni(turnoDniResponse)
-        //     // const { dni: dniRecibido, nroTurno: nroTurnoRecibido } = turnoDniResponse;
-        // })
+        socket.on('receivedDni', message =>{
+
+            console.log(message)
+            setLoading(false)
+        })
 
         setNumeroTurno((prevNumeroTurno) => {
             return prevNumeroTurno > 98 ? 1 : prevNumeroTurno + 1;
@@ -104,7 +83,7 @@ export const HomeTeclado = () => {
             setNameInputValue(nameInputValue + key);
         }
     };
-    
+
     // REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR 
     // ¿PORQUE ESTOY SUSCRITO A ESTE sendAllDni?
     useEffect(() => {
@@ -151,7 +130,7 @@ export const HomeTeclado = () => {
         )
     }
 
-    
+
 
 
 
@@ -190,7 +169,7 @@ export const HomeTeclado = () => {
 
                         <h1 >Bienvenido a la Municipalidad de Rawson</h1>
                         <h2>Tome asiento y será llamado por la pantalla</h2>
-                        <button onClick={()=>setShowTramites(false)}>Volver</button>
+                        <button onClick={() => setShowTramites(false)}>Volver</button>
                         {/* <button onClick={()=>setShowTramites(false)}>Reset show tramites</button> */}
 
                     </>

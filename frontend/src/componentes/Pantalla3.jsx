@@ -31,7 +31,7 @@ export const Pantalla3 = () => {
   // const [indiceGlobal, setIndiceGlobal] = useState(-1);
   const [indiceGlobal, setIndiceGlobal] = useState(() => {
     const indiceStorage = localStorage.getItem('indiceGlobalStorage');
-    console.log(`indiceStorage es: ${indiceStorage}`)
+    // console.log(`indiceStorage es: ${indiceStorage}`)
     return indiceStorage ? parseInt(indiceStorage) : -1;
   });
 
@@ -154,7 +154,7 @@ export const Pantalla3 = () => {
 
     socket.emit('joinPantallaRoom');
 
-    socket.on('sendNewDni', (newUser) => {
+    socket.on('sendNewDni', (newUser, callback) => {
       // Recibe un dni nuevo que envia el HomeTeclado al gateway y lo acumula en el array de usuarios en el localstorage
 
       //newUser = {dni: '221', nroTurno: 3}
@@ -171,7 +171,15 @@ export const Pantalla3 = () => {
       if (!showUsers) {
         setShowUsers(true);
       }
+      
+        console.log(newUser); // { foo: 'bar' }
 
+        callback({
+          status: 'ok'
+        })
+
+        // socket.emit('dniConfirmed', { success: true, message: 'DNI almacenado exitosamente' });
+      
     })
 
 
