@@ -31,9 +31,18 @@ export class QueueGateway implements OnModuleInit {
       });
 
 
-      socket.on('disconnect', () => {
+      socket.once('disconnect', () => {
         console.log('cliente desconectado')
       })
+
+
+      socket.on('sendDni', (turnoDni, callback)=>{
+
+        callback({
+          status: "ok"
+        })
+      })
+
     })
 
 

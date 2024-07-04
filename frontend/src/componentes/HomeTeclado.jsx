@@ -51,18 +51,31 @@ export const HomeTeclado = () => {
 
 
     const sendDni = (documento, nroTurno) => {
-
+// Esta funcion envía el turnoDni al server, el server se lo envia a pantalla y espera que le responda en cierto tiempo. Sino responde pantalla en un timeout el server responde con un message: error
         setLoading(true)
 
         const actualUserTurnoDni = { dni: documento, nroTurno };
 
 
-        socket.emit('sendDni', actualUserTurnoDni)
+        socket.timeout(7000).emit('sendDni', actualUserTurnoDni, (err, res)=>{
 
-        socket.on('receivedDni', message =>{
+            if(err){
+                setServerConnection(false)
+            }
+        })
 
-            console.log(message)
-            setLoading(false)
+        socket.once('receivedDni', mssge =>{
+            //mssge = {status: "ok"/"error", message: "pantalla si/no ha respondido a tiempo"})
+
+            if(mssge.status == 'error'){
+                setServerConnection(false)
+            }else{
+                
+                setLoading(true)
+                setTimeout(() => {
+                    setLoading(false)
+                }, 2000);
+            }
         })
 
         setNumeroTurno((prevNumeroTurno) => {
@@ -166,10 +179,11 @@ export const HomeTeclado = () => {
                     </>
                     :
                     <>
-
-                        <h1 >Bienvenido a la Municipalidad de Rawson</h1>
+                        <div className='text-center mt-10'>
+                        <h1 className=''>Bienvenido a la Municipalidad de Rawson</h1>
                         <h2>Tome asiento y será llamado por la pantalla</h2>
-                        <button onClick={() => setShowTramites(false)}>Volver</button>
+                        <button onClick={() => setShowTramites(false)} >Volver</button>
+                        </div>
                         {/* <button onClick={()=>setShowTramites(false)}>Reset show tramites</button> */}
 
                     </>
