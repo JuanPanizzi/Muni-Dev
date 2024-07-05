@@ -79,8 +79,6 @@ export class QueueGateway implements OnModuleInit {
   //         message: "Respuesta recibida correctamente desde pantalla. Este es un mensaje enviado desde queue"
   //       });
   //     });
-
-
   //     return {mensaje: 'Holaa'}
   // } );
   @SubscribeMessage('sendDni')
