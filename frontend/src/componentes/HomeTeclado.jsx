@@ -123,7 +123,7 @@ export const HomeTeclado = () => {
         return (
             <>
                 <Warning warn={"NO HAY CONEXION"} />
-                <button onClick={() => setInternetConnection(true)}>Intente Nuevamente</button>
+                <button className='rounded-full mx-auto px-3 py-2 bg-cv-celeste-claro' onClick={() => setInternetConnection(true)}>Intente Nuevamente</button>
             </>
         )
     }
@@ -131,7 +131,7 @@ export const HomeTeclado = () => {
         return (
             <>
                 <Warning warn={"NO HAY CONEXION CON EL SERVIDOR INTENTE DE NUEVO..."} />
-                <button onClick={() => setServerConnection(true)}>Intente Nuevamente</button>
+                <button className='rounded-full mx-auto px-3 py-2 bg-cv-celeste-claro' onClick={() => setServerConnection(true)}>Intente Nuevamente</button>
             </>
 
         )
@@ -179,10 +179,10 @@ export const HomeTeclado = () => {
                     </>
                     :
                     <>
-                        <div className='text-center mt-10'>
-                        <h1 className=''>Bienvenido a la Municipalidad de Rawson</h1>
-                        <h2>Tome asiento y será llamado por la pantalla</h2>
-                        <button onClick={() => setShowTramites(false)} >Volver</button>
+                        <div className='text-center mt-10 text-4xl text-white bg-cv-verde-oscuro p-5 rounded-xl w-2/3 mx-auto '>
+                        <h1 >Bienvenido a la Municipalidad de Rawson</h1>
+                        <h2 className='my-4'>Tome asiento y será llamado por la pantalla</h2>
+                        <button onClick={() => setShowTramites(false)} className='rounded-full p-10 bg-cv-celeste-claro'>Volver</button>
                         </div>
                         {/* <button onClick={()=>setShowTramites(false)}>Reset show tramites</button> */}
 
