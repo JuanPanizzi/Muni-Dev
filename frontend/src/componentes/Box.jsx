@@ -6,7 +6,7 @@ import { Navbar2 } from './Navbar2';
 
 
 // const socket = io('https://municipalidad-rawson-server.onrender.com');
-const socket = io('/');
+const socket = io('https://municipalidad-rawson-server.onrender.com');
 
 
 export const Box = () => {
