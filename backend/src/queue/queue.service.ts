@@ -18,6 +18,7 @@ export class QueueService {
         return this.usuarios;
     }
 
+    
     resetUsers(){
         console.log('queueService-resetUsers() ejecutado')
         this.usuarios.splice(0, this.usuarios.length);
