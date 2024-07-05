@@ -50,6 +50,8 @@ export const HomeTeclado = () => {
 
     const sendDni = (documento, nroTurno) => {
 // Esta funcion envía el turnoDni al server, el server se lo envia a pantalla y espera que le responda en cierto tiempo. Sino responde pantalla en un timeout el server responde con un message: error
+console.log('se ejecuta function dni')
+
         setLoading(true)
 
         const actualUserTurnoDni = { dni: documento, nroTurno };
@@ -57,7 +59,9 @@ export const HomeTeclado = () => {
 
         socket.timeout(7000).emit('sendDni', actualUserTurnoDni, (err, res)=>{
 
+            console.log('se emite send dni')
             if(err){
+                console.log('el servidor no ha respondido a tiempo en timeout(7000)')
                 setServerConnection(false)
             }else{
                 console.log('EL SERVIDOR RESPONDIO CORRECTAMENTE')
