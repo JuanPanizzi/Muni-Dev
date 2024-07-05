@@ -4,7 +4,7 @@ import { QueueService } from './queue.service';
 import { Server, Socket } from 'socket.io';
 import { OnModuleInit } from '@nestjs/common';
 import { MensajeNextUser } from 'src/interfaces/message';
-import { TurnoDni } from 'src/interfaces/turnoDni';
+import { TurnoDni } from 'src/interfaces/TurnoDni';
 
 @WebSocketGateway({ cors: 'https://municipalidad-client.vercel.app/'})
 export class QueueGateway implements OnModuleInit {
