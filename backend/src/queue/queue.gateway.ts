@@ -44,43 +44,8 @@ export class QueueGateway implements OnModuleInit {
       })
 
     })
-
-
-    
-
-
   }
 
-
-
-  //1.Acá se reciben dnis desde la pantalla de usuarios, se guardaBAN en un array, y luego se envian a pantalla central
-  //   @SubscribeMessage('sendDni')
-  //   async handleDni(
-  //     @MessageBody() turnoDni: TurnoDni,
-  //     @ConnectedSocket() client: Socket,
-
-  //   ) {
-
-
-  // };
-
-  // this.server.to('pantallaRoom').emit('sendNewDni', turnoDni , (err: any, res: { message: any; })=>{
-
-  //     console.log('Se recibio una respuesta de parte de pantalla')
-  //     console.log(res.message)
-
-  //     // Emitir respuesta a HomeTeclado
-  //     this.server.once('dniConfirmed', (confirmation) => {
-  //       console.log('mensaje recibido de pantalla abajo:')
-  //       console.log(confirmation.message)
-
-  //       client.emit('dniConfirmed', {
-  //         status: "success",
-  //         message: "Respuesta recibida correctamente desde pantalla. Este es un mensaje enviado desde queue"
-  //       });
-  //     });
-  //     return {mensaje: 'Holaa'}
-  // } );
   @SubscribeMessage('sendDni')
   handleDni(
     @MessageBody() turnoDni: TurnoDni,

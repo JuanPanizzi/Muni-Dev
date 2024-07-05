@@ -71,10 +71,10 @@ console.log('se ejecuta function dni')
         socket.once('receivedDni', mssge =>{
             //mssge = {status: "ok"/"error", message: "pantalla si/no ha respondido a tiempo"})
 
-            if(mssge.status == 'error'){
+            if(mssge.status === 'error'){
                 console.log('pantalla no respondio')
                 setServerConnection(false)
-            }else if(mssge.status == 'ok'){
+            }else if(mssge.status === 'ok'){
 
                 console.log(`pantalla respondio: ${mssge.status}`)
                 setLoading(true)
