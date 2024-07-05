@@ -1,11 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 // import '../styles/Pantalla.css'
 import io from 'socket.io-client'
-import { ToPrint } from './ToPrint';
-import print from 'print-js'
-import printJS from 'print-js';
-import { Navbar } from './Navbar';
-import { Tabla } from './Tabla';
 import { Navbar2 } from './Navbar2';
 
 const socket = io('/');
