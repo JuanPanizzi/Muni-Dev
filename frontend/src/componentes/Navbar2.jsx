@@ -1,7 +1,7 @@
 import React from 'react'
 
 import logoMuni from '../assets/escudoMuni.webp'
-import lanuevacapi from '../assets/lanuevacap.png'
+
 
 export const Navbar2 = () => {
     return (
