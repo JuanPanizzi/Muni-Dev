@@ -58,6 +58,8 @@ export const HomeTeclado = () => {
 
             if(err){
                 setServerConnection(false)
+            }else{
+                console.log('EL SERVIDOR RESPONDIO CORRECTAMENTE')
             }
         })
 

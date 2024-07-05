@@ -37,6 +37,7 @@ export class QueueGateway implements OnModuleInit {
 
       socket.on('sendDni', (turnoDni, callback)=>{
 
+        console.log('SE ESCUCHA ARRIBA')
         callback({
           status: "ok"
         })
@@ -87,6 +88,8 @@ export class QueueGateway implements OnModuleInit {
     @MessageBody() turnoDni: TurnoDni,
     @ConnectedSocket() client: Socket,
   ) {
+
+    console.log('SE ESCUCHA ABAJO')
 
     this.server.timeout(5000).to('pantallaRoom').emit('sendNewDni', turnoDni, (err: any, res: any)=>{
 

@@ -167,7 +167,8 @@ export const Pantalla3 = () => {
         setShowUsers(true);
       }
       
-        console.log(newUser); // { foo: 'bar' }
+      console.log('PANTALLA RESPONDE OK')
+      // { foo: 'bar' }
 
         callback({
           status: 'ok'
