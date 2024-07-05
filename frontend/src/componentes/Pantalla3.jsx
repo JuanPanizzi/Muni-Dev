@@ -31,7 +31,7 @@ export const Pantalla3 = () => {
   // const [indiceGlobal, setIndiceGlobal] = useState(-1);
   const [indiceGlobal, setIndiceGlobal] = useState(() => {
     const indiceStorage = localStorage.getItem('indiceGlobalStorage');
-    console.log(`indiceStorage es: ${indiceStorage}`)
+    // console.log(`indiceStorage es: ${indiceStorage}`)
     return indiceStorage ? parseInt(indiceStorage) : -1;
   });
 
@@ -103,7 +103,7 @@ export const Pantalla3 = () => {
 
   }
 
-  //Esta funcion llama a handleIndiceStates
+  //Esta funcion llama a handleIndices
   const updateIndicesAndBoxes = (data) => {
 
     const { box } = data;
@@ -154,8 +154,8 @@ export const Pantalla3 = () => {
 
     socket.emit('joinPantallaRoom');
 
-    socket.on('sendNewDni', (newUser) => {
-      // Recibe un dni nuevo que envia el Home al gateway y lo acumula en el array de usuarios en el localstorage
+    socket.on('sendNewDni', (newUser, callback) => {
+      // Recibe un dni nuevo que envia el HomeTeclado al gateway y lo acumula en el array de usuarios en el localstorage
 
       //newUser = {dni: '221', nroTurno: 3}
       //arryUsers = [{dni: '221', nroTurno: 3}, {dni: '211', nroTurno: 5}]
@@ -171,7 +171,15 @@ export const Pantalla3 = () => {
       if (!showUsers) {
         setShowUsers(true);
       }
+      
+        console.log(newUser); // { foo: 'bar' }
 
+        callback({
+          status: 'ok'
+        })
+
+        // socket.emit('dniConfirmed', { success: true, message: 'DNI almacenado exitosamente' });
+      
     })
 
 
@@ -222,8 +230,8 @@ export const Pantalla3 = () => {
               <table className="min-w-full bg-cv-celeste-oscuro text-sm  ">
                 <thead className="ltr:text-left rtl:text-right text-3xl ">
                   <tr className='bg-cv-verde-oscuro '>
-                    <th className="whitespace-nowrap px-4 py-5 font-medium text-white rounded-l-lg">TURNO</th>
-                    <th className="whitespace-nowrap px-4 py-5 font-medium text-white ">DNI</th>
+                    {/* <th className="whitespace-nowrap px-4 py-5 font-medium text-white rounded-l-lg">TURNO</th> */}
+                    <th className="whitespace-nowrap px-4 py-5 font-medium text-white ">NOMBRE</th>
                     <th className="whitespace-nowrap px-20 py-5 font-medium text-white "> </th>
                     <th className="whitespace-nowrap px-4 py-5 font-medium text-white rounded-r-lg">BOX</th>
                   </tr>
@@ -253,7 +261,7 @@ export const Pantalla3 = () => {
                         <td className="whitespace-nowrap px-4 py-3 ">  </td>
                       </tr>
                       <tr className=' text-center text-4xl bg-cv-celeste-claro rounded-lg'>
-                        <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 rounded-l-lg">{turnoDni[indiceBox1.indice].nroTurno}</td>
+                        {/* <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 rounded-l-lg">{turnoDni[indiceBox1.indice].nroTurno}</td> */}
                         <td className="whitespace-nowrap px-4 py-4 ">{turnoDni[indiceBox1.indice].dni}</td>
                         <td className="whitespace-nowrap px-20 py-4 "></td>
                         <td className="whitespace-nowrap px-4 py-4  rounded-r-lg"> {indiceBox1.nroBox} </td>
@@ -272,7 +280,7 @@ export const Pantalla3 = () => {
                         <td className="whitespace-nowrap px-4 py-3 text-gray-700">  </td>
                       </tr>
                       <tr className=' text-center text-4xl bg-cv-celeste-claro rounded-lg'>
-                        <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 rounded-l-lg"> {turnoDni[indiceBox2.indice].nroTurno}</td>
+                        {/* <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 rounded-l-lg"> {turnoDni[indiceBox2.indice].nroTurno}</td> */}
                         <td className="whitespace-nowrap px-4 py-4 ">{turnoDni[indiceBox2.indice].dni}</td>
                         <td className="whitespace-nowrap px-20 py-4 "></td>
                         <td className="whitespace-nowrap px-4 py-4  rounded-r-lg"> {indiceBox2.nroBox}</td>
@@ -290,7 +298,7 @@ export const Pantalla3 = () => {
                         <td className="whitespace-nowrap px-4 py-3 text-gray-700">  </td>
                       </tr>
                       <tr className=' text-center text-4xl bg-cv-celeste-claro rounded-lg'>
-                        <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 rounded-l-lg">{turnoDni[indiceBox3.indice].nroTurno}</td>
+                        {/* <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 rounded-l-lg">{turnoDni[indiceBox3.indice].nroTurno}</td> */}
                         <td className="whitespace-nowrap px-4 py-4 ">{turnoDni[indiceBox3.indice].dni}</td>
                         <td className="whitespace-nowrap px-20 py-4 "></td>
                         <td className="whitespace-nowrap px-4 py-4  rounded-r-lg"> {indiceBox3.nroBox} </td>
@@ -309,7 +317,7 @@ export const Pantalla3 = () => {
                       </tr>
 
                       <tr className=' text-center text-4xl bg-cv-celeste-claro rounded-lg'>
-                        <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 rounded-l-lg">{turnoDni[indiceBox4.indice].nroTurno}</td>
+                        {/* <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 rounded-l-lg">{turnoDni[indiceBox4.indice].nroTurno}</td> */}
                         <td className="whitespace-nowrap px-4 py-4 ">{turnoDni[indiceBox4.indice].dni}</td>
                         <td className="whitespace-nowrap px-20 py-4 "></td>
                         <td className="whitespace-nowrap px-4 py-4  rounded-r-lg"> {indiceBox4.nroBox}</td>
