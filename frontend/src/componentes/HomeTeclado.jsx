@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import io from 'socket.io-client'
-import { Tramites } from './Tramites';
-// import '../styles/Home.css'
 import Teclado from './Teclado';
-// import { Navbar } from './Navbar';
 import { Navbar2 } from './Navbar2';
 import { Warning } from './Warning';
 
