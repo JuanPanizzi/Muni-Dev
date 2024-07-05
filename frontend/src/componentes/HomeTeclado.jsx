@@ -4,7 +4,7 @@ import Teclado from './Teclado';
 import { Navbar2 } from './Navbar2';
 import { Warning } from './Warning';
 
-const socket = io('https://municipalidad-rawson-server.onrender.com');
+const socket = io('/');
 
 
 export const HomeTeclado = () => {
