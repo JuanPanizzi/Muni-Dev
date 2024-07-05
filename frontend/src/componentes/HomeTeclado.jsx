@@ -72,9 +72,10 @@ console.log('se ejecuta function dni')
             //mssge = {status: "ok"/"error", message: "pantalla si/no ha respondido a tiempo"})
 
             if(mssge.status == 'error'){
+                console.log('pantalla no respondio')
                 setServerConnection(false)
             }else{
-                
+                console.log('pantalla respondio')
                 setLoading(true)
                 setTimeout(() => {
                     setLoading(false)
