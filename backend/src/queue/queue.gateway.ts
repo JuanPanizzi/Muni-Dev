@@ -6,7 +6,8 @@ import { OnModuleInit } from '@nestjs/common';
 import { MensajeNextUser } from 'src/interfaces/message';
 import { TurnoDni } from 'src/interfaces/TurnoDni';
 
-@WebSocketGateway({ cors: 'https://municipalidad-client.vercel.app/'})
+
+@WebSocketGateway({ cors: 'https://municipalidad-client.vercel.app/' })
 export class QueueGateway implements OnModuleInit {
 
   @WebSocketServer()
@@ -14,59 +15,79 @@ export class QueueGateway implements OnModuleInit {
 
   constructor(private readonly queueService: QueueService) { }
 
+
+
   onModuleInit() {
 
     //Se escuchan todas las conexiones de todos los sockets - Pantalla usuario, pantalla central y boxes
 
     this.server.on('connection', (socket: Socket) => {
-      
+
+      const { deviceType, deviceId } = socket.handshake.query;
+
+      //Primera barrera - se controla que la conexion ande
+      // socket.on('sendDni', (turnoDni, callback)=>{
+      //   callback({
+      //     status: "ok"
+      //   })
+      // })
+
+      //Segunda barrera - se controla que el mensaje desde hometeclado llegue bien a pantalla
+
+
+
       // console.log(`socket conectado: ${socket.id}`)
 
-      //OJO QUE ACA ESTOY UNIENDO A TODOS LOS SOCKETS QUE SE CONECTAN A ESTA PANTALLA
-
+      //SE UNE PANTALLA A LA ESTA SALA
       socket.on('joinPantallaRoom', () => {
-        socket.join('pantallaRoom');
-        console.log('Cliente se ha unido a la sala "pantallaRoom"');
+        if (deviceType === 'pantalla') {
+          socket.join('pantallaRoom');
+          console.log('socket pantalla se ha unido a la sala pantallaRoom')
+        }
       });
 
-
       socket.once('disconnect', () => {
-        console.log('cliente desconectado')
+        console.log(`cliente desconectado ${socket.id}`)
+
+        if (deviceType === 'pantalla') {
+          console.log('Dispositivo pantalla abandonó la conexión con el servidor')
+        }
+
       })
 
 
-      socket.on('sendDni', (turnoDni, callback)=>{
-
-        console.log('SE ESCUCHA ARRIBA')
-        callback({
-          status: "ok"
-        })
-      })
 
     })
   }
 
+
   @SubscribeMessage('sendDni')
-  handleDni(
+  async handleDni(
     @MessageBody() turnoDni: TurnoDni,
     @ConnectedSocket() client: Socket,
   ) {
 
-    console.log('SE ESCUCHA ABAJO')
+    // let serverMessage = false;
 
-    this.server.timeout(5000).to('pantallaRoom').emit('sendNewDni', turnoDni, (err: any, res: any)=>{
-
-
-      if(err){
-
-        client.emit('receivedDni', {status: "error", message: "pantalla no ha respondido a tiempo"})
-      }else{
-        console.log(res.status)
-        client.emit('receivedDni', {status: "ok", message: "pantalla ha respondido correctamente"})
+    try {
+      console.log('entra en el try')
+      const response = await this.server.timeout(2000).to('pantallaRoom').emitWithAck('sendNewDni', {turnoDni: turnoDni}, 'baz' )
+      console.log('abajo response.status:')
+      console.log(response[0].status) //should be "ok"
+      // serverMessage = true;
+      if(response[0].status == 'ok'){
+        client.emit('responseDniStatus', {dniStatus: 'pantalla recibio el mensaje'})
       }
-    });
+    } catch (error) {
+      console.log('Catch: Pantalla no respondio')
+      client.emit('responseDniStatus', {dniStatus: 'pantalla no recibio el mensaje'})
+    }
 
+    //esto es para usar si se usa un timeout en el compoente hometeclado en la parte del socket.emit 'sendDni'
+    // if(serverMessage) return { serverMessage: "Mensaje recibido correctamente" }
+  
     
+    return { serverMessage: "Mensaje recibido correctamente" }
 
   }
 

@@ -4,8 +4,8 @@ import Teclado from './Teclado';
 import { Navbar2 } from './Navbar2';
 import { Warning } from './Warning';
 
-// const socket = io('/');
-const socket = io('https://municipalidad-rawson-server.onrender.com');
+const socket = io('/');
+// const socket = io('https://municipalidad-rawson-server.onrender.com');
 
 
 export const HomeTeclado = () => {
@@ -57,27 +57,42 @@ console.log('se ejecuta function dni')
         const actualUserTurnoDni = { dni: documento, nroTurno };
 
 
-        socket.timeout(7000).emit('sendDni', actualUserTurnoDni, (err, res)=>{
+        // socket.timeout(10000).emit('sendDni', actualUserTurnoDni, (err, res)=>{
 
-            console.log('se emite send dni')
+        //     if(err){
+        //         console.log('el servidor no ha respondido a tiempo en timeout(4000)')
+        //         setServerConnection(false)
+        //     }else{
+        //         console.log('EL SERVIDOR RESPONDIO CORRECTAMENTE ABAJO ESTA LA RESPUESTA')
+        //         console.log(res.serverMessage)
+        //         setTimeout(() => {
+                    
+        //             setLoading(false)
+        //         }, 2000);
+        //     }
+        // })
+
+        
+        socket.timeout(10000).emit('sendDni', actualUserTurnoDni, (err, res)=>{
+            //La autenticación funciona así: se envia usuario (actualUserTudnoDni) al servidor. Y se necesita hacer 2 comprobaciones, la primera para ver si el servidor responde, si esta conectado. Si en 10s no responde, entra en el err. Se tiene que hacer porque la segunda validacion se basa en ver si  la pantalla recibio el usuario correctamente, y esto se verifica escuchando el evento que esta mas abajo 'responseDniStatus'. Se escucha el evento 'responseDniStatus' y nos avisa si la pantalla respondio o no respondio. ¿pero si el servidor no puede responder porque no esta conectado? Bueno para eso esta primera validacion. Y bueno una vez que pasa esta primera validacion, se espera la respuesta del servidor para ver si pantalla respondio o no.
+
             if(err){
-                console.log('el servidor no ha respondido a tiempo en timeout(7000)')
+                console.log('No se puedo establecer la conexión con el servidor')
                 setServerConnection(false)
             }else{
-                console.log('EL SERVIDOR RESPONDIO CORRECTAMENTE')
+                console.log(res)
+                console.log('el queue gateway respondio correctamente')
             }
         })
 
-        socket.once('receivedDni', mssge =>{
-            //mssge = {status: "ok"/"error", message: "pantalla si/no ha respondido a tiempo"})
+        socket.once('responseDniStatus', status =>{
 
-            if(mssge.status === 'error'){
+            if(status.dniStatus === 'pantalla no recibio el mensaje'){
                 console.log('pantalla no respondio')
                 setServerConnection(false)
-            }else if(mssge.status === 'ok'){
-
-                console.log(`pantalla respondio: ${mssge.status}`)
-                setLoading(true)
+            }else if(status.dniStatus === 'pantalla recibio el mensaje'){
+                // console.log(`pantalla respondio: ${status.dniStatus}`)
+                // setLoading(true)
                 setTimeout(() => {
                     setLoading(false)
                 }, 2000);

@@ -3,8 +3,13 @@ import { useEffect, useRef, useState } from 'react'
 import io from 'socket.io-client'
 import { Navbar2 } from './Navbar2';
 
-// const socket = io('/');
-const socket = io('https://municipalidad-rawson-server.onrender.com');
+const socket = io('/', {
+  query: {
+    deviceType: 'pantalla',  // Identificador del tipo de dispositivo
+    deviceId: '25',  // Identificador único del dispositivo
+  }
+});
+// const socket = io('https://municipalidad-rawson-server.onrender.com');
 
 export const Pantalla3 = () => {
 
@@ -150,9 +155,11 @@ export const Pantalla3 = () => {
 
     socket.emit('joinPantallaRoom');
 
-    socket.on('sendNewDni', (newUser, callback) => {
+    socket.on('sendNewDni', (arg1, arg2, callback) => {
       // Recibe un dni nuevo que envia el HomeTeclado al gateway y lo acumula en el array de usuarios en el localstorage
-
+      console.log('new user que llega')
+      const newUser = arg1.turnoDni
+      console.log(newUser)
       //newUser = {dni: '221', nroTurno: 3}
       //arryUsers = [{dni: '221', nroTurno: 3}, {dni: '211', nroTurno: 5}]
       // localStorage.setItem('turnoDniStorage', JSON.stringify(arryUsers));
@@ -167,16 +174,15 @@ export const Pantalla3 = () => {
       if (!showUsers) {
         setShowUsers(true);
       }
-      
+
       console.log('PANTALLA RESPONDE OK')
-      // { foo: 'bar' }
 
-        callback({
-          status: 'ok'
-        })
+      callback({
+        status: 'ok'
+      })
 
-        // socket.emit('dniConfirmed', { success: true, message: 'DNI almacenado exitosamente' });
-      
+      // socket.emit('dniConfirmed', { success: true, message: 'DNI almacenado exitosamente' });
+
     })
 
 
@@ -316,7 +322,7 @@ export const Pantalla3 = () => {
                 </tbody>
               </table>
             </div>
-           
+
           </>
 
 
@@ -325,7 +331,7 @@ export const Pantalla3 = () => {
 
       </>
 
-   
+
 
     </>
   )
