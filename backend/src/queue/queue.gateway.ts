@@ -60,7 +60,7 @@ export class QueueGateway implements OnModuleInit {
     })
   }
 
-
+//From HomeTeclado - queue - pantalla - queue - HomeTeclado
   @SubscribeMessage('sendDni')
   async handleDni(
     @MessageBody() turnoDni: TurnoDni,
@@ -70,10 +70,10 @@ export class QueueGateway implements OnModuleInit {
     // let serverMessage = false;
 
     try {
-      console.log('entra en el try')
+      //Respuesta de pantalla
       const response = await this.server.timeout(2000).to('pantallaRoom').emitWithAck('sendNewDni', {turnoDni: turnoDni}, 'baz' )
-      console.log('abajo response.status:')
-      console.log(response[0].status) //should be "ok"
+      // console.log('abajo response.status:')
+      // console.log(response[0].status) //should be "ok"
       // serverMessage = true;
       if(response[0].status == 'ok'){
         client.emit('responseDniStatus', {dniStatus: 'pantalla recibio el mensaje'})
@@ -85,28 +85,47 @@ export class QueueGateway implements OnModuleInit {
 
     //esto es para usar si se usa un timeout en el compoente hometeclado en la parte del socket.emit 'sendDni'
     // if(serverMessage) return { serverMessage: "Mensaje recibido correctamente" }
-  
+    
     
     return { serverMessage: "Mensaje recibido correctamente" }
+    //Esta respuesta no es para ver si hubo un error o no en la recepcion del mensaje que hometeclado le envia a pantalla (a traves de este gateway). Esta respuesta de abajo es para chequear que el server esta vivo y responde a tiempo, para que en el timeout(10000) que se esta ejecutando en hometeclado no caiga en el (err). Abajo en @subscribemessage('nextuser') esta explicado un poco mejor tambien. 
 
   }
 
   @SubscribeMessage('nextUser')
-  handleNextUser(
+ async handleNextUser(
     @MessageBody() message: MensajeNextUser,
     @ConnectedSocket() client: Socket
   ) {
+      const { mensaje, box } = message; //message.mensaje: 'next', box: 'id de la mesa de entradas que manda el msje'
+      // this.server.to('pantallaRoom').emit('changeNextUser', { mensaje, box })
 
-    if (message.mensaje == 'next') {
+      //AUTH 
+    try {
+      //respuesta de pantalla
+      const response = await this.server.timeout(2000).to('pantallaRoom').emitWithAck('changeNextUser', { mensaje, box }, 'fromBox' )
+     
+      const resFromPantalla = response[0].status.resultChangeUser;
 
-      const { mensaje, box } = message; //mensaje: 'next user', box: 'id de la mesa de entradas que manda el msje'
+      if(resFromPantalla == 'se cambio-llamo el usuario correctamente'){
+        client.emit('responseChangedUser', {changedUserStatus: 'se cambio-llamo el usuario correctamente'})
+      }
 
-      // const nextUser = this.queueService.getUsers()[0]
-
-      this.server.to('pantallaRoom').emit('changeNextUser', { mensaje: 'next user please', box })
-
-      // console.log(nextUser)
+      if(resFromPantalla == 'No hay mas usuarios'){
+        client.emit('responseChangedUser', {changedUserStatus: 'no hay mas usuarios para llamar'})
+      }
+      if(resFromPantalla == 'Error al llamar usuario. Compruebe la url de su dispositivo'){
+        // throw new Error('Error. No se pudo llamar al usuario. Intente nuevamente')
+        throw new Error()
+      }
+      
+    } catch (error) {
+      client.emit('responseChangedUser', {changedUserStatus: "Error al llamar usuario. Compruebe la url de su dispositivo e intente nuevamente"})
     }
+    
+    return { serverMessage: "Servidor respondiendo a tiempo" }
+    //Esta respuesta se usa para corroborar que el servidor esta respondiendo en menos de 10s, no para ver si hay un error en cuanto a la logica para llamar/cambiar al proximo usuario. De eso se encarga el try-catch de arriba. Esta respuesta es para responderle al timeout(10000) que esta en el box, para que no caiga en el (err). Para ver si hay un error en la logica para llamar/cambiar al usuario esta el try-catch de arriba y el evento 'responseChangedUser' que esta escuchando el box del otro lado. Ahi escucha si pantalla respondio/hizo el cambio correctamente 
+
 
   }
 

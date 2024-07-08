@@ -3,19 +3,20 @@ import { useEffect, useRef, useState } from 'react'
 import io from 'socket.io-client'
 import { Navbar2 } from './Navbar2';
 
-// const socket = io('/', {
-//   query: {
-//     deviceType: 'pantalla',  // Identificador del tipo de dispositivo
-//     deviceId: '25',  // Identificador único del dispositivo
-//   }
-// });
-const socket = io('https://municipalidad-rawson-server.onrender.com', {
-    query: {
-      deviceType: 'pantalla',  // Identificador del tipo de dispositivo
-      deviceId: '25',  // Identificador único del dispositivo
-    }
+const socket = io('/', {
+  query: {
+    deviceType: 'pantalla',  // Identificador del tipo de dispositivo
+    deviceId: '25',  // Identificador único del dispositivo
   }
+}
 );
+// const socket = io('https://municipalidad-rawson-server.onrender.com', {
+//     query: {
+//       deviceType: 'pantalla',  // Identificador del tipo de dispositivo
+//       deviceId: '25',  // Identificador único del dispositivo
+//     }
+//   }
+// );
 
 export const Pantalla3 = () => {
 
@@ -51,7 +52,7 @@ export const Pantalla3 = () => {
 
   const [showWarn, setShowWarn] = useState(false);
   const [showUsers, setShowUsers] = useState(false);
-
+const [noMoreUsers, setNoMoreUsers] = useState(false);
 
   const updateIndiceAndMesa = (data) => {
     //data = {mensaje: 'next user please', box} y viene de subscribe message 'nextUser' del queueGateway
@@ -116,41 +117,49 @@ export const Pantalla3 = () => {
     const { box } = data;
 
     if (prevIndiceGlobalRef.current == turnoDniRef.current.length - 1) {
-      console.log('BREAK')
+      console.log('NO HAY MAS USUARIOS EN UPDATE')
       setShowWarn(true)
-      return;
+      setNoMoreUsers(true)
+      return {resultChangeUser: "No hay mas usuarios"}
     }
 
     switch (box) {
       case '1': {
 
         handleIndices(setIndiceBox1)
+        //ya aca habria que enviar el nombre del proximo usuario asi lo ven los boxes
+        return {resultChangeUser: "se cambio-llamo el usuario correctamente"}
         break;
       }
       case '2': {
 
         handleIndices(setIndiceBox2)
+        return {resultChangeUser: "se cambio-llamo el usuario correctamente"}
+
         break;
       }
       case '3': {
 
         handleIndices(setIndiceBox3)
+        return {resultChangeUser: "se cambio-llamo el usuario correctamente"}
         break;
       }
       case '4': {
 
         handleIndices(setIndiceBox4)
+        return {resultChangeUser: "se cambio-llamo el usuario correctamente"}
         break;
       }
       default: {
 
-        alert('Error. Se debe conectar desde un dispositivo válido')
-
+        // alert('Error. Se debe conectar desde un dispositivo válido')
+        return {resultChangeUser: "Error al llamar usuario. Compruebe la url de su dispositivo"}
         break;
       }
     }
 
   }
+  
 
   //USEREF --> Se mantienen actualizados por el useEffect mas abajo
   const prevIndiceGlobalRef = useRef(indiceGlobal);
@@ -188,12 +197,20 @@ export const Pantalla3 = () => {
       })
 
       // socket.emit('dniConfirmed', { success: true, message: 'DNI almacenado exitosamente' });
-
+      setNoMoreUsers(false)
     })
 
 
     // socket.on('changeNextUser', updateIndiceAndMesa)
-    socket.on('changeNextUser', updateIndicesAndBoxes)
+    socket.on('changeNextUser', async (arg1, arg2, callback)=>{
+      //arg1 es la data: {mensaje, box}
+    const resultChangeUser = await updateIndicesAndBoxes(arg1); //{resultChangeUser: "..."}
+
+    callback({
+      status: resultChangeUser
+    })
+
+    } )
 
     // Retornar una función para limpiar la suscripción cuando el componente se desmonte
     return () => {
@@ -232,7 +249,7 @@ export const Pantalla3 = () => {
       <>
         {/* turnoDni.length > 0 && mesaDeEntradas !== null && turnoDni[indiceDni].nroTurno && */}
         {
-          turnoDni.length > 0 &&
+          turnoDni.length >= 0 &&
 
           <>
             <div className=" w-2/3 m-auto mt-12 ">
@@ -328,7 +345,9 @@ export const Pantalla3 = () => {
                 </tbody>
               </table>
             </div>
-
+            {
+             noMoreUsers && <h1 className='text-4xl text-center mt-20'>THERE IS NO MORE USERS TO SHOW </h1>
+            }
           </>
 
 
