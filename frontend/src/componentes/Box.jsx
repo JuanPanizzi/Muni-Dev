@@ -16,14 +16,15 @@ export const Box = () => {
 
   const [lastClick, setLastClick] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
-  const [serverConnectionError, setServerConnectionError] = useState(true)
+  const [serverConnectionError, setServerConnectionError] = useState(false)
   const [statusChangedUser, setStatusChangedUser] = useState('')
+  const [incomingUser, setIncomingUser] = useState(null)
 
   const nextUser = () => {
 
+    //MECANISMO DE VERIFICACION DE RECEPCION DE MENSAJES: 
+    //Funciona igual que la verificacion que se hace desde hometeclado a pantalla. Aca lo que se hace es primero esperar 10s que el servidor responda. Sino responde en 10s se emite error. Si responde, se espera la respuesta en el evento 'responseChangedUser' de mas abajo.
     socket.timeout(10000).emit('nextUser', { mensaje: 'next', box: BoxId }, (err, res) => {
-
-
       if (err) {
         setServerConnectionError(true)
       } else {
@@ -31,28 +32,32 @@ export const Box = () => {
           setServerConnectionError(false)
         }
         //console.log(res)--> {serverMessage: "Servidor respondiendo a tiempo"}
-
-        //Las res pueden ser --> {changedUserStatus: 'se cambio-llamo el usuario correctamente'} 
-        // 'no hay mas usuarios para llamar'
-        //Error al llamar usuario. Compruebe la url de su dispositivo
-
       }
 
 
     });
-
+    //Aca el Box escucha el evento 'responseChangedUser' que emite el servidor con el status del proceso de llamar a un nuevo usuario.
     socket.once('responseChangedUser', status => {
 
-      const resFromServer = status.changedUserStatus;
+      const {changedUserStatus} = status;
       //resFromServer es la respuesta del servidor sobre el status del proceso de llamar a un nuevo usuario;
-      switch (resFromServer) {
+      switch (changedUserStatus) {
         case 'se cambio-llamo el usuario correctamente':
-          setStatusChangedUser('se cambio-llamo el usuario correctamente')
+
+        console.log('COMPONENTE BOX: Entra en se cambio-llamo usuario correctamente')
+          setStatusChangedUser('se cambio-llamo el usuario correctamente');
+          // setIncomingUser(proximoUser)
+          // console.log('ESTE ES EL USUARIO QUE ESTA LLAMANDO ESTE BOX. VER SI COINCIDE CON EL QUE APARECE EN PANTALLA')
+          // console.log(proximoUser)
           break;
         case 'no hay mas usuarios para llamar':
+        console.log('COMPONENTE BOX: Entra en no hay mas usuarios para llamar')
+
           setStatusChangedUser('no hay mas usuarios para llamar')
           break;
         case 'Error al llamar usuario. Compruebe la url de su dispositivo e intente nuevamente':
+        console.log('COMPONENTE BOX: Error al llamar usuario')
+
           setStatusChangedUser('Error al llamar usuario. Compruebe la url de su dispositivo e intente nuevamente')
           break;
 

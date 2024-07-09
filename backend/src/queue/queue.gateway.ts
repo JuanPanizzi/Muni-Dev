@@ -103,18 +103,24 @@ export class QueueGateway implements OnModuleInit {
       //AUTH 
     try {
       //respuesta de pantalla
-      const response = await this.server.timeout(2000).to('pantallaRoom').emitWithAck('changeNextUser', { mensaje, box }, 'fromBox' )
+      const response = await this.server.timeout(3000).to('pantallaRoom').emitWithAck('changeNextUser', { mensaje, box }, 'baz' );
      
-      const resFromPantalla = response[0].status.resultChangeUser;
+      // const resFromPantalla = response[0].status.statusChangedUser;
+      // const nextUser = response[0].status.proximoUser
 
-      if(resFromPantalla == 'se cambio-llamo el usuario correctamente'){
+      const {statusChangedUser} = response[0].status;
+
+      if(statusChangedUser == 'se cambio-llamo el usuario correctamente'){
+        // console.log(proximoUser)
+        // client.emit('responseChangedUser', {changedUserStatus: 'se cambio-llamo el usuario correctamente', proximoUser})
         client.emit('responseChangedUser', {changedUserStatus: 'se cambio-llamo el usuario correctamente'})
+        
       }
 
-      if(resFromPantalla == 'No hay mas usuarios'){
+      if(statusChangedUser == 'No hay mas usuarios'){
         client.emit('responseChangedUser', {changedUserStatus: 'no hay mas usuarios para llamar'})
       }
-      if(resFromPantalla == 'Error al llamar usuario. Compruebe la url de su dispositivo'){
+      if(statusChangedUser == 'Error al llamar usuario. Compruebe la url de su dispositivo'){
         // throw new Error('Error. No se pudo llamar al usuario. Intente nuevamente')
         throw new Error()
       }

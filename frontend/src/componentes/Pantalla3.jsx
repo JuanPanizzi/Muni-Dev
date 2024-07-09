@@ -52,7 +52,7 @@ export const Pantalla3 = () => {
 
   const [showWarn, setShowWarn] = useState(false);
   const [showUsers, setShowUsers] = useState(false);
-const [noMoreUsers, setNoMoreUsers] = useState(false);
+  const [noMoreUsers, setNoMoreUsers] = useState(false);
 
   const updateIndiceAndMesa = (data) => {
     //data = {mensaje: 'next user please', box} y viene de subscribe message 'nextUser' del queueGateway
@@ -94,7 +94,7 @@ const [noMoreUsers, setNoMoreUsers] = useState(false);
   }
 
   //Esta funcion setea indiceGlobal e indices de los boxes
-  const handleIndices = (setIndiceBoxNumber) => {
+  const handleIndices = async (setIndiceBoxNumber) => {
 
     setIndiceGlobal((prevIndice) => {
       const newIndice = prevIndice + 1;
@@ -112,7 +112,7 @@ const [noMoreUsers, setNoMoreUsers] = useState(false);
   }
 
   //Esta funcion llama a handleIndices
-  const updateIndicesAndBoxes = (data) => {
+  const updateIndicesAndBoxes = async (data) => {
 
     const { box } = data;
 
@@ -120,46 +120,56 @@ const [noMoreUsers, setNoMoreUsers] = useState(false);
       console.log('NO HAY MAS USUARIOS EN UPDATE')
       setShowWarn(true)
       setNoMoreUsers(true)
-      return {resultChangeUser: "No hay mas usuarios"}
+
+      return { statusChangedUser: "No hay mas usuarios" }
     }
 
     switch (box) {
+
       case '1': {
 
-        handleIndices(setIndiceBox1)
+       await handleIndices(setIndiceBox1)
         //ya aca habria que enviar el nombre del proximo usuario asi lo ven los boxes
-        return {resultChangeUser: "se cambio-llamo el usuario correctamente"}
-        break;
+        console.log('En boxId: 1 el proximo user que se retorna es:')
+        // console.log(turnoDni[indiceBox1.indice].dni)
+
+        //Este return termina siendo la response en queue.gateway en el @SuscribeMessage('nextUser')
+        // return { statusChangedUser: "se cambio-llamo el usuario correctamente", proximoUser: turnoDni[indiceBox1.indice].dni }
+        return { statusChangedUser: "se cambio-llamo el usuario correctamente"}
+
+        // break;
       }
       case '2': {
 
-        handleIndices(setIndiceBox2)
-        return {resultChangeUser: "se cambio-llamo el usuario correctamente"}
+      await  handleIndices(setIndiceBox2)
 
-        break;
+        // return { statusChangedUser: "se cambio-llamo el usuario correctamente", proximoUser: turnoDni[indiceBox2.indice].dni }
+        return { statusChangedUser: "se cambio-llamo el usuario correctamente"}
+        // break;
       }
       case '3': {
 
-        handleIndices(setIndiceBox3)
-        return {resultChangeUser: "se cambio-llamo el usuario correctamente"}
-        break;
+      await  handleIndices(setIndiceBox3)
+
+        return { statusChangedUser: "se cambio-llamo el usuario correctamente" }
+        // break;
       }
       case '4': {
 
-        handleIndices(setIndiceBox4)
-        return {resultChangeUser: "se cambio-llamo el usuario correctamente"}
-        break;
+      await  handleIndices(setIndiceBox4)
+        return { statusChangedUser: "se cambio-llamo el usuario correctamente" }
+        // break;
       }
       default: {
 
         // alert('Error. Se debe conectar desde un dispositivo válido')
-        return {resultChangeUser: "Error al llamar usuario. Compruebe la url de su dispositivo"}
-        break;
+        return { statusChangedUser: "Error al llamar usuario. Compruebe la url de su dispositivo" }
+        // break;
       }
     }
 
   }
-  
+
 
   //USEREF --> Se mantienen actualizados por el useEffect mas abajo
   const prevIndiceGlobalRef = useRef(indiceGlobal);
@@ -202,15 +212,15 @@ const [noMoreUsers, setNoMoreUsers] = useState(false);
 
 
     // socket.on('changeNextUser', updateIndiceAndMesa)
-    socket.on('changeNextUser', async (arg1, arg2, callback)=>{
+    socket.on('changeNextUser', async (arg1, arg2, callback) => {
       //arg1 es la data: {mensaje, box}
-    const resultChangeUser = await updateIndicesAndBoxes(arg1); //{resultChangeUser: "..."}
+      const statusChangedUser = await updateIndicesAndBoxes(arg1); //{statusChangedUser: "..."}
 
-    callback({
-      status: resultChangeUser
+      callback({
+        status: statusChangedUser
+      })
+
     })
-
-    } )
 
     // Retornar una función para limpiar la suscripción cuando el componente se desmonte
     return () => {
@@ -346,7 +356,7 @@ const [noMoreUsers, setNoMoreUsers] = useState(false);
               </table>
             </div>
             {
-             noMoreUsers && <h1 className='text-4xl text-center mt-20'>THERE IS NO MORE USERS TO SHOW </h1>
+              noMoreUsers && <h1 className='text-4xl text-center mt-20'>THERE IS NO MORE USERS TO SHOW </h1>
             }
           </>
 
