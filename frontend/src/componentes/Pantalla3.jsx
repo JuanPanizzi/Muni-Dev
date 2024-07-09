@@ -114,50 +114,65 @@ export const Pantalla3 = () => {
   //Esta funcion llama a handleIndices
   const updateIndicesAndBoxes = async (data) => {
 
-    const { box } = data;
-
+    
     if (prevIndiceGlobalRef.current == turnoDniRef.current.length - 1) {
       console.log('NO HAY MAS USUARIOS EN UPDATE')
       setShowWarn(true)
       setNoMoreUsers(true)
-
+      
       return { statusChangedUser: "No hay mas usuarios" }
     }
+
+    // const indiceGlobalA = JSON.parse(localStorage.getItem('indiceGlobalStorage'));
+    const { box } = data;
+    const usersA = JSON.parse(localStorage.getItem('users'))
+    const nextUser = usersA[prevIndiceGlobalRef.current+1].dni
+    console.log(usersA[prevIndiceGlobalRef.current+1].dni)
 
     switch (box) {
 
       case '1': {
 
-       await handleIndices(setIndiceBox1)
-        //ya aca habria que enviar el nombre del proximo usuario asi lo ven los boxes
-        console.log('En boxId: 1 el proximo user que se retorna es:')
+        await handleIndices(setIndiceBox1)
+
+        // console.log('IndiceGlobal')
+        // console.log(indiceGlobalA)
+        // console.log('abajo usersA')
+        // console.log(usersA)
+
+        // console.log('¿PROXIMO USUARIO? usersA[indiceGlobalA]')
+
+
         // console.log(turnoDni[indiceBox1.indice].dni)
 
         //Este return termina siendo la response en queue.gateway en el @SuscribeMessage('nextUser')
         // return { statusChangedUser: "se cambio-llamo el usuario correctamente", proximoUser: turnoDni[indiceBox1.indice].dni }
-        return { statusChangedUser: "se cambio-llamo el usuario correctamente"}
+
+        return { statusChangedUser: "se cambio-llamo el usuario correctamente", nextUser }
 
         // break;
       }
       case '2': {
 
-      await  handleIndices(setIndiceBox2)
+        await handleIndices(setIndiceBox2)
 
         // return { statusChangedUser: "se cambio-llamo el usuario correctamente", proximoUser: turnoDni[indiceBox2.indice].dni }
-        return { statusChangedUser: "se cambio-llamo el usuario correctamente"}
+
+        return { statusChangedUser: "se cambio-llamo el usuario correctamente", nextUser }
+
         // break;
       }
       case '3': {
 
-      await  handleIndices(setIndiceBox3)
+        await handleIndices(setIndiceBox3)
 
-        return { statusChangedUser: "se cambio-llamo el usuario correctamente" }
+        return { statusChangedUser: "se cambio-llamo el usuario correctamente", nextUser }
         // break;
       }
       case '4': {
 
-      await  handleIndices(setIndiceBox4)
-        return { statusChangedUser: "se cambio-llamo el usuario correctamente" }
+        await handleIndices(setIndiceBox4)
+        return { statusChangedUser: "se cambio-llamo el usuario correctamente", nextUser }
         // break;
       }
       default: {
@@ -231,7 +246,6 @@ export const Pantalla3 = () => {
   }, []);
 
   // Actualiza la referencia de indiceDniRef cada vez que indiceDni cambie
-
   useEffect(() => {
     prevIndiceGlobalRef.current = indiceGlobal;
     turnoDniRef.current = turnoDni;

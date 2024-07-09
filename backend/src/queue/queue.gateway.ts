@@ -108,12 +108,12 @@ export class QueueGateway implements OnModuleInit {
       // const resFromPantalla = response[0].status.statusChangedUser;
       // const nextUser = response[0].status.proximoUser
 
-      const {statusChangedUser} = response[0].status;
+      const {statusChangedUser, nextUser} = response[0].status;
 
       if(statusChangedUser == 'se cambio-llamo el usuario correctamente'){
         // console.log(proximoUser)
         // client.emit('responseChangedUser', {changedUserStatus: 'se cambio-llamo el usuario correctamente', proximoUser})
-        client.emit('responseChangedUser', {changedUserStatus: 'se cambio-llamo el usuario correctamente'})
+        client.emit('responseChangedUser', {changedUserStatus: 'se cambio-llamo el usuario correctamente', nextUser})
         
       }
 

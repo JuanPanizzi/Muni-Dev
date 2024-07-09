@@ -19,7 +19,7 @@ export const Box = () => {
   const [serverConnectionError, setServerConnectionError] = useState(false)
   const [statusChangedUser, setStatusChangedUser] = useState('')
   const [incomingUser, setIncomingUser] = useState(null)
-
+  const [noMoreUsers, setnoMoreUsers] = useState(true)
   const nextUser = () => {
 
     //MECANISMO DE VERIFICACION DE RECEPCION DE MENSAJES: 
@@ -36,24 +36,28 @@ export const Box = () => {
         }
       }
 
-
     });
     //Aca el Box escucha el evento 'responseChangedUser' que emite el servidor con el status del proceso de llamar a un nuevo usuario.
     socket.once('responseChangedUser', status => {
 
-      const {changedUserStatus} = status;
+      const {changedUserStatus, nextUser} = status;
       //resFromServer es la respuesta del servidor sobre el status del proceso de llamar a un nuevo usuario;
       switch (changedUserStatus) {
         case 'se cambio-llamo el usuario correctamente':
 
+          if(noMoreUsers){
+            setnoMoreUsers(false)
+          }
           setStatusChangedUser('se cambio-llamo el usuario correctamente');
+          setIncomingUser(nextUser)
           // setIncomingUser(proximoUser)
           // console.log('ESTE ES EL USUARIO QUE ESTA LLAMANDO ESTE BOX. VER SI COINCIDE CON EL QUE APARECE EN PANTALLA')
           // console.log(proximoUser)
           break;
         case 'No hay mas usuarios para llamar':
 
-          setStatusChangedUser('No hay mas usuarios para llamar')
+          // setStatusChangedUser('No hay mas usuarios para llamar')
+          setnoMoreUsers(true)
           break;
         case 'Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente':
 
@@ -129,13 +133,21 @@ export const Box = () => {
         )}
 
       </div>
-      {
-        serverConnectionError && <h1 className='text-4xl text-center mt-10'>NO SE PUDO CONECTAR CON EL SERVIDOR <br /> INTENTE NUEVAMENTE</h1>
-      }
-      {
-        statusChangedUser && <h1  className='text-4xl text-center mt-10'>{statusChangedUser}</h1>
-      }
+      <div className=' bg-cv-celeste-claro  rounded-xl p-3 w-2/3 m-auto mt-5'>
 
+      {
+        serverConnectionError && <h1 className=' text-4xl bg- text-center mt-2'>NO SE PUDO CONECTAR CON EL SERVIDOR <br /> INTENTE NUEVAMENTE</h1>
+      }
+      {
+        statusChangedUser && <h1  className=' text-4xl bg- text-center mt-2'>{statusChangedUser}</h1>
+      }
+        {
+          noMoreUsers && <h1 className=' text-4xl bg- text-center mt-2'>No hay más usuarios para llamar</h1>
+        }
+      {
+        incomingUser && !noMoreUsers && <h1  className=' text-4xl bg- text-center mt-2'>Usuario entrante: {incomingUser}</h1>
+      }
+      </div>
     </>
   )
 }
