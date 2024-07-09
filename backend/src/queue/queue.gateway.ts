@@ -118,7 +118,7 @@ export class QueueGateway implements OnModuleInit {
       }
 
       if(statusChangedUser == 'No hay mas usuarios'){
-        client.emit('responseChangedUser', {changedUserStatus: 'no hay mas usuarios para llamar'})
+        client.emit('responseChangedUser', {changedUserStatus: 'No hay mas usuarios para llamar'})
       }
       if(statusChangedUser == 'Error al llamar usuario. Compruebe la url de su dispositivo'){
         // throw new Error('Error. No se pudo llamar al usuario. Intente nuevamente')
@@ -126,7 +126,7 @@ export class QueueGateway implements OnModuleInit {
       }
       
     } catch (error) {
-      client.emit('responseChangedUser', {changedUserStatus: "Error al llamar usuario. Compruebe la url de su dispositivo e intente nuevamente"})
+      client.emit('responseChangedUser', {changedUserStatus: "Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente"})
     }
     
     return { serverMessage: "Servidor respondiendo a tiempo" }

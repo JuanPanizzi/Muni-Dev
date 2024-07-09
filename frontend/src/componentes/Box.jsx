@@ -26,12 +26,14 @@ export const Box = () => {
     //Funciona igual que la verificacion que se hace desde hometeclado a pantalla. Aca lo que se hace es primero esperar 10s que el servidor responda. Sino responde en 10s se emite error. Si responde, se espera la respuesta en el evento 'responseChangedUser' de mas abajo.
     socket.timeout(10000).emit('nextUser', { mensaje: 'next', box: BoxId }, (err, res) => {
       if (err) {
+        console.log('Entro en error')
         setServerConnectionError(true)
       } else {
         if (serverConnectionError) {
           setServerConnectionError(false)
+          console.log(res)
+          // --> {serverMessage: "Servidor respondiendo a tiempo"}
         }
-        //console.log(res)--> {serverMessage: "Servidor respondiendo a tiempo"}
       }
 
 
@@ -44,21 +46,18 @@ export const Box = () => {
       switch (changedUserStatus) {
         case 'se cambio-llamo el usuario correctamente':
 
-        console.log('COMPONENTE BOX: Entra en se cambio-llamo usuario correctamente')
           setStatusChangedUser('se cambio-llamo el usuario correctamente');
           // setIncomingUser(proximoUser)
           // console.log('ESTE ES EL USUARIO QUE ESTA LLAMANDO ESTE BOX. VER SI COINCIDE CON EL QUE APARECE EN PANTALLA')
           // console.log(proximoUser)
           break;
-        case 'no hay mas usuarios para llamar':
-        console.log('COMPONENTE BOX: Entra en no hay mas usuarios para llamar')
+        case 'No hay mas usuarios para llamar':
 
-          setStatusChangedUser('no hay mas usuarios para llamar')
+          setStatusChangedUser('No hay mas usuarios para llamar')
           break;
-        case 'Error al llamar usuario. Compruebe la url de su dispositivo e intente nuevamente':
-        console.log('COMPONENTE BOX: Error al llamar usuario')
+        case 'Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente':
 
-          setStatusChangedUser('Error al llamar usuario. Compruebe la url de su dispositivo e intente nuevamente')
+          setStatusChangedUser('Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente')
           break;
 
         default:
@@ -134,7 +133,7 @@ export const Box = () => {
         serverConnectionError && <h1 className='text-4xl text-center mt-10'>NO SE PUDO CONECTAR CON EL SERVIDOR <br /> INTENTE NUEVAMENTE</h1>
       }
       {
-        statusChangedUser && <h1>{statusChangedUser}</h1>
+        statusChangedUser && <h1  className='text-4xl text-center mt-10'>{statusChangedUser}</h1>
       }
 
     </>
