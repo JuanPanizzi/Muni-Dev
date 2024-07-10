@@ -125,9 +125,12 @@ export const Pantalla3 = () => {
 
     // const indiceGlobalA = JSON.parse(localStorage.getItem('indiceGlobalStorage'));
     const { box } = data;
+    console.log('ENTRA EN UPDATE INDCES AND BOX')
     const usersA = JSON.parse(localStorage.getItem('users'))
-    const nextUser = usersA[prevIndiceGlobalRef.current+1].dni
-    console.log(usersA[prevIndiceGlobalRef.current+1].dni)
+    const nextUser = usersA[prevIndiceGlobalRef.current +1].dni
+    console.log('abajo prevIndiceGlobalRef.current +1')
+    console.log(prevIndiceGlobalRef.current +1)
+    // console.log(nextUser)
 
     switch (box) {
 

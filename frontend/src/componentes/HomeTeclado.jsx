@@ -71,7 +71,6 @@ console.log('se ejecuta function dni')
         //         }, 2000);
         //     }
         // })
-
         
         socket.timeout(10000).emit('sendDni', actualUserTurnoDni, (err, res)=>{
             //La autenticación funciona así: se envia usuario (actualUserTudnoDni) al servidor. Y se necesita hacer 2 comprobaciones, la primera para ver si el servidor responde, si esta conectado. Si en 10s no responde, entra en el err. Se tiene que hacer porque la segunda validacion se basa en ver si  la pantalla recibio el usuario correctamente, y esto se verifica escuchando el evento que esta mas abajo 'responseDniStatus'. Se escucha el evento 'responseDniStatus' y nos avisa si la pantalla respondio o no respondio. ¿pero si el servidor no puede responder porque no esta conectado? Bueno para eso esta primera validacion. Y bueno una vez que pasa esta primera validacion, se espera la respuesta del servidor para ver si pantalla respondio o no.
@@ -96,12 +95,13 @@ console.log('se ejecuta function dni')
                 setTimeout(() => {
                     setLoading(false)
                 }, 2000);
+
+                        setNumeroTurno((prevNumeroTurno) => {
+                            return prevNumeroTurno > 98 ? 1 : prevNumeroTurno + 1;
+                        }); // Incrementar el número de turno para el siguiente usuario;
+
             }
         })
-
-        setNumeroTurno((prevNumeroTurno) => {
-            return prevNumeroTurno > 98 ? 1 : prevNumeroTurno + 1;
-        }); // Incrementar el número de turno para el siguiente usuario;
 
     }
 
@@ -144,7 +144,10 @@ console.log('se ejecuta function dni')
         return (
             <>
                 <Warning warn={"NO HAY CONEXION"} />
-                <button className='rounded-full mx-auto px-3 py-2 bg-cv-celeste-claro' onClick={() => setInternetConnection(true)}>Intente Nuevamente</button>
+                {/* <button className='rounded-full mx-auto px-3 py-2 bg-cv-celeste-claro' onClick={() => setInternetConnection(true)}>Intente Nuevamente</button> */}
+                <div className='mt-10 mx-auto text-center '>
+                <a href="/" className='text-2xl px-8 rounded-full mx-auto py-3 bg-cv-celeste-claro'>Volver</a>
+                </div>
             </>
         )
     }
@@ -152,7 +155,10 @@ console.log('se ejecuta function dni')
         return (
             <>
                 <Warning warn={"NO HAY CONEXION CON EL SERVIDOR INTENTE DE NUEVO..."} />
-                <button className='rounded-full mx-auto px-3 py-2 bg-cv-celeste-claro' onClick={() => setServerConnection(true)}>Intente Nuevamente</button>
+                {/* <button className=' rounded-full mx-auto px-3 py-2 bg-cv-celeste-claro' onClick={() => setServerConnection(true)}>Intente Nuevamente</button> */}
+                <div className='mt-10 mx-auto text-center '>
+                <a href="/" className='text-2xl px-8 rounded-full mx-auto py-3 bg-cv-celeste-claro'>Volver</a>
+            </div>
             </>
 
         )

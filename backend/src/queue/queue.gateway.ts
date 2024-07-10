@@ -71,7 +71,7 @@ export class QueueGateway implements OnModuleInit {
 
     try {
       //Respuesta de pantalla
-      const response = await this.server.timeout(2000).to('pantallaRoom').emitWithAck('sendNewDni', {turnoDni: turnoDni}, 'baz' )
+      const response = await this.server.timeout(4000).to('pantallaRoom').emitWithAck('sendNewDni', {turnoDni: turnoDni}, 'baz' )
       // console.log('abajo response.status:')
       // console.log(response[0].status) //should be "ok"
       // serverMessage = true;
