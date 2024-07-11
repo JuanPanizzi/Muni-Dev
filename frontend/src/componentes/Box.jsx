@@ -5,8 +5,8 @@ import io from 'socket.io-client'
 import { Navbar2 } from './Navbar2';
 
 
-const socket = io('https://municipalidad-rawson-server.onrender.com');
-// const socket = io('/');
+// const socket = io('https://municipalidad-rawson-server.onrender.com');
+const socket = io('/');
 
 
 export const Box = () => {
@@ -20,6 +20,8 @@ export const Box = () => {
   const [statusChangedUser, setStatusChangedUser] = useState('')
   const [incomingUser, setIncomingUser] = useState(null)
   const [noMoreUsers, setnoMoreUsers] = useState(true)
+  const [operationReloadPantalla, setOperationReloadPantalla] = useState('')
+
   const nextUser = () => {
 
     //MECANISMO DE VERIFICACION DE RECEPCION DE MENSAJES: 
@@ -37,6 +39,7 @@ export const Box = () => {
       }
 
     });
+   
     //Aca el Box escucha el evento 'responseChangedUser' que emite el servidor con el status del proceso de llamar a un nuevo usuario.
     socket.once('responseChangedUser', status => {
 
@@ -67,13 +70,39 @@ export const Box = () => {
         default:
           break;
       }
-
-
     })
 
 
   }
 
+  const reloadPanalla = () => {
+
+    socket.timeout(10000).emit('reloadPantalla', "reloadPantallaMessage", (err, res)=>{
+
+      if(err){
+        console.log('La pantalla no respondió al evento reloadPantalla')
+        setServerConnectionError(true)
+      }else{
+        console.log('la pantalla respondio al evento reload')
+        setOperationReloadPantalla(true)
+      }
+
+    })
+
+    socket.once('statusPantallaReloaded', statusReload =>{
+
+      // const {statusPantallaRelaoaded} = statusReload
+      console.log("statusReload")
+      console.log(statusReload)
+
+      if(statusPantallaRelaoaded == "Pantalla recargada correctamente") setOperationReloadPantalla('Pantalla recargada correctamente')
+      
+        if(statusPantallaRelaoaded == "Pantalla no se recargó") setOperationReloadPantalla("Pantalla no se recargó")
+
+    } )
+
+
+  }
   const handleClick = () => {
 
     if (serverConnectionError) {
@@ -147,7 +176,19 @@ export const Box = () => {
       {
         incomingUser && !noMoreUsers && <h1  className=' text-4xl bg- text-center mt-2'>Usuario entrante: {incomingUser}</h1>
       }
+      {operationReloadPantalla && (
+  <>
+  <div>
+    <h1 className="text-4xl bg-gray-200 text-center mt-2">{operationReloadPantalla}</h1>
+    <div>
+    <button onClick={()=>setOperationReloadPantalla(false)}>OK</button>
+    </div>
+
+  </div>
+  </>
+)}
       </div>
+  <button onClick={reloadPanalla} className='bg-red-300 rounded p-3'>RECARGAR PANTALLA</button>
     </>
   )
 }

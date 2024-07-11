@@ -3,20 +3,20 @@ import { useEffect, useRef, useState } from 'react'
 import io from 'socket.io-client'
 import { Navbar2 } from './Navbar2';
 
-// const socket = io('/', {
-//   query: {
-//     deviceType: 'pantalla',  // Identificador del tipo de dispositivo
-//     deviceId: '25',  // Identificador único del dispositivo
-//   }
-// }
-// );
-const socket = io('https://municipalidad-rawson-server.onrender.com', {
-    query: {
-      deviceType: 'pantalla',  // Identificador del tipo de dispositivo
-      deviceId: '25',  // Identificador único del dispositivo
-    }
+const socket = io('/', {
+  query: {
+    deviceType: 'pantalla',  // Identificador del tipo de dispositivo
+    deviceId: '25',  // Identificador único del dispositivo
   }
+}
 );
+// const socket = io('https://municipalidad-rawson-server.onrender.com', {
+//     query: {
+//       deviceType: 'pantalla',  // Identificador del tipo de dispositivo
+//       deviceId: '25',  // Identificador único del dispositivo
+//     }
+//   }
+// );
 
 export const Pantalla3 = () => {
 
@@ -228,6 +228,13 @@ export const Pantalla3 = () => {
       setNoMoreUsers(false)
     })
 
+    socket.on('reloadPantallaNow', (arg1, arg2, callback)=>{
+      const statusReload = 'OK'
+      callback({
+        status: statusReload
+      })
+      location.reload()
+    })
 
     // socket.on('changeNextUser', updateIndiceAndMesa)
     socket.on('changeNextUser', async (arg1, arg2, callback) => {

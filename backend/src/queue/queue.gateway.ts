@@ -71,7 +71,7 @@ export class QueueGateway implements OnModuleInit {
 
     try {
       //Respuesta de pantalla
-      const response = await this.server.timeout(4000).to('pantallaRoom').emitWithAck('sendNewDni', {turnoDni: turnoDni}, 'baz' )
+      const response = await this.server.timeout(5000).to('pantallaRoom').emitWithAck('sendNewDni', {turnoDni: turnoDni}, 'baz' )
       // console.log('abajo response.status:')
       // console.log(response[0].status) //should be "ok"
       // serverMessage = true;
@@ -103,7 +103,7 @@ export class QueueGateway implements OnModuleInit {
       //AUTH 
     try {
       //respuesta de pantalla
-      const response = await this.server.timeout(3000).to('pantallaRoom').emitWithAck('changeNextUser', { mensaje, box }, 'baz' );
+      const response = await this.server.timeout(5000).to('pantallaRoom').emitWithAck('changeNextUser', { mensaje, box }, 'baz' );
      
       // const resFromPantalla = response[0].status.statusChangedUser;
       // const nextUser = response[0].status.proximoUser
@@ -135,6 +135,32 @@ export class QueueGateway implements OnModuleInit {
 
   }
 
+  @SubscribeMessage('reloadPantalla')
+  async handleReloadPantalla(
+     @MessageBody() message: string,
+     @ConnectedSocket() client: Socket
+   ) {
+
+    try {
+      //se le envia a pantalla el evento 'reloadPantallaNow'
+      const response = await this.server.timeout(5000).to('pantallaRoom').emitWithAck('reloadPantallaNow',{ foo: 'bar' }, 'baz');
+
+      const {statusReload} = response[0].status
+
+      if(statusReload == 'OK'){
+        client.emit('statusPantallaReloaded', {statusPantallaRelaoaded: "Pantalla recargada correctamente"})
+      }
+
+      
+    } catch (error) {
+      
+      client.emit('statusPantallaReloaded', {statusPantallaRelaoaded: "Pantalla no se recargó"})
+      
+    }
+    return { serverMessage: "Servidor respondiendo a ti  empo" }
+
+
+   }
   //ARREGLAR
   @SubscribeMessage('resetUsers')
   resetUser(
