@@ -77,29 +77,18 @@ export const Box = () => {
 
   const reloadPanalla = async () => {
 
-    // socket.timeout(10000).emit('reloadPantalla', "reloadPantallaMessage", (err, res)=>{
+    socket.timeout(10000).emit('reloadPantalla', "reloadPantallaMessage", (err, res)=>{
 
-    //   if(err){
-    //     console.log('La pantalla no respondió al evento reloadPantalla')
-    //     setServerConnectionError(true)
-    //   }else{
-    //     console.log('la pantalla respondio al evento reload')
-    //     setOperationReloadPantalla(true)
-    //   }
-    // })
+      if(err){
+        console.log('La pantalla no respondió al evento reloadPantalla')
+        setServerConnectionError(true)
+      }else{
+        console.log('la pantalla respondio al evento reload')
+        setOperationReloadPantalla(true)
+      }
+    })
 
-    // try {
-    //   const response = await fetch('https://municipalidad-rawson-server.onrender.com')
-    //   const json = await response.json()
 
-    //   if(!response.ok){
-    //     throw new Error()
-    //   }
-    // } catch (error) { 
-    //   console.log('hubo un error')
-    //   console.log(error)
-
-    // }
 
     socket.once('statusPantallaReloaded', statusReload => {
 

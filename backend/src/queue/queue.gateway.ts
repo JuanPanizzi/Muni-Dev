@@ -7,11 +7,7 @@ import { MensajeNextUser } from 'src/interfaces/message';
 import { TurnoDni } from 'src/interfaces/TurnoDni';
 
 
-@WebSocketGateway(
-  { cors: 'https://municipalidad-client.vercel.app/',
-    connectionStateRecovery: {}
-   }
-)
+@WebSocketGateway({ cors: 'https://municipalidad-client.vercel.app/'})
 export class QueueGateway implements OnModuleInit {
 
   @WebSocketServer()
@@ -39,7 +35,8 @@ export class QueueGateway implements OnModuleInit {
 
 
 
-      // console.log(`socket conectado: ${socket.id}`)
+      console.log(`socket conectado: ${socket.id}`)
+
 
       //SE UNE PANTALLA A LA ESTA SALA
       socket.on('joinPantallaRoom', () => {

@@ -11,11 +11,15 @@ import { Navbar2 } from './Navbar2';
 // }
 // );
 const socket = io('https://municipalidad-rawson-server.onrender.com', {
-    query: {
-      deviceType: 'pantalla',  // Identificador del tipo de dispositivo
-      deviceId: '25',  // Identificador único del dispositivo
-    }
-  }
+  reconnection: true,
+  reconnectionAttempts: Infinity, // Número de intentos de reconexión
+  reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
+  reconnectionDelayMax: 5000, // Tiempo de espera máximo entre intentos de reconexión
+  query: {
+    deviceType: 'pantalla',  // Identificador del tipo de dispositivo
+    deviceId: '25',  // Identificador único del dispositivo
+  },
+}
 );
 
 export const Pantalla3 = () => {
@@ -114,12 +118,12 @@ export const Pantalla3 = () => {
   //Esta funcion llama a handleIndices
   const updateIndicesAndBoxes = async (data) => {
 
-    
+
     if (prevIndiceGlobalRef.current == turnoDniRef.current.length - 1) {
       console.log('NO HAY MAS USUARIOS EN UPDATE')
       setShowWarn(true)
       setNoMoreUsers(true)
-      
+
       return { statusChangedUser: "No hay mas usuarios" }
     }
 
@@ -127,9 +131,9 @@ export const Pantalla3 = () => {
     const { box } = data;
     console.log('ENTRA EN UPDATE INDCES AND BOX')
     const usersA = JSON.parse(localStorage.getItem('users'))
-    const nextUser = usersA[prevIndiceGlobalRef.current +1].dni
+    const nextUser = usersA[prevIndiceGlobalRef.current + 1].dni
     console.log('abajo prevIndiceGlobalRef.current +1')
-    console.log(prevIndiceGlobalRef.current +1)
+    console.log(prevIndiceGlobalRef.current + 1)
     // console.log(nextUser)
 
     switch (box) {
@@ -196,7 +200,22 @@ export const Pantalla3 = () => {
 
   useEffect(() => {
 
-    socket.emit('joinPantallaRoom');
+    socket.on('connect', () => {
+
+      console.log(`${socket.id} Socket connected to server`);
+      // Reunirse a la sala si es necesario
+      // socket.emit('joinRoom', 'my-room');
+      socket.emit('joinPantallaRoom');
+    });
+
+    socket.on('disconnect', () => {
+      console.log(`${socket.id} Socket disconnected to server`);
+    });
+
+    socket.on('reconnect', (attemptNumber) => {
+      console.log(`${socket.id}: Reconnected to server after`, attemptNumber, 'attempts');
+    });
+
 
     socket.on('sendNewDni', (arg1, arg2, callback) => {
       // Recibe un dni nuevo que envia el HomeTeclado al gateway y lo acumula en el array de usuarios en el localstorage
@@ -228,7 +247,7 @@ export const Pantalla3 = () => {
       setNoMoreUsers(false)
     })
 
-    socket.on('reloadPantallaNow', (arg1, arg2, callback)=>{
+    socket.on('reloadPantallaNow', (arg1, arg2, callback) => {
       const statusReload = 'OK'
       callback({
         status: statusReload
@@ -249,6 +268,9 @@ export const Pantalla3 = () => {
 
     // Retornar una función para limpiar la suscripción cuando el componente se desmonte
     return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+      socket.off('reconnect');
       socket.off('sendNewDni');
       socket.off('changeNextUser')
       socket.off('reloadPantallaNow')
