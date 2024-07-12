@@ -251,6 +251,7 @@ export const Pantalla3 = () => {
     return () => {
       socket.off('sendNewDni');
       socket.off('changeNextUser')
+      socket.off('reloadPantallaNow')
       // socket.emit('leavePantallaRoom');
     };
   }, []);

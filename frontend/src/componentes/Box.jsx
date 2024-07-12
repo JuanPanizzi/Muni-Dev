@@ -39,16 +39,16 @@ export const Box = () => {
       }
 
     });
-   
+
     //Aca el Box escucha el evento 'responseChangedUser' que emite el servidor con el status del proceso de llamar a un nuevo usuario.
     socket.once('responseChangedUser', status => {
 
-      const {changedUserStatus, nextUser} = status;
+      const { changedUserStatus, nextUser } = status;
       //resFromServer es la respuesta del servidor sobre el status del proceso de llamar a un nuevo usuario;
       switch (changedUserStatus) {
         case 'se cambio-llamo el usuario correctamente':
 
-          if(noMoreUsers){
+          if (noMoreUsers) {
             setnoMoreUsers(false)
           }
           setStatusChangedUser('se cambio-llamo el usuario correctamente');
@@ -75,31 +75,43 @@ export const Box = () => {
 
   }
 
-  const reloadPanalla = () => {
+  const reloadPanalla = async () => {
 
-    socket.timeout(10000).emit('reloadPantalla', "reloadPantallaMessage", (err, res)=>{
+    // socket.timeout(10000).emit('reloadPantalla', "reloadPantallaMessage", (err, res)=>{
 
-      if(err){
-        console.log('La pantalla no respondió al evento reloadPantalla')
-        setServerConnectionError(true)
-      }else{
-        console.log('la pantalla respondio al evento reload')
-        setOperationReloadPantalla(true)
-      }
+    //   if(err){
+    //     console.log('La pantalla no respondió al evento reloadPantalla')
+    //     setServerConnectionError(true)
+    //   }else{
+    //     console.log('la pantalla respondio al evento reload')
+    //     setOperationReloadPantalla(true)
+    //   }
+    // })
 
-    })
+    // try {
+    //   const response = await fetch('https://municipalidad-rawson-server.onrender.com')
+    //   const json = await response.json()
 
-    socket.once('statusPantallaReloaded', statusReload =>{
+    //   if(!response.ok){
+    //     throw new Error()
+    //   }
+    // } catch (error) { 
+    //   console.log('hubo un error')
+    //   console.log(error)
+
+    // }
+
+    socket.once('statusPantallaReloaded', statusReload => {
 
       // const {statusPantallaRelaoaded} = statusReload
       console.log("statusReload")
       console.log(statusReload)
 
-      if(statusPantallaRelaoaded == "Pantalla recargada correctamente") setOperationReloadPantalla('Pantalla recargada correctamente')
-      
-        if(statusPantallaRelaoaded == "Pantalla no se recargó") setOperationReloadPantalla("Pantalla no se recargó")
+      if (statusPantallaRelaoaded == "Pantalla recargada correctamente") setOperationReloadPantalla('Pantalla recargada correctamente')
 
-    } )
+      if (statusPantallaRelaoaded == "Pantalla no se recargó") setOperationReloadPantalla("Pantalla no se recargó")
+
+    })
 
 
   }
@@ -164,31 +176,31 @@ export const Box = () => {
       </div>
       <div className=' bg-cv-celeste-claro  rounded-xl p-3 w-2/3 m-auto mt-5'>
 
-      {
-        serverConnectionError && <h1 className=' text-4xl bg- text-center mt-2'>NO SE PUDO CONECTAR CON EL SERVIDOR <br /> INTENTE NUEVAMENTE</h1>
-      }
-      {
-        statusChangedUser && <h1  className=' text-4xl bg- text-center mt-2'>{statusChangedUser}</h1>
-      }
+        {
+          serverConnectionError && <h1 className=' text-4xl bg- text-center mt-2'>NO SE PUDO CONECTAR CON EL SERVIDOR <br /> INTENTE NUEVAMENTE</h1>
+        }
+        {
+          statusChangedUser && <h1 className=' text-4xl bg- text-center mt-2'>{statusChangedUser}</h1>
+        }
         {
           noMoreUsers && <h1 className=' text-4xl bg- text-center mt-2'>No hay más usuarios para llamar</h1>
         }
-      {
-        incomingUser && !noMoreUsers && <h1  className=' text-4xl bg- text-center mt-2'>Usuario entrante: {incomingUser}</h1>
-      }
-      {operationReloadPantalla && (
-  <>
-  <div>
-    <h1 className="text-4xl bg-gray-200 text-center mt-2">{operationReloadPantalla}</h1>
-    <div>
-    <button onClick={()=>setOperationReloadPantalla(false)}>OK</button>
-    </div>
+        {
+          incomingUser && !noMoreUsers && <h1 className=' text-4xl bg- text-center mt-2'>Usuario entrante: {incomingUser}</h1>
+        }
+        {operationReloadPantalla && (
+          <>
+            <div>
+              <h1 className="text-4xl bg-gray-200 text-center mt-2">{operationReloadPantalla}</h1>
+              <div>
+                <button onClick={() => setOperationReloadPantalla(false)}>OK</button>
+              </div>
 
-  </div>
-  </>
-)}
+            </div>
+          </>
+        )}
       </div>
-  <button onClick={reloadPanalla} className='bg-red-300 rounded p-3'>RECARGAR PANTALLA</button>
+      <button onClick={reloadPanalla} className='bg-red-300 rounded p-3'>RECARGAR PANTALLA</button>
     </>
   )
 }
