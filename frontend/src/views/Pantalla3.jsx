@@ -1,26 +1,26 @@
 import { useEffect, useRef, useState } from 'react'
 // import '../styles/Pantalla.css'
 import io from 'socket.io-client'
-import { Navbar2 } from '../components/Navbar2';
+import { Navbar2 } from '../componentes/Navbar2';
 
-const socket = io('/', {
-  query: {
-    deviceType: 'pantalla',  // Identificador del tipo de dispositivo
-    deviceId: '25',  // Identificador único del dispositivo
-  }
-}
-);
-// const socket = io('https://municipalidad-rawson-server.onrender.com', {
-//   reconnection: true,
-//   reconnectionAttempts: Infinity, // Número de intentos de reconexión
-//   reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
-//   reconnectionDelayMax: 5000, // Tiempo de espera máximo entre intentos de reconexión
+// const socket = io('/', {
 //   query: {
 //     deviceType: 'pantalla',  // Identificador del tipo de dispositivo
 //     deviceId: '25',  // Identificador único del dispositivo
-//   },
+//   }
 // }
 // );
+const socket = io('https://municipalidad-rawson-server.onrender.com', {
+  reconnection: true,
+  reconnectionAttempts: Infinity, // Número de intentos de reconexión
+  reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
+  reconnectionDelayMax: 5000, // Tiempo de espera máximo entre intentos de reconexión
+  query: {
+    deviceType: 'pantalla',  // Identificador del tipo de dispositivo
+    deviceId: '25',  // Identificador único del dispositivo
+  },
+}
+);
 
 export const Pantalla3 = () => {
 

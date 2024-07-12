@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import io from 'socket.io-client'
-import Teclado from '../components/Teclado';
-import { Navbar2 } from '../components/Navbar2';
-import { Warning } from '../components/Warning';
+import Teclado from '../componentes/Teclado';
+import { Navbar2 } from '../componentes/Navbar2';
+import { Warning } from '../componentes/Warning';
 
-const socket = io('/');
-// const socket = io('https://municipalidad-rawson-server.onrender.com');
+// const socket = io('/');
+const socket = io('https://municipalidad-rawson-server.onrender.com', {
+    reconnection: true,
+    reconnectionAttempts: Infinity, // Número de intentos de reconexión
+    reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
+    reconnectionDelayMax: 5000,
+});
 
 
 export const HomeTeclado = () => {

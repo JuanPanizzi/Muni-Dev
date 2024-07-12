@@ -2,11 +2,16 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom';
 import '../styles/Box.css'
 import io from 'socket.io-client'
-import { Navbar2 } from '../components/Navbar2';
+import { Navbar2 } from '../componentes/Navbar2';
 
 
-// const socket = io('https://municipalidad-rawson-server.onrender.com');
-const socket = io('/');
+const socket = io('https://municipalidad-rawson-server.onrender.com', {
+  reconnection: true,
+  reconnectionAttempts: Infinity, // Número de intentos de reconexión
+  reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
+  reconnectionDelayMax: 5000,
+});
+// const socket = io('/');
 
 
 export const Box = () => {
@@ -19,25 +24,21 @@ export const Box = () => {
   const [serverConnectionError, setServerConnectionError] = useState(false)
   const [statusChangedUser, setStatusChangedUser] = useState('')
   const [incomingUser, setIncomingUser] = useState(null)
-  const [noMoreUsers, setnoMoreUsers] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [showingMessage, setShowingMessage] = useState(false)
-  // const [operationReloadPantalla, setOperationReloadPantalla] = useState('')
-
+  const [noMoreUsers, setnoMoreUsers] = useState(true)
+  const [operationReloadPantalla, setOperationReloadPantalla] = useState('')
 
   const nextUser = () => {
 
-    setLoading(true)
     //MECANISMO DE VERIFICACION DE RECEPCION DE MENSAJES: 
     //Funciona igual que la verificacion que se hace desde hometeclado a pantalla. Aca lo que se hace es primero esperar 10s que el servidor responda. Sino responde en 10s se emite error. Si responde, se espera la respuesta en el evento 'responseChangedUser' de mas abajo.
     socket.timeout(10000).emit('nextUser', { mensaje: 'next', box: BoxId }, (err, res) => {
+      console.log('SCKT')
+      console.log(socket.id)
       if (err) {
         console.log('Entro en error')
-        setLoading(false)
         setServerConnectionError(true)
-        
       } else {
-        // setLoading(false)
+
         if (serverConnectionError) {
           setServerConnectionError(false)
           console.log(res)
@@ -54,24 +55,22 @@ export const Box = () => {
       //resFromServer es la respuesta del servidor sobre el status del proceso de llamar a un nuevo usuario;
       switch (changedUserStatus) {
         case 'se cambio-llamo el usuario correctamente':
-          
+
           if (noMoreUsers) {
             setnoMoreUsers(false)
           }
-          setLoading(false)
           setStatusChangedUser('se cambio-llamo el usuario correctamente');
           setIncomingUser(nextUser)
-
+          // setIncomingUser(proximoUser)
+          // console.log('ESTE ES EL USUARIO QUE ESTA LLAMANDO ESTE BOX. VER SI COINCIDE CON EL QUE APARECE EN PANTALLA')
+          // console.log(proximoUser)
           break;
         case 'No hay mas usuarios para llamar':
 
           // setStatusChangedUser('No hay mas usuarios para llamar')
           setnoMoreUsers(true)
-          setLoading(false)
-
           break;
         case 'Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente':
-        setLoading(false)
 
           setStatusChangedUser('Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente')
           break;
@@ -97,8 +96,6 @@ export const Box = () => {
       }
     })
 
-
-
     socket.once('statusPantallaReloaded', statusReload => {
 
       // const {statusPantallaRelaoaded} = statusReload
@@ -115,17 +112,12 @@ export const Box = () => {
   }
   const handleClick = () => {
 
-    setLoading(true)
-
     if (serverConnectionError) {
       setServerConnectionError(false)
-      setLoading(false)
     }
 
     if (statusChangedUser) {
       setStatusChangedUser('')
-      setLoading(false)
-
     }
 
     const now = Date.now();
@@ -134,7 +126,7 @@ export const Box = () => {
       console.log(`Now: ${now} - LastClick: ${lastClick} = ${now - lastClick}`)
       setShowWarning(true)
     } else {
-
+      console.log('Se ejecuto el next user');
       setLastClick(now);
       nextUser();
     }
@@ -163,10 +155,10 @@ export const Box = () => {
 
     <>
       <Navbar2 />
-      {
-        !showingMessage &&
-        <div className='bg-cv-verde-oscuro w-2/3 m-auto rounded-xl mt-16 p-5 text-center'>
+      <div className='bg-cv-verde-oscuro w-2/3 m-auto rounded-xl mt-16 p-5 text-center'>
         <h1 className='text-5xl bg-cv-celeste-claro  rounded-xl p-3 w-2/3 m-auto '>BOX {BoxId}</h1>
+        {/* <h3>Proximo usuario:</h3> */}
+        {/* <button onClick={()=> nextUser()} className='btnBox'>Proximo Usuario</button> */}
         <button onClick={handleClick} className='mt-10 p-5 bg-green-600 text-white rounded-xl hover:bg-green-500 '>PROXIMO USUARIO</button>
         {showWarning && (
           <div className="mt-7">
@@ -177,40 +169,33 @@ export const Box = () => {
         )}
 
       </div>
-      }
-
-{
-  statusChangedUser || noMoreUsers &&
-      <div className={'bg-cv-celeste-claro  rounded-xl p-3 w-2/3 m-auto mt-5'}>
+      <div className=' bg-cv-celeste-claro  rounded-xl p-3 w-2/3 m-auto mt-5'>
 
         {
-          serverConnectionError && !loading && <h1 className=' text-4xl bg- text-center mt-2'>NO SE PUDO CONECTAR CON EL SERVIDOR <br /> INTENTE NUEVAMENTE</h1>
+          serverConnectionError && <h1 className=' text-4xl bg- text-center mt-2'>NO SE PUDO CONECTAR CON EL SERVIDOR <br /> INTENTE NUEVAMENTE</h1>
         }
         {
-          statusChangedUser && !loading && <h1 className=' text-4xl bg- text-center mt-2'>{statusChangedUser}</h1>
+          statusChangedUser && <h1 className=' text-4xl bg- text-center mt-2'>{statusChangedUser}</h1>
         }
         {
-          noMoreUsers && !loading && <h1 className=' text-4xl bg- text-center mt-2'>No hay más usuarios para llamar</h1>
+          noMoreUsers && <h1 className=' text-4xl bg- text-center mt-2'>No hay más usuarios para llamar</h1>
         }
         {
-          incomingUser && !noMoreUsers && !loading && <h1 className=' text-4xl bg- text-center mt-2'>Usuario entrante: {incomingUser}</h1>
+          incomingUser && !noMoreUsers && <h1 className=' text-4xl bg- text-center mt-2'>Usuario entrante: {incomingUser}</h1>
         }
-      {loading && <h1>CARGANDO...</h1>}
-
-            <button onClick={()=> setShowingMessage(false)} className='bg-green-600 hover:bg-green-500 px-5 py-2 rounded-xl '>OK</button>
-        {/* {operationReloadPantalla && (
+        {operationReloadPantalla && (
           <>
-          <div>
-          <h1 className="text-4xl bg-gray-200 text-center mt-2">{operationReloadPantalla}</h1>
-          <div>
-          <button onClick={() => setOperationReloadPantalla(false)}>OK</button>
+            <div>
+              <h1 className="text-4xl bg-gray-200 text-center mt-2">{operationReloadPantalla}</h1>
+              <div>
+                <button onClick={() => setOperationReloadPantalla(false)}>OK</button>
               </div>
-              </div>
-              </>
-              )} */}
+
+            </div>
+          </>
+        )}
       </div>
-    }
-      {/* <button onClick={reloadPanalla} className='bg-red-300 rounded p-3'>RECARGAR PANTALLA</button> */}
+      <button onClick={reloadPanalla} className='bg-red-300 rounded p-3'>RECARGAR PANTALLA</button>
     </>
   )
 }
