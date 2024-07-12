@@ -10,6 +10,7 @@ import { Navbar2 } from '../componentes/Navbar2';
 //   }
 // }
 // );
+
 const socket = io('https://municipalidad-rawson-server.onrender.com', {
   reconnection: true,
   reconnectionAttempts: Infinity, // Número de intentos de reconexión
