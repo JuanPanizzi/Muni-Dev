@@ -4,8 +4,9 @@ import '../styles/Box.css'
 import io from 'socket.io-client'
 import { Navbar2 } from '../componentes/Navbar2';
 
-
-const socket = io('https://municipalidad-rawson-server.onrender.com', {
+//https://muni-dev.onrender.com
+//https://municipalidad-rawson-server.onrender.com
+const socket = io('https://muni-dev.onrender.com', {
   reconnection: true,
   reconnectionAttempts: Infinity, // Número de intentos de reconexión
   reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión

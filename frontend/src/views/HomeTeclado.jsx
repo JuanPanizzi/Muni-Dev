@@ -5,7 +5,9 @@ import { Navbar2 } from '../componentes/Navbar2';
 import { Warning } from '../componentes/Warning';
 
 // const socket = io('/');
-const socket = io('https://municipalidad-rawson-server.onrender.com', {
+//https://muni-dev.onrender.com
+//https://municipalidad-rawson-server.onrender.com
+const socket = io('https://muni-dev.onrender.com', {
     reconnection: true,
     reconnectionAttempts: Infinity, // Número de intentos de reconexión
     reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
