@@ -62,6 +62,8 @@ export class QueueGateway implements OnModuleInit {
         // }
       })
 
+      console.log('socket se ha conectado, estos son los pendingMessages')
+      console.log(this.pendingMessages)
       //REENVIO DE MENSAJES 
       if (this.pendingMessages.has(socket.id)) {
         console.log('ENTRO EN REENVIO DE MENSAJES OJOOO') 
@@ -71,6 +73,8 @@ export class QueueGateway implements OnModuleInit {
         // this.handlePendingMessage(socket, pendingMessage);
         socket.emit('reenvio', pendingMessage)
         this.pendingMessages.delete(socket.id); // Limpiar el mensaje pendiente después de reenviarlo
+      }else{
+        console.log('this.pendingmessages.has(socket.id) dio false')
       }
 
     })

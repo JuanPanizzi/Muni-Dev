@@ -56,8 +56,8 @@ export const HomeTeclado = () => {
 
 
     const sendDni = (documento, nroTurno) => {
-// Esta funcion envía el turnoDni al server, el server se lo envia a pantalla y espera que le responda en cierto tiempo. Sino responde pantalla en un timeout el server responde con un message: error
-console.log('se ejecuta function dni')
+        // Esta funcion envía el turnoDni al server, el server se lo envia a pantalla y espera que le responda en cierto tiempo. Sino responde pantalla en un timeout el server responde con un message: error
+        console.log('se ejecuta function dni')
 
         setLoading(true)
 
@@ -73,52 +73,52 @@ console.log('se ejecuta function dni')
         //         console.log('EL SERVIDOR RESPONDIO CORRECTAMENTE ABAJO ESTA LA RESPUESTA')
         //         console.log(res.serverMessage)
         //         setTimeout(() => {
-                    
+
         //             setLoading(false)
         //         }, 2000);
         //     }
         // })
-        
-        socket.timeout(10000).emit('sendDni', actualUserTurnoDni, (err, res)=>{
+
+        socket.timeout(10000).emit('sendDni', actualUserTurnoDni, (err, res) => {
             //La autenticación funciona así: se envia usuario (actualUserTudnoDni) al servidor. Y se necesita hacer 2 comprobaciones, la primera para ver si el servidor responde, si esta conectado. Si en 10s no responde, entra en el err. Se tiene que hacer porque la segunda validacion se basa en ver si  la pantalla recibio el usuario correctamente, y esto se verifica escuchando el evento que esta mas abajo 'responseDniStatus'. Se escucha el evento 'responseDniStatus' y nos avisa si la pantalla respondio o no respondio. ¿pero si el servidor no puede responder porque no esta conectado? Bueno para eso esta primera validacion. Y bueno una vez que pasa esta primera validacion, se espera la respuesta del servidor para ver si pantalla respondio o no.
 
-            if(err){
+            if (err) {
                 console.log('No se puedo establecer la conexión con el servidor')
                 setServerConnection(false)
-            }else{
+            } else {
                 console.log(res)
                 console.log('el queue gateway respondio correctamente')
             }
         })
 
-        socket.once('responseDniStatus', status =>{
-            
+        socket.once('responseDniStatus', status => {
 
-            if(status.dniStatus === 'pantalla no recibio el mensaje'){
+
+            if (status.dniStatus === 'pantalla no recibio el mensaje') {
                 console.log('pantalla no respondio')
                 setServerConnection(false)
-            }else if(status.dniStatus === 'pantalla recibio el mensaje'){
+            } else if (status.dniStatus === 'pantalla recibio el mensaje') {
                 // console.log(`pantalla respondio: ${status.dniStatus}`)
                 // setLoading(true)
                 setTimeout(() => {
                     setLoading(false)
                 }, 2000);
 
-                        setNumeroTurno((prevNumeroTurno) => {
-                            return prevNumeroTurno > 98 ? 1 : prevNumeroTurno + 1;
-                        }); // Incrementar el número de turno para el siguiente usuario;
+                setNumeroTurno((prevNumeroTurno) => {
+                    return prevNumeroTurno > 98 ? 1 : prevNumeroTurno + 1;
+                }); // Incrementar el número de turno para el siguiente usuario;
 
-            }else{
+            } else {
                 console.log('ESTE ES EL MENSAJE QUE LLEGA EN responseDniStatus')
                 console.log(status)
             }
         })
 
-        socket.once('reenvio', status =>{
-            
+        socket.once('reenvio', status => {
+
             console.log('SE HA RECIBIDO UN MENSAJE REENVIADO')
             console.log(status)
-           
+
         })
     }
 
@@ -163,8 +163,11 @@ console.log('se ejecuta function dni')
                 <Warning warn={"NO HAY CONEXION"} />
                 {/* <button className='rounded-full mx-auto px-3 py-2 bg-cv-celeste-claro' onClick={() => setInternetConnection(true)}>Intente Nuevamente</button> */}
                 <div className='mt-10 mx-auto text-center '>
-                <a href="/" className='text-2xl px-8 rounded-full mx-auto py-3 bg-cv-celeste-claro'>Volver</a>
-                <button onClick={setInternetConnection(true, setLoading(true))}>Volver</button>
+                    {/* <a href="/" className='text-2xl px-8 rounded-full mx-auto py-3 bg-cv-celeste-claro'>Volver</a> */}
+                    <button className='text-2xl px-8 rounded-full mx-auto py-3 bg-sky-200' onClick={() => {
+                        setInternetConnection(true);
+                        setLoading(true);
+                    }}>Volver</button>
                 </div>
             </>
         )
@@ -175,8 +178,14 @@ console.log('se ejecuta function dni')
                 <Warning warn={"NO HAY CONEXION CON EL SERVIDOR INTENTE DE NUEVO..."} />
                 {/* <button className=' rounded-full mx-auto px-3 py-2 bg-cv-celeste-claro' onClick={() => setServerConnection(true)}>Intente Nuevamente</button> */}
                 <div className='mt-10 mx-auto text-center '>
-                <a href="/" className='text-2xl px-8 rounded-full mx-auto py-3 bg-cv-celeste-claro'>Volver</a>
-            </div>
+                    {/* <a href="/" className='text-2xl px-8 rounded-full mx-auto py-3 bg-cv-celeste-claro'>Volver</a> */}
+                    <button className='text-2xl px-8 rounded-full mx-auto py-3 bg-green-200' onClick={() => {
+                        // setInternetConnection(true);
+                        setServerConnection(true)
+                        setLoading(false);
+                    }}>Volver</button>
+
+                </div>
             </>
 
         )
@@ -225,9 +234,9 @@ console.log('se ejecuta function dni')
                     :
                     <>
                         <div className='text-center mt-10 text-4xl text-white bg-cv-verde-oscuro p-5 rounded-xl w-2/3 mx-auto '>
-                        <h1 >Bienvenido a la Municipalidad de Rawson</h1>
-                        <h2 className='my-4'>Tome asiento y será llamado por la pantalla</h2>
-                        <button onClick={() => setShowTramites(false)} className='rounded-full p-10 bg-cv-celeste-claro'>Volver</button>
+                            <h1 >Bienvenido a la Municipalidad de Rawson</h1>
+                            <h2 className='my-4'>Tome asiento y será llamado por la pantalla</h2>
+                            <button onClick={() => setShowTramites(false)} className='rounded-full p-10 bg-cv-celeste-claro'>Volver</button>
                         </div>
                         {/* <button onClick={()=>setShowTramites(false)}>Reset show tramites</button> */}
 
