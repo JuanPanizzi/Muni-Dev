@@ -265,6 +265,7 @@ export const Pantalla3 = () => {
         status: statusChangedUser
       })
 
+      
     })
 
     // Retornar una función para limpiar la suscripción cuando el componente se desmonte

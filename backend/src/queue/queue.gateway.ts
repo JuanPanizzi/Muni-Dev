@@ -7,11 +7,16 @@ import { MensajeNextUser } from 'src/interfaces/message';
 import { TurnoDni } from 'src/interfaces/TurnoDni';
 
 
-@WebSocketGateway({ cors: 'https://municipalidad-client.vercel.app/'})
+@WebSocketGateway({ cors: 'https://municipalidad-client.vercel.app/',
+  connectionStateRecovery: {}
+})
 export class QueueGateway implements OnModuleInit {
 
   @WebSocketServer()
   server: Server;
+
+   // Map para almacenar mensajes pendientes por reenviar
+   private pendingMessages: Map<string, any> = new Map(); // <SocketId, any>
 
   constructor(private readonly queueService: QueueService) { }
 
@@ -32,10 +37,9 @@ export class QueueGateway implements OnModuleInit {
       // })
 
       //Segunda barrera - se controla que el mensaje desde hometeclado llegue bien a pantalla
-
-
-
       console.log(`socket conectado: ${socket.id}`)
+
+
 
 
       //SE UNE PANTALLA A LA ESTA SALA
@@ -53,9 +57,22 @@ export class QueueGateway implements OnModuleInit {
           console.log('Dispositivo pantalla abandonó la conexión con el servidor')
         }
 
+        // Limpiar mensajes pendientes si el cliente se desconecta
+        if (this.pendingMessages.has(socket.id)) {
+          this.pendingMessages.delete(socket.id);
+        }
       })
 
-
+      //REENVIO DE MENSAJES 
+      if (this.pendingMessages.has(socket.id)) {
+        console.log('ENTRO EN REENVIO DE MENSAJES OJOOO')
+        const pendingMessage = this.pendingMessages.get(socket.id);
+        console.log('esto es un pendingMessage')
+        console.log(pendingMessage)
+        // this.handlePendingMessage(socket, pendingMessage);
+        socket.emit('responseDniStatus', pendingMessage)
+        this.pendingMessages.delete(socket.id); // Limpiar el mensaje pendiente después de reenviarlo
+      }
 
     })
   }
@@ -72,15 +89,30 @@ export class QueueGateway implements OnModuleInit {
     try {
       //Respuesta de pantalla
       const response = await this.server.timeout(5000).to('pantallaRoom').emitWithAck('sendNewDni', {turnoDni: turnoDni}, 'baz' )
+
+      const resPantalla = response[0].status
+      
       // console.log('abajo response.status:')
       // console.log(response[0].status) //should be "ok"
       // serverMessage = true;
-      if(response[0].status == 'ok'){
+
+      //guardamos la respuesta de la pantalla en pendingMessages y lo asociamos al client.id
+      
+      if(resPantalla == 'ok'){
+        
+        this.pendingMessages.set(client.id, {dniStatus: 'pantalla recibio el mensaje'});
+
         client.emit('responseDniStatus', {dniStatus: 'pantalla recibio el mensaje'})
+
+
+        //guardar esta respuesta asociada al client.id
       }
     } catch (error) {
       console.log('Catch: Pantalla no respondio')
+
+      this.pendingMessages.set(client.id, {dniStatus: 'pantalla no recibio el mensaje'});
       client.emit('responseDniStatus', {dniStatus: 'pantalla no recibio el mensaje'})
+
     }
 
     //esto es para usar si se usa un timeout en el compoente hometeclado en la parte del socket.emit 'sendDni'
@@ -105,6 +137,10 @@ export class QueueGateway implements OnModuleInit {
       //respuesta de pantalla
       const response = await this.server.timeout(5000).to('pantallaRoom').emitWithAck('changeNextUser', { mensaje, box }, 'baz' );
      
+
+
+      //Si responde pantalla, se deberia emitir un mensaje a box con el usuario entrante. Si la pantalla lo recibe, pantalla deberia
+
       // const resFromPantalla = response[0].status.statusChangedUser;
       // const nextUser = response[0].status.proximoUser
 

@@ -91,6 +91,8 @@ console.log('se ejecuta function dni')
 
         socket.once('responseDniStatus', status =>{
 
+            
+
             if(status.dniStatus === 'pantalla no recibio el mensaje'){
                 console.log('pantalla no respondio')
                 setServerConnection(false)
@@ -105,6 +107,9 @@ console.log('se ejecuta function dni')
                             return prevNumeroTurno > 98 ? 1 : prevNumeroTurno + 1;
                         }); // Incrementar el número de turno para el siguiente usuario;
 
+            }else{
+                console.log('ESTE ES EL MENSAJE QUE LLEGA EN responseDniStatus')
+                console.log(status)
             }
         })
 
@@ -152,6 +157,7 @@ console.log('se ejecuta function dni')
                 {/* <button className='rounded-full mx-auto px-3 py-2 bg-cv-celeste-claro' onClick={() => setInternetConnection(true)}>Intente Nuevamente</button> */}
                 <div className='mt-10 mx-auto text-center '>
                 <a href="/" className='text-2xl px-8 rounded-full mx-auto py-3 bg-cv-celeste-claro'>Volver</a>
+                <button onClick={setInternetConnection(true, setLoading(true))}>Volver</button>
                 </div>
             </>
         )
