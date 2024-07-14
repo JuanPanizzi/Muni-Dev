@@ -92,7 +92,6 @@ console.log('se ejecuta function dni')
         })
 
         socket.once('responseDniStatus', status =>{
-
             
 
             if(status.dniStatus === 'pantalla no recibio el mensaje'){
@@ -115,6 +114,12 @@ console.log('se ejecuta function dni')
             }
         })
 
+        socket.once('reenvio', status =>{
+            
+            console.log('SE HA RECIBIDO UN MENSAJE REENVIADO')
+            console.log(status)
+           
+        })
     }
 
 

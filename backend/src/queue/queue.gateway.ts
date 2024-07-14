@@ -28,7 +28,6 @@ export class QueueGateway implements OnModuleInit {
     this.server.on('connection', (socket: Socket) => {
 
       const { deviceType, deviceId } = socket.handshake.query;
-
       //Primera barrera - se controla que la conexion ande
       // socket.on('sendDni', (turnoDni, callback)=>{
       //   callback({
@@ -37,7 +36,7 @@ export class QueueGateway implements OnModuleInit {
       // })
 
       //Segunda barrera - se controla que el mensaje desde hometeclado llegue bien a pantalla
-      console.log(`socket conectado: ${socket.id}`)
+      // console.log(`socket conectado: ${socket.id}`)
 
 
 
@@ -58,19 +57,19 @@ export class QueueGateway implements OnModuleInit {
         }
 
         // Limpiar mensajes pendientes si el cliente se desconecta
-        if (this.pendingMessages.has(socket.id)) {
-          this.pendingMessages.delete(socket.id);
-        }
+        // if (this.pendingMessages.has(socket.id)) {
+        //   this.pendingMessages.delete(socket.id);
+        // }
       })
 
       //REENVIO DE MENSAJES 
       if (this.pendingMessages.has(socket.id)) {
-        console.log('ENTRO EN REENVIO DE MENSAJES OJOOO')
+        console.log('ENTRO EN REENVIO DE MENSAJES OJOOO') 
         const pendingMessage = this.pendingMessages.get(socket.id);
         console.log('esto es un pendingMessage')
         console.log(pendingMessage)
         // this.handlePendingMessage(socket, pendingMessage);
-        socket.emit('responseDniStatus', pendingMessage)
+        socket.emit('reenvio', pendingMessage)
         this.pendingMessages.delete(socket.id); // Limpiar el mensaje pendiente después de reenviarlo
       }
 
@@ -101,7 +100,7 @@ export class QueueGateway implements OnModuleInit {
       if(resPantalla == 'ok'){
         
         this.pendingMessages.set(client.id, {dniStatus: 'pantalla recibio el mensaje'});
-
+        console.log('se guardan mensajes en pending messages')
         client.emit('responseDniStatus', {dniStatus: 'pantalla recibio el mensaje'})
 
 
@@ -117,7 +116,6 @@ export class QueueGateway implements OnModuleInit {
 
     //esto es para usar si se usa un timeout en el compoente hometeclado en la parte del socket.emit 'sendDni'
     // if(serverMessage) return { serverMessage: "Mensaje recibido correctamente" }
-    
     
     return { serverMessage: "Mensaje recibido correctamente" }
     //Esta respuesta no es para ver si hubo un error o no en la recepcion del mensaje que hometeclado le envia a pantalla (a traves de este gateway). Esta respuesta de abajo es para chequear que el server esta vivo y responde a tiempo, para que en el timeout(10000) que se esta ejecutando en hometeclado no caiga en el (err). Abajo en @subscribemessage('nextuser') esta explicado un poco mejor tambien. 
