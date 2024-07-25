@@ -6,7 +6,9 @@ import { Navbar2 } from '../componentes/Navbar2';
 
 //https://muni-dev.onrender.com
 //https://municipalidad-rawson-server.onrender.com
+const userId = 'someUniqueUserId';
 const socket = io('https://muni-dev.onrender.com', {
+  query: {userId},
   reconnection: true,
   reconnectionAttempts: Infinity, // Número de intentos de reconexión
   reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
