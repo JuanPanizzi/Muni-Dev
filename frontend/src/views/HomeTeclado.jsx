@@ -12,7 +12,11 @@ const socket = io('https://muni-dev.onrender.com', {
     reconnectionAttempts: Infinity, // Número de intentos de reconexión
     reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
     reconnectionDelayMax: 5000,
+    auth: {
+        serverOffset: 0
+    }
 });
+
 
 
 export const HomeTeclado = () => {

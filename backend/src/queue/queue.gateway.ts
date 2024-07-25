@@ -64,6 +64,7 @@ export class QueueGateway implements OnModuleInit {
 
       console.log('socket se ha conectado, estos son los pendingMessages')
       console.log(this.pendingMessages)
+      
       //REENVIO DE MENSAJES 
       if (this.pendingMessages.has(socket.id)) {
         console.log('ENTRO EN REENVIO DE MENSAJES OJOOO') 
