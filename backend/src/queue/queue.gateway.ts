@@ -92,6 +92,7 @@ export class QueueGateway implements OnModuleInit {
       const { mensaje, box } = message; //message.mensaje: 'next', box: 'id de la mesa de entradas que manda el msje'
       // this.server.to('pantallaRoom').emit('changeNextUser', { mensaje, box })
 
+      
       //AUTH 
     try {
       //respuesta de pantalla
