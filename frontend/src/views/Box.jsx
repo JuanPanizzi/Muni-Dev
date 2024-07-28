@@ -6,11 +6,23 @@ import { Navbar2 } from '../componentes/Navbar2';
 
 //https://muni-dev.onrender.com
 //https://municipalidad-rawson-server.onrender.com
-const socket = io('https://muni-dev.onrender.com', {
+// const socket = io('https://muni-dev.onrender.com', {
+//   reconnection: true,
+//   reconnectionAttempts: Infinity, // Número de intentos de reconexión
+//   reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
+//   reconnectionDelayMax: 5000,
+// });
+const socket = io('/', {
   reconnection: true,
   reconnectionAttempts: Infinity, // Número de intentos de reconexión
   reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
   reconnectionDelayMax: 5000,
+  auth:{
+    serverOffset: 0
+  },
+  query: {
+    deviceType: 'box'
+  }
 });
 // const socket = io('/');
 
@@ -33,57 +45,68 @@ export const Box = () => {
     //MECANISMO DE VERIFICACION DE RECEPCION DE MENSAJES: 
     //Funciona igual que la verificacion que se hace desde hometeclado a pantalla. Aca lo que se hace es primero esperar 10s que el servidor responda. Sino responde en 10s se emite error. Si responde, se espera la respuesta en el evento 'responseChangedUser' de mas abajo.
     socket.timeout(10000).emit('nextUser', { mensaje: 'next', box: BoxId }, (err, res) => {
-      console.log('SCKT')
       console.log(socket.id)
       if (err) {
         console.log('Entro en error')
         setServerConnectionError(true)
       } else {
+        console.log(res) // --> {serverMessage: "Servidor respondiendo a tiempo"}
 
         if (serverConnectionError) {
           setServerConnectionError(false)
-          console.log(res)
-          // --> {serverMessage: "Servidor respondiendo a tiempo"}
         }
       }
 
     });
 
-    //Aca el Box escucha el evento 'responseChangedUser' que emite el servidor con el status del proceso de llamar a un nuevo usuario.
-    socket.once('responseChangedUser', status => {
+  }
+  // socket.once('mensajePendiente', (mensajePendiente)=>{
+  //   console.log('63.el mensaje pendente es este:')
+  //   console.log(mensajePendiente)
+  //   setnoMoreUsers(false)
+  //   setIncomingUser(mensajePendiente.user.dni)
+  // })
+  
+  //Aca el Box escucha el evento 'responseChangedUser' que emite el servidor con el status del proceso de llamar a un nuevo usuario.
+  socket.once('responseChangedUser',  async (status, arg2, callback) => {
 
-      const { changedUserStatus, nextUser } = status;
-      //resFromServer es la respuesta del servidor sobre el status del proceso de llamar a un nuevo usuario;
-      switch (changedUserStatus) {
-        case 'se cambio-llamo el usuario correctamente':
+  const { changedUserStatus, nextUser } = status;
+  console.log(nextUser)
+  console.log(changedUserStatus)
+    //socket.auth.serverOffset = nextUser.nroTurno;
+  
+  // callback({
+  //   responseFromBox: 'responseBoxOK'
+  // })
+  //resFromServer es la respuesta del servidor sobre el status del proceso de llamar a un nuevo usuario;
+  switch (changedUserStatus) {
+    case 'se cambio-llamo el usuario correctamente':
+      
+      if (noMoreUsers) {
+        setnoMoreUsers(false)
+      }
+      setStatusChangedUser('se cambio-llamo el usuario correctamente');
+      setIncomingUser(nextUser.dni)
+      // setIncomingUser(proximoUser)
+      // console.log('ESTE ES EL USUARIO QUE ESTA LLAMANDO ESTE BOX. VER SI COINCIDE CON EL QUE APARECE EN PANTALLA')
+      // console.log(proximoUser)
+      break;
+      case 'No hay mas usuarios para llamar':
+        // console.log(changedUserStatus)
 
-          if (noMoreUsers) {
-            setnoMoreUsers(false)
-          }
-          setStatusChangedUser('se cambio-llamo el usuario correctamente');
-          setIncomingUser(nextUser)
-          // setIncomingUser(proximoUser)
-          // console.log('ESTE ES EL USUARIO QUE ESTA LLAMANDO ESTE BOX. VER SI COINCIDE CON EL QUE APARECE EN PANTALLA')
-          // console.log(proximoUser)
-          break;
-        case 'No hay mas usuarios para llamar':
-
-          // setStatusChangedUser('No hay mas usuarios para llamar')
-          setnoMoreUsers(true)
-          break;
+        // setStatusChangedUser('No hay mas usuarios para llamar')
+        setnoMoreUsers(true)
+        break;
         case 'Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente':
-
+          
           setStatusChangedUser('Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente')
           break;
-
-        default:
-          break;
-      }
-    })
-
-
-  }
-
+          
+          default:
+            break;
+          }
+        })
+          
   const reloadPanalla = async () => {
 
     socket.timeout(10000).emit('reloadPantalla', "reloadPantallaMessage", (err, res)=>{

@@ -14,7 +14,18 @@ import { Navbar2 } from '../componentes/Navbar2';
 // );
 
 //https://municipalidad-rawson-server.onrender.com
-const socket = io('https://muni-dev.onrender.com', {
+// const socket = io('https://muni-dev.onrender.com', {
+//   reconnection: true,
+//   reconnectionAttempts: Infinity, // Número de intentos de reconexión
+//   reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
+//   reconnectionDelayMax: 5000, // Tiempo de espera máximo entre intentos de reconexión
+//   query: {
+//     deviceType: 'pantalla',  // Identificador del tipo de dispositivo
+//     deviceId: '25',  // Identificador único del dispositivo
+//   },
+// }
+// );
+const socket = io('/', {
   reconnection: true,
   reconnectionAttempts: Infinity, // Número de intentos de reconexión
   reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
@@ -25,7 +36,6 @@ const socket = io('https://muni-dev.onrender.com', {
   },
 }
 );
-
 export const Pantalla3 = () => {
 
   //turnoDni --> arryUsers = [{dni: '221', nroTurno: 3}, {dni: '211', nroTurno: 5}];
@@ -135,9 +145,12 @@ export const Pantalla3 = () => {
     const { box } = data;
     console.log('ENTRA EN UPDATE INDCES AND BOX')
     const usersA = JSON.parse(localStorage.getItem('users'))
-    const nextUser = usersA[prevIndiceGlobalRef.current + 1].dni
-    console.log('abajo prevIndiceGlobalRef.current +1')
-    console.log(prevIndiceGlobalRef.current + 1)
+    // const nextUser = usersA[prevIndiceGlobalRef.current + 1].dni
+    // const nextUser = usersA[prevIndiceGlobalRef.current + 1].nroTurno
+    const nextUser = usersA[prevIndiceGlobalRef.current + 1] //---> {dni: "E", nroTurno: 3}
+    // console.log(nextUser)
+    // console.log('abajo prevIndiceGlobalRef.current +1')
+    // console.log(prevIndiceGlobalRef.current + 1)
     // console.log(nextUser)
 
     switch (box) {

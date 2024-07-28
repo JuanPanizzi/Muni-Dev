@@ -7,10 +7,12 @@ import { MensajeNextUser } from 'src/interfaces/message';
 import { TurnoDni } from 'src/interfaces/TurnoDni';
 
 
-@WebSocketGateway({ cors: 'https://municipalidad-client.vercel.app/',
+@WebSocketGateway({ cors: 'https://muni-dev.vercel.app/',
   connectionStateRecovery: {}
 })
 export class QueueGateway implements OnModuleInit {
+
+
 
   @WebSocketServer()
   server: Server;
@@ -26,6 +28,7 @@ export class QueueGateway implements OnModuleInit {
     this.server.on('connection', (socket: Socket) => {
 
       const { deviceType, deviceId } = socket.handshake.query;
+
       //Primera barrera - se controla que la conexion ande
       // socket.on('sendDni', (turnoDni, callback)=>{
       //   callback({
@@ -97,15 +100,29 @@ export class QueueGateway implements OnModuleInit {
       //Si responde pantalla, se deberia emitir un mensaje a box con el usuario entrante. Si la pantalla lo recibe, pantalla deberia
       // const resFromPantalla = response[0].status.statusChangedUser;
       // const nextUser = response[0].status.proximoUser
-
       const {statusChangedUser, nextUser} = response[0].status;
 
       if(statusChangedUser == 'se cambio-llamo el usuario correctamente'){
         // console.log(proximoUser)
         // client.emit('responseChangedUser', {changedUserStatus: 'se cambio-llamo el usuario correctamente', proximoUser})
-        client.emit('responseChangedUser', {changedUserStatus: 'se cambio-llamo el usuario correctamente', nextUser})
+        
+        // client.emit('responseChangedUser', {changedUserStatus: 'se cambio-llamo el usuario correctamente', nextUser})
+        try {
+          const responseBox = await client.timeout(5000).emitWithAck('responseChangedUser', {changedUserStatus: 'se cambio-llamo el usuario correctamente', nextUser}, 'baz')
+
+          console.log('112')
+          if(responseBox) console.log(responseBox.responseFromBox)
+
+        } catch (error) {
+          // console.log('response box doesnt exist')
+          //   console.log(error)
+            // lastMessage.push({user: nextUser})
+            // console.log(lastMessage)
+        }
         
       }
+
+      //pantalla tiene que enviar todo el nextUser con el id
 
       if(statusChangedUser == 'No hay mas usuarios'){
         client.emit('responseChangedUser', {changedUserStatus: 'No hay mas usuarios para llamar'})
