@@ -222,10 +222,10 @@ export const HomeTeclado = () => {
 
                         <div className='flex items-center justify-center min-h-screen px-10  '>
 
-                            <form action="#" method="post" onSubmit={handleSubmit} className='w-full py-7 rounded-xl bg-cv-celeste-mas-claro'>
-                                <label htmlFor="InputDocumento" className='block text-center text-cv-verde-oscuro text-4xl mb-4 '>Nombre y Apellido</label>
+                            <form action="#" method="post" onSubmit={handleSubmit} className='w-full py-7 rounded-xl bg-cv-celeste-oscuro'>
+                                <label htmlFor="InputDocumento" className='block text-center text-white text-4xl mb-7 font-bold'>NOMBRE Y APELLIDO</label>
                                 <input
-                                    className='block w-2/3 m-auto text-center lg:text-5xl lg:rounded-xl p-1 mt-2 '
+                                    className='block w-2/3 m-auto text-center lg:text-5xl lg:rounded-xl  mt-2 '
                                     type="Text"
                                     id="InputDocumento"
                                     name="dni"
