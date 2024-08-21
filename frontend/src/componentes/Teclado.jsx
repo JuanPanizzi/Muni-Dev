@@ -35,14 +35,14 @@ const keys = [
   return (
     <div className="mt-3">
     {keys.map((row, rowIndex) => (
-      <div key={rowIndex} className="w-2/3 m-auto">
+      <div key={rowIndex} className="w-full m-auto px-10">
         <div className={`px-2 pt-1 m-auto grid ${rowIndex === keys.length - 1 ? 'grid-cols-2' : 'grid-cols-7'} gap-2`}>
           {row.map((key) => (
             <button 
               key={key}
               type={key === '✓' ? 'submit' : 'button'}
-              className={`h-[60px] mb-2 rounded-xl text-2xl ${
-                key === '✓' ? 'bg-green-400' : key === '←' ? 'bg-red-400' : key === ' ' ? 'col-span-6 bg-white' : 'text-dark bg-white font-bold'
+              className={`h-16 mb-2 rounded-xl text-3xl ${
+                key === '✓' ? 'bg-green-400' : key === '←' ? 'bg-red-400' : key === ' ' ? 'col-span-6 bg-white' : 'text-dark bg-white font-medium'
               }`}
               onClick={() => onKeyPress(key)}
             >
