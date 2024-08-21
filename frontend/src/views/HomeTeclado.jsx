@@ -220,12 +220,12 @@ export const HomeTeclado = () => {
                 !showTramites ?
                     <>
 
-                        <div className='flex items-center justify-center min-h-screen px-10 '>
-
-                            <form action="#" method="post" onSubmit={handleSubmit} className='w-full py-7 rounded-xl bg-white shadow-xl '>
-                                <label htmlFor="InputDocumento" className='block text-center text-cv-verde-oscuro  text-4xl mb-7 font-bold'>INGRESE SU NOMBRE Y APELLIDO</label>
+                        <div className='flex flex-col items-center justify-center min-h-screen px-28 '>
+                            <h1 className='block text-center text-white text-start  text-6xl font-bold'>INGRESE SU NOMBRE Y APELLIDO</h1>
+                            <form action="#" method="post" onSubmit={handleSubmit} className='w-full mt-10 py-4 rounded-xl bg-white shadow-xl '>
+                                <label htmlFor="InputDocumento" ></label>
                                 <input
-                                    className='block w-2/3 m-auto text-center lg:text-5xl lg:rounded-xl mt-2 text-rojo font-bold '
+                                    className='block w-full m-auto text-center lg:text-5xl lg:rounded-xl mt-2 text-rojo font-bold '
                                     type="Text"
                                     id="InputDocumento"
                                     name="dni"

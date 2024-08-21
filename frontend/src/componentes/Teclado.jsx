@@ -18,7 +18,7 @@ const Teclado = ({ onKeyPress }) => {
                 key={key}
                 type={key === '✓' ? 'submit' : 'button'}
                 className={`h-16 mb-2 rounded-xl text-3xl ${
-                  key === '✓' ? 'col-span-1 bg-green-400 shadow-lg border border-black  font-bold  text-4xl' : key === '←' ? 'shadow-lg col-span-1 bg-red-400 border border-black  text-5xl font-bold' : key === ' ' ? 'col-span-6 text-white border border-cv-verde-oscuro shadow-lg' : 'text-cv-verde-oscuro shadow-lg bg-white font-bold border border-cv-verde-oscuro'
+                  key === '✓' ? 'col-span-1 bg-green-400 shadow-lg border border-black   text-4xl font-medium' : key === '←' ? 'shadow-lg col-span-1 bg-red-400 border border-black  text-5xl font-medium' : key === ' ' ? 'col-span-6 text-white border border-cv-verde-oscuro shadow-lg font-medium' : 'text-cv-verde-oscuro shadow-lg bg-white  border border-cv-verde-oscuro font-medium'
                 }`}
                 onClick={() => onKeyPress(key)}
               >
