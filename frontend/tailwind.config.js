@@ -23,7 +23,8 @@ export default {
         'marron': '#b99d92',
         'cv-celeste-claro': "#90CBCA",
         'cv-celeste-oscuro': "#05AC9E",
-        'cv-verde-oscuro': '#047465'
+        'cv-verde-oscuro': '#047465',
+        'cv-celeste-mas-claro': '#63DAD3'
 
       }
       

@@ -215,17 +215,17 @@ export const HomeTeclado = () => {
 
     return (
         <>
-            <Navbar2 />
+            {/* <Navbar2 /> */}
             {
                 !showTramites ?
                     <>
 
-                        <div className='  m-auto w-auto '>
+                        <div className='flex items-center justify-center min-h-screen px-10  '>
 
-                            <form action="#" method="post" onSubmit={handleSubmit} className=' lg:w-2/3 lg:m-auto lg:mt-16 bg-cv-verde-oscuro py-3 rounded-xl   '>
-                                <label htmlFor="InputDocumento" className='text-center block text-white text-4xl '>Nombre y Apellido</label>
+                            <form action="#" method="post" onSubmit={handleSubmit} className='w-full py-7 rounded-xl bg-cv-celeste-mas-claro'>
+                                <label htmlFor="InputDocumento" className='block text-center text-cv-verde-oscuro text-4xl mb-4 '>Nombre y Apellido</label>
                                 <input
-                                    className='block w-2/3 m-auto lg:text-5xl lg:rounded-xl   text-center p-1 mt-2 bg-cv-celeste-claro'
+                                    className='block w-2/3 m-auto text-center lg:text-5xl lg:rounded-xl p-1 mt-2 '
                                     type="Text"
                                     id="InputDocumento"
                                     name="dni"

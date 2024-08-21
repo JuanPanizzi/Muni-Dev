@@ -42,7 +42,7 @@ const keys = [
               key={key}
               type={key === '✓' ? 'submit' : 'button'}
               className={`h-[60px] mb-2 rounded-xl text-2xl ${
-                key === '✓' ? 'bg-green-400' : key === '←' ? 'bg-red-400' : key === ' ' ? 'col-span-6 bg-cv-celeste-claro' : 'bg-cv-celeste-claro'
+                key === '✓' ? 'bg-green-400' : key === '←' ? 'bg-red-400' : key === ' ' ? 'col-span-6 bg-white' : 'text-cv-verde-oscuro bg-white'
               }`}
               onClick={() => onKeyPress(key)}
             >
