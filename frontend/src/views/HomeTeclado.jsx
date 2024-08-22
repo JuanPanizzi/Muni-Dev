@@ -172,32 +172,37 @@ export const HomeTeclado = () => {
     if (!internetConnection && !Loading) {
         return (
             <>
+
+
                 <Warning warn={"NO HAY CONEXION"} />
                 {/* <button className='rounded-full mx-auto px-3 py-2 bg-cv-celeste-claro' onClick={() => setInternetConnection(true)}>Intente Nuevamente</button> */}
-                <div className='mt-10 mx-auto text-center '>
-                    {/* <a href="/" className='text-2xl px-8 rounded-full mx-auto py-3 bg-cv-celeste-claro'>Volver</a> */}
-                    <button className='text-2xl px-8 rounded-full mx-auto py-3 bg-sky-200' onClick={() => {
-                        setInternetConnection(true);
-                        setLoading(true);
-                    }}>Volver</button>
-                </div>
+                {/* <a href="/" className='text-2xl px-8 rounded-full mx-auto py-3 bg-cv-celeste-claro'>Volver</a> */}
+                <button className='text-2xl px-8 rounded-full mx-auto py-3 bg-sky-200' onClick={() => {
+                    setInternetConnection(true);
+                    setLoading(true);
+                }}>Volver</button>
+
             </>
         )
     }
     if (!serverConnection) {
         return (
             <>
-                <Warning warn={"NO HAY CONEXION CON EL SERVIDOR INTENTE DE NUEVO..."} />
-                {/* <button className=' rounded-full mx-auto px-3 py-2 bg-cv-celeste-claro' onClick={() => setServerConnection(true)}>Intente Nuevamente</button> */}
-                <div className='mt-10 mx-auto text-center '>
-                    {/* <a href="/" className='text-2xl px-8 rounded-full mx-auto py-3 bg-cv-celeste-claro'>Volver</a> */}
-                    <button className='text-2xl px-8 rounded-full mx-auto py-3 bg-green-200' onClick={() => {
-                        // setInternetConnection(true);
-                        setServerConnection(true)
-                        setLoading(false);
-                    }}>Volver</button>
+            <div className='h-screen  flex justify-center items-center'>
+           
+            <div className='bg-white w-2/3 p-14 rounded-lg flex flex-col justify-center shadow-xl'>
 
-                </div>
+                        <Warning warn={"NO HAY CONEXIÓN CON EL SERVIDOR INTENTE NUEVAMENTE"} />
+                        {/* <button className=' rounded-full mx-auto px-3 py-2 bg-cv-celeste-claro' onClick={() => setServerConnection(true)}>Intente Nuevamente</button> */}
+                        {/* <a href="/" className='text-2xl px-8 rounded-full mx-auto py-3 bg-cv-celeste-claro'>Volver</a> */}
+                        <button className='font-medium text-3xl px-8 rounded-lg text-white mt-16 mx-auto w-2/3 py-3 bg-cv-verde-oscuro' onClick={() => {
+                            // setInternetConnection(true);
+                            setServerConnection(true)
+                            setLoading(false);
+                        }}>Volver</button>
+                        </div>
+
+                        </div>
             </>
 
         )
@@ -225,7 +230,7 @@ export const HomeTeclado = () => {
                             <form action="#" method="post" onSubmit={handleSubmit} className='w-full mt-10 py-4 rounded-xl bg-white shadow-xl '>
                                 <label htmlFor="InputDocumento" ></label>
                                 <input
-                                    className='block w-full m-auto text-center lg:text-5xl lg:rounded-xl mt-2 text-rojo font-bold '
+                                    className='block w-full m-auto text-center lg:text-5xl lg:rounded-xl  text-rojo font-bold '
                                     type="Text"
                                     id="InputDocumento"
                                     name="dni"
