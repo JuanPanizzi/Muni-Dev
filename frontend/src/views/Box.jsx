@@ -180,9 +180,8 @@ export const Box = () => {
     <>
       {/* <Navbar2 /> */}
 
-      <div className='h-screen  flex flex-col justify-center items-center '>
 
-        <div className='bg-white w-2/3 m-auto rounded-xl  p-5 text-center '>
+        <div className='bg-white w-2/3 m-auto rounded-xl mt-16 p-5 text-center shadow-xl'>
           <h1 className='text-5xl   rounded-xl p-3 w-2/3 m-auto text-rojo font-bold'>BOX {BoxId}</h1>
           {/* <h3>Proximo usuario:</h3> */}
           {/* <button onClick={()=> nextUser()} className='btnBox'>Proximo Usuario</button> */}
@@ -197,19 +196,19 @@ export const Box = () => {
 
         </div>
 
-      <div className={statusChangedUser == '' ? 'display-none' : 'bg-white rounded-xl p-3 w-2/3 m-auto shadow-xl'}>
+      <div className={statusChangedUser == '' ? 'display-none' : 'bg-white rounded-xl p-3 w-2/3 m-auto mt-16 shadow-xl'}>
 
         {
-          serverConnectionError && statusChangedUser != ''  && <h1 className=' text-4xl  text-center mt-2 text-rojo'>No se pudo conectar con el servidor <br /> Intente nuevamente</h1>
+          serverConnectionError && statusChangedUser != ''  && <h1 className='bg-white  text-4xl  text-center mt-2 text-rojo'>No se pudo conectar con el servidor <br /> Intente nuevamente</h1>
         }
         {
           statusChangedUser && statusChangedUser != 'No hay mas usuarios para llamar' && <h1 className='text-cv-verde-oscuro text-4xl  text-center mt-2'>{statusChangedUser}</h1>
         }
         {
-          noMoreUsers && statusChangedUser == 'No hay mas usuarios para llamar' && <h1 className='text-cv-verde-oscuro text-4xl  text-center mt-2'>No hay más usuarios para llamar</h1>
+          noMoreUsers && statusChangedUser == 'No hay mas usuarios para llamar' && <h1 className='text-dark text-4xl  text-center mt-2'>No hay más usuarios para llamar</h1>
         }
         {
-          incomingUser && !noMoreUsers && <h1 className=' text-4xl  text-center mt-2'>Usuario entrante: {incomingUser}</h1>
+          incomingUser && !noMoreUsers && <h1 className='bg-white rounded-xl p-3 w-2/3 m-auto mt-10  text-4xl  text-center '>Usuario entrante: {incomingUser}</h1>
         }
         {operationReloadPantalla && (
           <>
@@ -222,7 +221,6 @@ export const Box = () => {
             </div>
           </>
         )}
-      </div>
       </div>
 
       {/* <button onClick={reloadPanalla} className='bg-red-300 rounded p-3'>RECARGAR PANTALLA</button> */}
