@@ -188,9 +188,9 @@ export const HomeTeclado = () => {
     if (!serverConnection) {
         return (
             <>
-            <div className='h-screen  flex justify-center items-center'>
-           
-            <div className='bg-white w-2/3 p-14 rounded-lg flex flex-col justify-center shadow-xl'>
+                <div className='h-screen  flex justify-center items-center'>
+
+                    <div className='bg-white w-2/3 p-14 rounded-lg flex flex-col justify-center shadow-xl'>
 
                         <Warning warn={"NO HAY CONEXIÓN CON EL SERVIDOR INTENTE NUEVAMENTE"} />
                         {/* <button className=' rounded-full mx-auto px-3 py-2 bg-cv-celeste-claro' onClick={() => setServerConnection(true)}>Intente Nuevamente</button> */}
@@ -200,9 +200,9 @@ export const HomeTeclado = () => {
                             setServerConnection(true)
                             setLoading(false);
                         }}>Volver</button>
-                        </div>
+                    </div>
 
-                        </div>
+                </div>
             </>
 
         )
@@ -250,10 +250,13 @@ export const HomeTeclado = () => {
                     </>
                     :
                     <>
-                        <div className='text-center mt-10 text-4xl text-white bg-cv-verde-oscuro p-5 rounded-xl w-2/3 mx-auto '>
-                            <h1 >Bienvenido a la Municipalidad de Rawson</h1>
-                            <h2 className='my-4'>Tome asiento y será llamado por la pantalla</h2>
-                            <button onClick={() => setShowTramites(false)} className='rounded-full p-10 bg-cv-celeste-claro'>Volver</button>
+                        <div className='h-screen  flex justify-center items-center'>
+                            <div className='bg-white w-2/3 p-14 rounded-lg flex flex-col justify-center shadow-xl'>
+                                {/* <div className='text-center mt-10 text-4xl text-white bg-cv-verde-oscuro p-5 rounded-xl w-2/3 mx-auto '> */}
+                                <h1 className='text-center lg:text-5xl   text-cv-verde-oscuro font-bold'>TOME ASIENTO Y SERÁ LLAMADO POR LA PANTALLA</h1>
+                                <h2 className='my-4'></h2>
+                                <button onClick={() => setShowTramites(false)} className='font-medium text-3xl px-8 rounded-lg text-white mt-12 mx-auto w-2/3 py-3 bg-cv-verde-oscuro'>Aceptar</button>
+                            </div>
                         </div>
                         {/* <button onClick={()=>setShowTramites(false)}>Reset show tramites</button> */}
 
