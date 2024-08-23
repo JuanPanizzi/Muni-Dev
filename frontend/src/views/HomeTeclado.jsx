@@ -3,7 +3,8 @@ import io from 'socket.io-client'
 import Teclado from '../componentes/Teclado';
 import { Navbar2 } from '../componentes/Navbar2';
 import { Warning } from '../componentes/Warning';
-
+import logoMuni from '../assets/logoMuni.png'
+import { useNavigate } from 'react-router-dom';
 // const socket = io('/');
 //https://muni-dev.onrender.com
 //https://municipalidad-rawson-server.onrender.com
@@ -28,7 +29,8 @@ const socket = io('/', {
 
 
 export const HomeTeclado = () => {
-
+    
+    const navigate = useNavigate()
     //USE STATES
     const [dni, setDni] = useState(null);
     const [internetConnection, setInternetConnection] = useState(true)
@@ -213,7 +215,8 @@ export const HomeTeclado = () => {
             <div className='h-screen  flex justify-center items-center'>
 
             <div className='bg-white w-2/3 p-14 rounded-lg flex flex-col justify-center shadow-xl'>
-
+            
+            {/* <img src={logoMuni} alt="logo-muni" className="w-24 lg:w-32 mx-auto" /> */}
             <Warning warn={"CARGANDO..."} />
             </div>
                 
@@ -262,7 +265,7 @@ export const HomeTeclado = () => {
                                 {/* <div className='text-center mt-10 text-4xl text-white bg-cv-verde-oscuro p-5 rounded-xl w-2/3 mx-auto '> */}
                                 <h1 className='text-center lg:text-5xl   text-cv-verde-oscuro font-bold'>TOME ASIENTO Y SERÁ LLAMADO POR LA PANTALLA</h1>
                                 <h2 className='my-4'></h2>
-                                <button onClick={() => setShowTramites(false)} className='font-medium text-3xl px-8 rounded-lg text-white mt-12 mx-auto w-2/3 py-3 bg-cv-verde-oscuro'>Aceptar</button>
+                                <button onClick={() =>{ setShowTramites(false), navigate('/')}} className='font-medium text-3xl px-8 rounded-lg text-white mt-12 mx-auto w-2/3 py-3 bg-cv-verde-oscuro'>Aceptar</button>
                             </div>
                         </div>
                         {/* <button onClick={()=>setShowTramites(false)}>Reset show tramites</button> */}

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom';
 import '../styles/Box.css'
 import io from 'socket.io-client'
-import { Navbar2 } from '../componentes/Navbar2';
+// import { Navbar2 } from '../componentes/Navbar2';
 
 //https://muni-dev.onrender.com
 //https://municipalidad-rawson-server.onrender.com
@@ -178,7 +178,7 @@ export const Box = () => {
   return (
 
     <>
-      <Navbar2 />
+      {/* <Navbar2 /> */}
       <div className='bg-cv-verde-oscuro w-2/3 m-auto rounded-xl mt-16 p-5 text-center'>
         <h1 className='text-5xl bg-cv-celeste-claro  rounded-xl p-3 w-2/3 m-auto '>BOX {BoxId}</h1>
         {/* <h3>Proximo usuario:</h3> */}
@@ -193,7 +193,7 @@ export const Box = () => {
         )}
 
       </div>
-      <div className=' bg-cv-celeste-claro  rounded-xl p-3 w-2/3 m-auto mt-5'>
+      <div className=' bg-white   rounded-xl p-3 w-2/3 m-auto mt-5'>
 
         {
           serverConnectionError && <h1 className=' text-4xl bg- text-center mt-2'>NO SE PUDO CONECTAR CON EL SERVIDOR <br /> INTENTE NUEVAMENTE</h1>
