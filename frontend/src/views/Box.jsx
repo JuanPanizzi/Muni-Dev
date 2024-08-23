@@ -39,7 +39,7 @@ export const Box = () => {
   const [incomingUser, setIncomingUser] = useState(null)
   const [noMoreUsers, setnoMoreUsers] = useState(true)
   const [operationReloadPantalla, setOperationReloadPantalla] = useState('')
-
+  
   const nextUser = () => {
 
     //MECANISMO DE VERIFICACION DE RECEPCION DE MENSAJES: 
@@ -85,7 +85,7 @@ export const Box = () => {
       if (noMoreUsers) {
         setnoMoreUsers(false)
       }
-      setStatusChangedUser('se cambio-llamo el usuario correctamente');
+      setStatusChangedUser('Se llamó el usuario correctamente');
       setIncomingUser(nextUser.dni)
       // setIncomingUser(proximoUser)
       // console.log('ESTE ES EL USUARIO QUE ESTA LLAMANDO ESTE BOX. VER SI COINCIDE CON EL QUE APARECE EN PANTALLA')
@@ -94,7 +94,7 @@ export const Box = () => {
       case 'No hay mas usuarios para llamar':
         // console.log(changedUserStatus)
 
-        // setStatusChangedUser('No hay mas usuarios para llamar')
+        setStatusChangedUser('No hay mas usuarios para llamar')
         setnoMoreUsers(true)
         break;
         case 'Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente':
@@ -147,10 +147,10 @@ export const Box = () => {
     const now = Date.now();
 
     if (now - lastClick < 10000) {
-      console.log(`Now: ${now} - LastClick: ${lastClick} = ${now - lastClick}`)
+      // console.log(`Now: ${now} - LastClick: ${lastClick} = ${now - lastClick}`)
       setShowWarning(true)
     } else {
-      console.log('Se ejecuto el next user');
+      // console.log('Se ejecuto el next user');
       setLastClick(now);
       nextUser();
     }
@@ -193,16 +193,16 @@ export const Box = () => {
         )}
 
       </div>
-      <div className=' bg-white   rounded-xl p-3 w-2/3 m-auto mt-5'>
+      <div className={ statusChangedUser == '' ? 'display-none' :'bg-white rounded-xl p-3 w-2/3 m-auto mt-5'}>
 
         {
           serverConnectionError && <h1 className=' text-4xl bg- text-center mt-2'>NO SE PUDO CONECTAR CON EL SERVIDOR <br /> INTENTE NUEVAMENTE</h1>
         }
         {
-          statusChangedUser && <h1 className=' text-4xl bg- text-center mt-2'>{statusChangedUser}</h1>
+          statusChangedUser && statusChangedUser != 'No hay mas usuarios para llamar' && <h1 className=' text-4xl bg- text-center mt-2'>{statusChangedUser}</h1>
         }
         {
-          noMoreUsers && <h1 className=' text-4xl bg- text-center mt-2'>No hay más usuarios para llamar</h1>
+          noMoreUsers && statusChangedUser == 'No hay mas usuarios para llamar' && <h1 className=' text-4xl bg- text-center mt-2'>No hay más usuarios para llamar</h1>
         }
         {
           incomingUser && !noMoreUsers && <h1 className=' text-4xl bg- text-center mt-2'>Usuario entrante: {incomingUser}</h1>
