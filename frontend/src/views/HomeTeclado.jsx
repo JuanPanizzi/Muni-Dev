@@ -210,7 +210,14 @@ export const HomeTeclado = () => {
 
     if (Loading) {
         return (
+            <div className='h-screen  flex justify-center items-center'>
+
+            <div className='bg-white w-2/3 p-14 rounded-lg flex flex-col justify-center shadow-xl'>
+
             <Warning warn={"CARGANDO..."} />
+            </div>
+                
+            </div>
         )
     }
 
