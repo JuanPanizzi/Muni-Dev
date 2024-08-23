@@ -17,7 +17,7 @@ const socket = io('/', {
   reconnectionAttempts: Infinity, // Número de intentos de reconexión
   reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
   reconnectionDelayMax: 5000,
-  auth:{
+  auth: {
     serverOffset: 0
   },
   query: {
@@ -39,7 +39,7 @@ export const Box = () => {
   const [incomingUser, setIncomingUser] = useState(null)
   const [noMoreUsers, setnoMoreUsers] = useState(true)
   const [operationReloadPantalla, setOperationReloadPantalla] = useState('')
-  
+
   const nextUser = () => {
 
     //MECANISMO DE VERIFICACION DE RECEPCION DE MENSAJES: 
@@ -66,55 +66,55 @@ export const Box = () => {
   //   setnoMoreUsers(false)
   //   setIncomingUser(mensajePendiente.user.dni)
   // })
-  
-  //Aca el Box escucha el evento 'responseChangedUser' que emite el servidor con el status del proceso de llamar a un nuevo usuario.
-  socket.once('responseChangedUser',  async (status, arg2, callback) => {
 
-  const { changedUserStatus, nextUser } = status;
-  console.log(nextUser)
-  console.log(changedUserStatus)
+  //Aca el Box escucha el evento 'responseChangedUser' que emite el servidor con el status del proceso de llamar a un nuevo usuario.
+  socket.once('responseChangedUser', async (status, arg2, callback) => {
+
+    const { changedUserStatus, nextUser } = status;
+    console.log(nextUser)
+    console.log(changedUserStatus)
     //socket.auth.serverOffset = nextUser.nroTurno;
-  
-  // callback({
-  //   responseFromBox: 'responseBoxOK'
-  // })
-  //resFromServer es la respuesta del servidor sobre el status del proceso de llamar a un nuevo usuario;
-  switch (changedUserStatus) {
-    case 'se cambio-llamo el usuario correctamente':
-      
-      if (noMoreUsers) {
-        setnoMoreUsers(false)
-      }
-      setStatusChangedUser('Se llamó el usuario correctamente');
-      setIncomingUser(nextUser.dni)
-      // setIncomingUser(proximoUser)
-      // console.log('ESTE ES EL USUARIO QUE ESTA LLAMANDO ESTE BOX. VER SI COINCIDE CON EL QUE APARECE EN PANTALLA')
-      // console.log(proximoUser)
-      break;
+
+    // callback({
+    //   responseFromBox: 'responseBoxOK'
+    // })
+    //resFromServer es la respuesta del servidor sobre el status del proceso de llamar a un nuevo usuario;
+    switch (changedUserStatus) {
+      case 'se cambio-llamo el usuario correctamente':
+
+        if (noMoreUsers) {
+          setnoMoreUsers(false)
+        }
+        setStatusChangedUser('Se llamó el usuario correctamente');
+        setIncomingUser(nextUser.dni)
+        // setIncomingUser(proximoUser)
+        // console.log('ESTE ES EL USUARIO QUE ESTA LLAMANDO ESTE BOX. VER SI COINCIDE CON EL QUE APARECE EN PANTALLA')
+        // console.log(proximoUser)
+        break;
       case 'No hay mas usuarios para llamar':
         // console.log(changedUserStatus)
 
         setStatusChangedUser('No hay mas usuarios para llamar')
         setnoMoreUsers(true)
         break;
-        case 'Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente':
-          
-          setStatusChangedUser('Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente')
-          break;
-          
-          default:
-            break;
-          }
-        })
-          
+      case 'Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente':
+
+        setStatusChangedUser('Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente')
+        break;
+
+      default:
+        break;
+    }
+  })
+
   const reloadPanalla = async () => {
 
-    socket.timeout(10000).emit('reloadPantalla', "reloadPantallaMessage", (err, res)=>{
+    socket.timeout(10000).emit('reloadPantalla', "reloadPantallaMessage", (err, res) => {
 
-      if(err){
+      if (err) {
         console.log('La pantalla no respondió al evento reloadPantalla')
         setServerConnectionError(true)
-      }else{
+      } else {
         console.log('la pantalla respondio al evento reload')
         setOperationReloadPantalla(true)
       }
@@ -179,33 +179,37 @@ export const Box = () => {
 
     <>
       {/* <Navbar2 /> */}
-      <div className='bg-cv-verde-oscuro w-2/3 m-auto rounded-xl mt-16 p-5 text-center'>
-        <h1 className='text-5xl bg-cv-celeste-claro  rounded-xl p-3 w-2/3 m-auto '>BOX {BoxId}</h1>
-        {/* <h3>Proximo usuario:</h3> */}
-        {/* <button onClick={()=> nextUser()} className='btnBox'>Proximo Usuario</button> */}
-        <button onClick={handleClick} className='mt-10 p-5 bg-green-600 text-white rounded-xl hover:bg-green-500 '>PROXIMO USUARIO</button>
-        {showWarning && (
-          <div className="mt-7">
-            <p className='text-white text-xl mb-5'>Ya has llamado a un usuario recientemente ¿Deseas llamar al próximo?</p>
-            <button onClick={handleCancel} className='bg-red-600 hover:bg-red-500 px-5 py-2 rounded-xl  mr-2 '>Cancelar</button>
-            <button onClick={handleAccept} className='bg-green-600 hover:bg-green-500 px-5 py-2 rounded-xl '>Aceptar</button>
-          </div>
-        )}
 
-      </div>
-      <div className={ statusChangedUser == '' ? 'display-none' :'bg-white rounded-xl p-3 w-2/3 m-auto mt-5'}>
+      <div className='h-screen  flex flex-col justify-center items-center '>
+
+        <div className='bg-white w-2/3 m-auto rounded-xl  p-5 text-center '>
+          <h1 className='text-5xl   rounded-xl p-3 w-2/3 m-auto text-rojo font-bold'>BOX {BoxId}</h1>
+          {/* <h3>Proximo usuario:</h3> */}
+          {/* <button onClick={()=> nextUser()} className='btnBox'>Proximo Usuario</button> */}
+          <button onClick={handleClick} className='shadow-xl mt-10 p-5 bg-cv-verde-oscuro text-white font-medium rounded-xl hover:bg-cv-celeste-oscuro text-lg'>PROXIMO USUARIO</button>
+          {showWarning && (
+            <div className="mt-12">
+              <p className='text-rojo font-medium text-2xl mb-5'>Ya has llamado a un usuario recientemente ¿Deseas llamar al próximo?</p>
+              <button onClick={handleCancel} className='bg-rojo hover:bg-red-200 text-white px-5 py-2 rounded-xl  mr-2 '>Cancelar</button>
+              <button onClick={handleAccept} className='bg-cv-celeste-oscuro text-white hover:bg-verde-oscuro px-5 py-2 rounded-xl '>Aceptar</button>
+            </div>
+          )}
+
+        </div>
+
+      <div className={statusChangedUser == '' ? 'display-none' : 'bg-white rounded-xl p-3 w-2/3 m-auto shadow-xl'}>
 
         {
-          serverConnectionError && <h1 className=' text-4xl bg- text-center mt-2'>NO SE PUDO CONECTAR CON EL SERVIDOR <br /> INTENTE NUEVAMENTE</h1>
+          serverConnectionError && statusChangedUser != ''  && <h1 className=' text-4xl  text-center mt-2 text-rojo'>No se pudo conectar con el servidor <br /> Intente nuevamente</h1>
         }
         {
-          statusChangedUser && statusChangedUser != 'No hay mas usuarios para llamar' && <h1 className=' text-4xl bg- text-center mt-2'>{statusChangedUser}</h1>
+          statusChangedUser && statusChangedUser != 'No hay mas usuarios para llamar' && <h1 className='text-cv-verde-oscuro text-4xl  text-center mt-2'>{statusChangedUser}</h1>
         }
         {
-          noMoreUsers && statusChangedUser == 'No hay mas usuarios para llamar' && <h1 className=' text-4xl bg- text-center mt-2'>No hay más usuarios para llamar</h1>
+          noMoreUsers && statusChangedUser == 'No hay mas usuarios para llamar' && <h1 className='text-cv-verde-oscuro text-4xl  text-center mt-2'>No hay más usuarios para llamar</h1>
         }
         {
-          incomingUser && !noMoreUsers && <h1 className=' text-4xl bg- text-center mt-2'>Usuario entrante: {incomingUser}</h1>
+          incomingUser && !noMoreUsers && <h1 className=' text-4xl  text-center mt-2'>Usuario entrante: {incomingUser}</h1>
         }
         {operationReloadPantalla && (
           <>
@@ -219,7 +223,9 @@ export const Box = () => {
           </>
         )}
       </div>
-      <button onClick={reloadPanalla} className='bg-red-300 rounded p-3'>RECARGAR PANTALLA</button>
+      </div>
+
+      {/* <button onClick={reloadPanalla} className='bg-red-300 rounded p-3'>RECARGAR PANTALLA</button> */}
     </>
   )
 }
