@@ -15,18 +15,7 @@ import logoMuni from '../assets/escudoMuni.webp'
 
 //https://municipalidad-rawson-server.onrender.com
 
-// const socket = io('https://muni-dev.onrender.com', {
-//   reconnection: true,
-//   reconnectionAttempts: Infinity, // Número de intentos de reconexión
-//   reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
-//   reconnectionDelayMax: 5000, // Tiempo de espera máximo entre intentos de reconexión
-//   query: {
-//     deviceType: 'pantalla',  // Identificador del tipo de dispositivo
-//     deviceId: '25',  // Identificador único del dispositivo
-//   },
-// }
-// );
-const socket = io('/', {
+const socket = io('https://muni-dev.onrender.com', {
   reconnection: true,
   reconnectionAttempts: Infinity, // Número de intentos de reconexión
   reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
@@ -37,6 +26,17 @@ const socket = io('/', {
   },
 }
 );
+// const socket = io('/', {
+//   reconnection: true,
+//   reconnectionAttempts: Infinity, // Número de intentos de reconexión
+//   reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
+//   reconnectionDelayMax: 5000, // Tiempo de espera máximo entre intentos de reconexión
+//   query: {
+//     deviceType: 'pantalla',  // Identificador del tipo de dispositivo
+//     deviceId: '25',  // Identificador único del dispositivo
+//   },
+// }
+// );
 export const Pantalla3 = () => {
 
   //turnoDni --> arryUsers = [{dni: '221', nroTurno: 3}, {dni: '211', nroTurno: 5}];
