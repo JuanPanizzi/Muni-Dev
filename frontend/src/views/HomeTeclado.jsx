@@ -193,12 +193,12 @@ export const HomeTeclado = () => {
             <>
                 <div className='h-screen  flex justify-center items-center'>
 
-                    <div className='bg-white w-2/3 p-14 rounded-lg flex flex-col justify-center shadow-xl'>
+                    <div className='bg-white mx-5  lg:w-2/3 p-14 rounded-lg flex flex-col justify-center shadow-xl'>
 
                         <Warning warn={"NO HAY CONEXIÓN CON EL SERVIDOR INTENTE NUEVAMENTE"} />
                         {/* <button className=' rounded-full mx-auto px-3 py-2 bg-cv-celeste-claro' onClick={() => setServerConnection(true)}>Intente Nuevamente</button> */}
                         {/* <a href="/" className='text-2xl px-8 rounded-full mx-auto py-3 bg-cv-celeste-claro'>Volver</a> */}
-                        <button className='font-medium text-3xl px-8 rounded-lg text-white mt-16 mx-auto w-2/3 py-3 bg-cv-verde-oscuro' onClick={() => {
+                        <button className='font-medium text-xl lg:text-3xl px-8 rounded-lg text-white mt-16 mx-auto w-2/3 py-3 bg-cv-verde-oscuro' onClick={() => {
                             // setInternetConnection(true);
                             setServerConnection(true)
                             setLoading(false)
