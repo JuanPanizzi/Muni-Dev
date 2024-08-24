@@ -322,9 +322,9 @@ export const Pantalla3 = () => {
   return (
     <>
       {/* <Navbar2 /> */}
-      <div className='mx-auto flex flex-col justify-center items-center'>
-        <img src={logoMuni} alt="Logomuni" className="w-28 lg:w-32 " />
-        <h1 className='text-center text-3xl text-white ml-4 mt-4 font-medium text-dark'>MUNICIPALIDAD DE RAWSON</h1>
+      <div className='mx-auto flex flex-col text-white justify-center items-center mt-2'>
+        <img src={logoMuni} alt="Logomuni" className="w-28 lg:w-28 " />
+        <h1 className='text-center text-3xl  ml-4 mt-4 font-bold '>MUNICIPALIDAD DE RAWSON</h1>
       </div>
       <>
         {/* turnoDni.length > 0 && mesaDeEntradas !== null && turnoDni[indiceDni].nroTurno && */}
@@ -332,7 +332,7 @@ export const Pantalla3 = () => {
           turnoDni.length >= 0 &&
 
           <>
-            <div className=" mx-28 mt-12 ">
+            <div className=" mx-28 mt-10 ">
               <table className="min-w-full bg-cv-celeste-oscuro text-sm  ">
                 <thead className="ltr:text-left rtl:text-right text-5xl ">
                   <tr className='bg-cv-verde-oscuro '>
@@ -424,6 +424,7 @@ export const Pantalla3 = () => {
                 </tbody>
               </table>
             </div>
+               
             {/* {
               noMoreUsers && <h1 className='text-5xl text-center mt-20'>THERE IS NO MORE USERS TO SHOW </h1>
             } */}
