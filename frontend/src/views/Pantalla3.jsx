@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 // import '../styles/Pantalla.css'
 import io from 'socket.io-client'
-import { Navbar2 } from '../componentes/Navbar2';
-
+// import { Navbar2 } from '../componentes/Navbar2';
+import logoMuni from '../assets/escudoMuni.webp'
 //https://muni-dev.onrender.com
 
 // const socket = io('/', {
@@ -14,18 +14,8 @@ import { Navbar2 } from '../componentes/Navbar2';
 // );
 
 //https://municipalidad-rawson-server.onrender.com
-const socket = io('https://muni-dev.onrender.com', {
-  reconnection: true,
-  reconnectionAttempts: Infinity, // Número de intentos de reconexión
-  reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
-  reconnectionDelayMax: 5000, // Tiempo de espera máximo entre intentos de reconexión
-  query: {
-    deviceType: 'pantalla',  // Identificador del tipo de dispositivo
-    deviceId: '25',  // Identificador único del dispositivo
-  },
-}
-);
-// const socket = io('/', {
+
+// const socket = io('https://muni-dev.onrender.com', {
 //   reconnection: true,
 //   reconnectionAttempts: Infinity, // Número de intentos de reconexión
 //   reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
@@ -36,6 +26,17 @@ const socket = io('https://muni-dev.onrender.com', {
 //   },
 // }
 // );
+const socket = io('/', {
+  reconnection: true,
+  reconnectionAttempts: Infinity, // Número de intentos de reconexión
+  reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
+  reconnectionDelayMax: 5000, // Tiempo de espera máximo entre intentos de reconexión
+  query: {
+    deviceType: 'pantalla',  // Identificador del tipo de dispositivo
+    deviceId: '25',  // Identificador único del dispositivo
+  },
+}
+);
 export const Pantalla3 = () => {
 
   //turnoDni --> arryUsers = [{dni: '221', nroTurno: 3}, {dni: '211', nroTurno: 5}];
@@ -320,19 +321,23 @@ export const Pantalla3 = () => {
 
   return (
     <>
-      <Navbar2 />
+      {/* <Navbar2 /> */}
+      <div className='mx-auto flex flex-col justify-center items-center'>
+        <img src={logoMuni} alt="Logomuni" className="w-28 lg:w-32 " />
+        <h1 className='text-center text-3xl text-white ml-4 mt-4 font-medium text-dark'>MUNICIPALIDAD DE RAWSON</h1>
+      </div>
       <>
         {/* turnoDni.length > 0 && mesaDeEntradas !== null && turnoDni[indiceDni].nroTurno && */}
         {
           turnoDni.length >= 0 &&
 
           <>
-            <div className=" w-2/3 m-auto mt-12 ">
+            <div className=" mx-28 mt-12 ">
               <table className="min-w-full bg-cv-celeste-oscuro text-sm  ">
-                <thead className="ltr:text-left rtl:text-right text-3xl ">
+                <thead className="ltr:text-left rtl:text-right text-5xl ">
                   <tr className='bg-cv-verde-oscuro '>
                     {/* <th className="whitespace-nowrap px-4 py-5 font-medium text-white rounded-l-lg">TURNO</th> */}
-                    <th className="whitespace-nowrap px-4 py-5 font-medium text-white ">NOMBRE</th>
+                    <th className="whitespace-nowrap px-4 py-5 font-medium text-white rounded-l-lg">NOMBRE</th>
                     <th className="whitespace-nowrap px-20 py-5 font-medium text-white "> </th>
                     <th className="whitespace-nowrap px-4 py-5 font-medium text-white rounded-r-lg">BOX</th>
                   </tr>
@@ -341,21 +346,20 @@ export const Pantalla3 = () => {
                 <tbody className="bg-cv-celeste-oscuro ">
 
                   {
-
                     indiceBox1.indice >= 0 && indiceBox1.indice != null &&
                     <>
                       {/* TABLA VACÍA */}
-                      <tr className=' text-center text-4xl '>
-                        <td className="whitespace-nowrap px-4 py-3 font-medium "></td>
+                      <tr className=' text-center text-5xl '>
+                        <td className="whitespace-nowrap px-4 py-3  "></td>
                         <td className="whitespace-nowrap px-4 py-3 "></td>
                         <td className="whitespace-nowrap px-20 py-3 "></td>
                         <td className="whitespace-nowrap px-4 py-3 ">  </td>
                       </tr>
-                      <tr className=' text-center text-4xl bg-cv-celeste-claro rounded-lg'>
+                      <tr className='bg-white text-center text-5xl bg-cv-celeste-claro rounded-lg'>
                         {/* <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 rounded-l-lg">{turnoDni[indiceBox1.indice].nroTurno}</td> */}
-                        <td className="whitespace-nowrap px-4 py-4 ">{turnoDni[indiceBox1.indice].dni}</td>
+                        <td className="whitespace-nowrap px-4 py-4 rounded-l-lg text-cv-verde-oscuro font-medium">{turnoDni[indiceBox1.indice].dni}</td>
                         <td className="whitespace-nowrap px-20 py-4 "></td>
-                        <td className="whitespace-nowrap px-4 py-4  rounded-r-lg"> {indiceBox1.nroBox} </td>
+                        <td className="whitespace-nowrap px-4 py-4  rounded-r-lg text-cv-verde-oscuro font-medium" > {indiceBox1.nroBox} </td>
                       </tr>
                     </>
 
@@ -364,17 +368,17 @@ export const Pantalla3 = () => {
                     indiceBox2.indice >= 0 && indiceBox2.indice != null &&
                     <>
                       {/* TABLA VACÍA */}
-                      <tr className=' text-center text-4xl '>
+                      <tr className=' text-center text-5xl '>
                         <td className="whitespace-nowrap px-4 py-3 font-medium text-gray-900"></td>
-                        <td className="whitespace-nowrap px-4 py-3 text-gray-700"></td>
+                        <td className="whitespace-nowrap px-4 py-3 "></td>
                         <td className="whitespace-nowrap px-20 py-3 "></td>
-                        <td className="whitespace-nowrap px-4 py-3 text-gray-700">  </td>
+                        <td className="whitespace-nowrap px-4 py-3 ">  </td>
                       </tr>
-                      <tr className=' text-center text-4xl bg-cv-celeste-claro rounded-lg'>
+                      <tr className='bg-white text-center text-5xl bg-white rounded-lg'>
                         {/* <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 rounded-l-lg"> {turnoDni[indiceBox2.indice].nroTurno}</td> */}
-                        <td className="whitespace-nowrap px-4 py-4 ">{turnoDni[indiceBox2.indice].dni}</td>
+                        <td className="whitespace-nowrap px-4 py-4 rounded-l-lg text-cv-verde-oscuro font-medium">{turnoDni[indiceBox2.indice].dni}</td>
                         <td className="whitespace-nowrap px-20 py-4 "></td>
-                        <td className="whitespace-nowrap px-4 py-4  rounded-r-lg"> {indiceBox2.nroBox}</td>
+                        <td className="whitespace-nowrap px-4 py-4  rounded-r-lg text-cv-verde-oscuro font-medium"> {indiceBox2.nroBox}</td>
                       </tr>
                     </>
                   }
@@ -382,17 +386,17 @@ export const Pantalla3 = () => {
                     indiceBox3.indice >= 0 && indiceBox3.indice != null &&
                     <>
                       {/* TABLA VACÍA */}
-                      <tr className=' text-center text-4xl '>
+                      <tr className=' text-center text-5xl '>
                         <td className="whitespace-nowrap px-4 py-3 font-medium text-gray-900"></td>
-                        <td className="whitespace-nowrap px-4 py-3 text-gray-700"></td>
+                        <td className="whitespace-nowrap px-4 py-3 "></td>
                         <td className="whitespace-nowrap px-20 py-3 "></td>
-                        <td className="whitespace-nowrap px-4 py-3 text-gray-700">  </td>
+                        <td className="whitespace-nowrap px-4 py-3 ">  </td>
                       </tr>
-                      <tr className=' text-center text-4xl bg-cv-celeste-claro rounded-lg'>
+                      <tr className='bg-white text-center text-5xl bg-cv-celeste-claro rounded-lg'>
                         {/* <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 rounded-l-lg">{turnoDni[indiceBox3.indice].nroTurno}</td> */}
-                        <td className="whitespace-nowrap px-4 py-4 ">{turnoDni[indiceBox3.indice].dni}</td>
+                        <td className="whitespace-nowrap px-4 py-4 rounded-l-lg text-cv-verde-oscuro font-medium">{turnoDni[indiceBox3.indice].dni}</td>
                         <td className="whitespace-nowrap px-20 py-4 "></td>
-                        <td className="whitespace-nowrap px-4 py-4  rounded-r-lg"> {indiceBox3.nroBox} </td>
+                        <td className="whitespace-nowrap px-4 py-4  rounded-r-lg text-cv-verde-oscuro font-medium"> {indiceBox3.nroBox} </td>
                       </tr>
                     </>
                   }
@@ -400,18 +404,18 @@ export const Pantalla3 = () => {
                     indiceBox4.indice >= 0 && indiceBox4.indice != null &&
                     <>
                       {/* TABLA VACÍA */}
-                      <tr className=' text-center text-4xl '>
+                      <tr className=' text-center text-5xl '>
                         <td className="whitespace-nowrap px-4 py-3 font-medium text-gray-900"></td>
-                        <td className="whitespace-nowrap px-4 py-3 text-gray-700"></td>
+                        <td className="whitespace-nowrap px-4 py-3 "></td>
                         <td className="whitespace-nowrap px-20 py-3 "></td>
-                        <td className="whitespace-nowrap px-4 py-3 text-gray-700">  </td>
+                        <td className="whitespace-nowrap px-4 py-3 ">  </td>
                       </tr>
 
-                      <tr className=' text-center text-4xl bg-cv-celeste-claro rounded-lg'>
+                      <tr className='bg-white text-center text-5xl bg-cv-celeste-claro rounded-lg'>
                         {/* <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 rounded-l-lg">{turnoDni[indiceBox4.indice].nroTurno}</td> */}
-                        <td className="whitespace-nowrap px-4 py-4 ">{turnoDni[indiceBox4.indice].dni}</td>
+                        <td className="whitespace-nowrap px-4 py-4 rounded-l-lg text-cv-verde-oscuro font-medium">{turnoDni[indiceBox4.indice].dni}</td>
                         <td className="whitespace-nowrap px-20 py-4 "></td>
-                        <td className="whitespace-nowrap px-4 py-4  rounded-r-lg"> {indiceBox4.nroBox}</td>
+                        <td className="whitespace-nowrap px-4 py-4  rounded-r-lg text-cv-verde-oscuro font-medium"> {indiceBox4.nroBox}</td>
                       </tr>
                     </>
                   }
@@ -421,7 +425,7 @@ export const Pantalla3 = () => {
               </table>
             </div>
             {/* {
-              noMoreUsers && <h1 className='text-4xl text-center mt-20'>THERE IS NO MORE USERS TO SHOW </h1>
+              noMoreUsers && <h1 className='text-5xl text-center mt-20'>THERE IS NO MORE USERS TO SHOW </h1>
             } */}
           </>
 

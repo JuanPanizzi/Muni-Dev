@@ -6,24 +6,24 @@ import io from 'socket.io-client'
 
 //https://muni-dev.onrender.com
 //https://municipalidad-rawson-server.onrender.com
-const socket = io('https://muni-dev.onrender.com', {
-  reconnection: true,
-  reconnectionAttempts: Infinity, // Número de intentos de reconexión
-  reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
-  reconnectionDelayMax: 5000,
-});
-// const socket = io('/', {
+// const socket = io('https://muni-dev.onrender.com', {
 //   reconnection: true,
 //   reconnectionAttempts: Infinity, // Número de intentos de reconexión
 //   reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
 //   reconnectionDelayMax: 5000,
-//   auth: {
-//     serverOffset: 0
-//   },
-//   query: {
-//     deviceType: 'box'
-//   }
 // });
+const socket = io('/', {
+  reconnection: true,
+  reconnectionAttempts: Infinity, // Número de intentos de reconexión
+  reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
+  reconnectionDelayMax: 5000,
+  auth: {
+    serverOffset: 0
+  },
+  query: {
+    deviceType: 'box'
+  }
+});
 // const socket = io('/');
 
 
@@ -210,7 +210,7 @@ export const Box = () => {
           noMoreUsers && statusChangedUser == 'No hay mas usuarios para llamar' && <h1 className='text-dark text-2xl  lg:text-4xl text-center mt-2'>No hay más usuarios para llamar</h1>
         }
         {
-          incomingUser && !noMoreUsers && <h1 className='bg-white rounded-xl p-3 w-2/3 m-auto mt-10  text-2xl  lg:text-4xl text-center '>Usuario entrante: {incomingUser}</h1>
+          incomingUser && !noMoreUsers && statusChangedUser != 'Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente' && <h1 className='bg-white rounded-xl p-3 w-2/3 m-auto mt-10  text-2xl  lg:text-4xl text-center '>Usuario entrante: {incomingUser}</h1>
         }
         {operationReloadPantalla && (
           <>
