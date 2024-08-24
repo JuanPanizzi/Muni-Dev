@@ -237,37 +237,35 @@ export const HomeTeclado = () => {
                 !showTramites ?
                     <>
 
-                        <div className='flex flex-col items-center justify-center min-h-screen px-28 '>
-                            <h1 className='block text-center text-white text-start  text-6xl font-bold'>INGRESE SU NOMBRE Y APELLIDO</h1>
-                            <form action="#" method="post" onSubmit={handleSubmit} className='w-full mt-10 py-4 rounded-xl bg-white shadow-xl '>
-                                <label htmlFor="InputDocumento" ></label>
-                                <input
-                                    className='block w-full m-auto text-center lg:text-5xl lg:rounded-xl  text-rojo font-bold '
-                                    type="Text"
-                                    id="InputDocumento"
-                                    name="dni"
-                                    value={nameInputValue}
-                                    readOnly
-                                    // style={{ display: "block" }}
-                                    required
-                                // onChange={(e) => handleChange(e)}
-                                />
-                                {/* <button type="submit"  >Enviar</button> */}
-                                <Teclado onKeyPress={handleKeyPress} />
-                            </form>
-                            {/* <button onClick={()=>setShowTramites(false)}>Reset show tramites</button> */}
+<div className='flex flex-col items-center justify-center min-h-screen px-4 sm:px-8 md:px-16 lg:px-28'>
+  <h1 className='block text-center text-white  text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold'>
+    INGRESE SU NOMBRE Y APELLIDO
+  </h1>
+  <form action="#" method="post" onSubmit={handleSubmit} className='w-full mt-10 py-4 rounded-xl bg-white shadow-xl'>
+    <label htmlFor="InputDocumento"></label>
+    <input
+      className='block w-full m-auto text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl lg:rounded-xl text-rojo font-bold'
+      type="text"
+      id="InputDocumento"
+      name="dni"
+      value={nameInputValue}
+      readOnly
+      required
+    />
+    <Teclado onKeyPress={handleKeyPress} />
+  </form>
+</div>
 
-                        </div>
 
                     </>
                     :
                     <>
                         <div className='h-screen  flex justify-center items-center'>
-                            <div className='bg-white w-2/3 p-14 rounded-lg flex flex-col justify-center shadow-xl'>
+                            <div className='bg-white mx-4 lg:w-2/3 p-14 rounded-lg flex flex-col justify-center shadow-xl'>
                                 {/* <div className='text-center mt-10 text-4xl text-white bg-cv-verde-oscuro p-5 rounded-xl w-2/3 mx-auto '> */}
-                                <h1 className='text-center lg:text-5xl   text-cv-verde-oscuro font-bold'>TOME ASIENTO Y SERÁ LLAMADO POR LA PANTALLA</h1>
+                                <h1 className='text-center text-2xl lg:text-5xl   text-cv-verde-oscuro font-bold'>TOME ASIENTO Y SERÁ LLAMADO POR LA PANTALLA</h1>
                                 <h2 className='my-4'></h2>
-                                <button onClick={() =>{ setShowTramites(false), navigate('/')}} className='font-medium text-3xl px-8 rounded-lg text-white mt-12 mx-auto w-2/3 py-3 bg-cv-verde-oscuro'>Aceptar</button>
+                                <button onClick={() =>{ setShowTramites(false), navigate('/')}} className='font-medium text-xl lg:text-3xl px-8 rounded-lg text-white mt-12 mx-auto w-2/3 py-3 bg-cv-verde-oscuro'>Aceptar</button>
                             </div>
                         </div>
                         {/* <button onClick={()=>setShowTramites(false)}>Reset show tramites</button> */}
