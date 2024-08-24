@@ -202,7 +202,9 @@ export const Box = () => {
           serverConnectionError && statusChangedUser != ''  && <h1 className='bg-white  text-4xl  text-center mt-2 text-rojo'>No se pudo conectar con el servidor <br /> Intente nuevamente</h1>
         }
         {
-          statusChangedUser && statusChangedUser != 'No hay mas usuarios para llamar' && <h1 className='text-cv-verde-oscuro text-4xl  text-center mt-2'>{statusChangedUser}</h1>
+          statusChangedUser && statusChangedUser != 'No hay mas usuarios para llamar' 
+          && 
+          <h1 className={statusChangedUser == 'Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente' ?  'text-rojo text-4xl  text-center mt-2' : 'text-cv-verde-oscuro text-4xl  text-center mt-2'}>{statusChangedUser}</h1>
         }
         {
           noMoreUsers && statusChangedUser == 'No hay mas usuarios para llamar' && <h1 className='text-dark text-4xl  text-center mt-2'>No hay más usuarios para llamar</h1>
