@@ -8,16 +8,7 @@ import { useNavigate } from 'react-router-dom';
 // const socket = io('/');
 //https://muni-dev.onrender.com
 //https://municipalidad-rawson-server.onrender.com
-// const socket = io('https://muni-dev.onrender.com', {
-//     reconnection: true,
-//     reconnectionAttempts: Infinity, // Número de intentos de reconexión
-//     reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
-//     reconnectionDelayMax: 5000,
-//     auth: {
-//         serverOffset: 0
-//     }
-// });
-const socket = io('/', {
+const socket = io('https://muni-dev.onrender.com', {
     reconnection: true,
     reconnectionAttempts: Infinity, // Número de intentos de reconexión
     reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
@@ -26,6 +17,15 @@ const socket = io('/', {
         serverOffset: 0
     }
 });
+// const socket = io('/', {
+//     reconnection: true,
+//     reconnectionAttempts: Infinity, // Número de intentos de reconexión
+//     reconnectionDelay: 1000, // Tiempo de espera antes del primer intento de reconexión
+//     reconnectionDelayMax: 5000,
+//     auth: {
+//         serverOffset: 0
+//     }
+// });
 
 
 export const HomeTeclado = () => {
