@@ -185,7 +185,7 @@ export const Box = () => {
           <h1 className='text-5xl   rounded-xl p-3 w-2/3 m-auto text-rojo font-bold'>BOX {BoxId}</h1>
           {/* <h3>Proximo usuario:</h3> */}
           {/* <button onClick={()=> nextUser()} className='btnBox'>Proximo Usuario</button> */}
-          <button onClick={handleClick} className='shadow-xl mt-10 p-5 bg-cv-verde-oscuro text-white font-medium rounded-xl hover:bg-cv-celeste-oscuro text-lg'>PROXIMO USUARIO</button>
+          <button onClick={handleClick} className='shadow-xl mt-10 p-5 bg-cv-verde-oscuro text-white font-medium rounded-xl hover:bg-cv-celeste-oscuro text-sm lg:text-lg'>PROXIMO USUARIO</button>
           {showWarning && (
             <div className="mt-12">
               <p className='text-rojo font-medium text-xl lg:text-2xl mb-5'>Ya has llamado a un usuario recientemente ¿Deseas llamar al próximo?</p>
