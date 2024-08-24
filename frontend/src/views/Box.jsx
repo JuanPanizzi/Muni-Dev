@@ -181,14 +181,14 @@ export const Box = () => {
       {/* <Navbar2 /> */}
 
 
-        <div className='bg-white w-2/3 m-auto rounded-xl mt-16 p-5 text-center shadow-xl'>
+        <div className='bg-white lg:w-2/3 mx-5 mt-16 lg:m-auto rounded-xl lg:mt-16 p-5 text-center shadow-xl'>
           <h1 className='text-5xl   rounded-xl p-3 w-2/3 m-auto text-rojo font-bold'>BOX {BoxId}</h1>
           {/* <h3>Proximo usuario:</h3> */}
           {/* <button onClick={()=> nextUser()} className='btnBox'>Proximo Usuario</button> */}
           <button onClick={handleClick} className='shadow-xl mt-10 p-5 bg-cv-verde-oscuro text-white font-medium rounded-xl hover:bg-cv-celeste-oscuro text-lg'>PROXIMO USUARIO</button>
           {showWarning && (
             <div className="mt-12">
-              <p className='text-rojo font-medium text-2xl mb-5'>Ya has llamado a un usuario recientemente ¿Deseas llamar al próximo?</p>
+              <p className='text-rojo font-medium text-xl lg:text-2xl mb-5'>Ya has llamado a un usuario recientemente ¿Deseas llamar al próximo?</p>
               <button onClick={handleCancel} className='bg-rojo hover:bg-red-200 text-white px-5 py-2 rounded-xl  mr-2 '>Cancelar</button>
               <button onClick={handleAccept} className='bg-cv-celeste-oscuro text-white hover:bg-verde-oscuro px-5 py-2 rounded-xl '>Aceptar</button>
             </div>
@@ -196,21 +196,21 @@ export const Box = () => {
 
         </div>
 
-      <div className={statusChangedUser == '' ? 'display-none' : 'bg-white rounded-xl p-3 w-2/3 m-auto mt-16 shadow-xl'}>
+      <div className={statusChangedUser == '' ? 'display-none' : 'bg-white rounded-xl p-3 lg:w-2/3 mx-5 lg:m-auto mt-16 lg:mt-16 shadow-xl'}>
 
         {
-          serverConnectionError && statusChangedUser != ''  && <h1 className='bg-white  text-4xl  text-center mt-2 text-rojo'>No se pudo conectar con el servidor <br /> Intente nuevamente</h1>
+          serverConnectionError && statusChangedUser != ''  && <h1 className='bg-white text-2xl  lg:text-4xl  text-center mt-2 text-rojo'>No se pudo conectar con el servidor <br /> Intente nuevamente</h1>
         }
         {
           statusChangedUser && statusChangedUser != 'No hay mas usuarios para llamar' 
           && 
-          <h1 className={statusChangedUser == 'Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente' ?  'text-rojo text-4xl  text-center mt-2' : 'text-cv-verde-oscuro text-4xl  text-center mt-2'}>{statusChangedUser}</h1>
+          <h1 className={statusChangedUser == 'Error al llamar usuario. Compruebe la url de su dispositivo o su conexión a internet e intente nuevamente' ?  'text-rojo text-2xl  lg:text-4xl text-center mt-2' : 'text-cv-verde-oscuro text-2xl  lg:text-4xl text-center mt-2'}>{statusChangedUser}</h1>
         }
         {
-          noMoreUsers && statusChangedUser == 'No hay mas usuarios para llamar' && <h1 className='text-dark text-4xl  text-center mt-2'>No hay más usuarios para llamar</h1>
+          noMoreUsers && statusChangedUser == 'No hay mas usuarios para llamar' && <h1 className='text-dark text-2xl  lg:text-4xl text-center mt-2'>No hay más usuarios para llamar</h1>
         }
         {
-          incomingUser && !noMoreUsers && <h1 className='bg-white rounded-xl p-3 w-2/3 m-auto mt-10  text-4xl  text-center '>Usuario entrante: {incomingUser}</h1>
+          incomingUser && !noMoreUsers && <h1 className='bg-white rounded-xl p-3 w-2/3 m-auto mt-10  text-2xl  lg:text-4xl text-center '>Usuario entrante: {incomingUser}</h1>
         }
         {operationReloadPantalla && (
           <>

@@ -181,7 +181,8 @@ export const HomeTeclado = () => {
                 {/* <a href="/" className='text-2xl px-8 rounded-full mx-auto py-3 bg-cv-celeste-claro'>Volver</a> */}
                 <button className='text-2xl px-8 rounded-full mx-auto py-3 bg-sky-200' onClick={() => {
                     setInternetConnection(true);
-                    setLoading(true);
+                    setLoading(true)
+                    navigate('/')
                 }}>Volver</button>
 
             </>
@@ -200,7 +201,8 @@ export const HomeTeclado = () => {
                         <button className='font-medium text-3xl px-8 rounded-lg text-white mt-16 mx-auto w-2/3 py-3 bg-cv-verde-oscuro' onClick={() => {
                             // setInternetConnection(true);
                             setServerConnection(true)
-                            setLoading(false);
+                            setLoading(false)
+                            navigate('/')
                         }}>Volver</button>
                     </div>
 
